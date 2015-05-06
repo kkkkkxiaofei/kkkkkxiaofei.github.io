@@ -1,23 +1,67 @@
 ---
 layout: default
 ---
+  
+<div class="wrapper">
 
-<div class="home">
+   <div class="row">
+       <div class="col-xs-4 article-part">
+          <div class="table-scroll article-inner-part">
+              
+              {% for post in site.posts %}
 
-  <h1 class="page-heading">Posts</h1>
+                    <!-- articles -->
+                   {% if post.type == 2 %}
+                      <div class="form-inline article-margin">
+                        <div class="form-group article-title">
+                           <a class="article-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+                        </div>
+                        <div class="form-group pull-right">
+                         <p class="x-small">{{ post.date | date: "%b %-d, %Y" }}</p>
+                        </div>
+                      </div>
+                  {% endif %}
 
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+               {% endfor %}
+          </div>
+       </div>
+   
 
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
-      </li>
-    {% endfor %}
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+   
+     <div class="col-xs-8">
+        <div class="table-scroll">
+            <table class="table table-light table-noborder">
+                <tbody>
+                    {% for post in site.posts %}
+                       <!-- movies -->
+                       {% if post.type == 1 %}
+                     <tr class="movie-part">
+                         <td class="movie-inner-part">
+                            <div>
+                               <img src="/img/wait-alone.jpg" class="img-responsive center-block" alt="Waiting Alone">
+                            </div>
+                         </td>
+                         <td class="movie-inner-part">
+                           <p>2014年上映｜106分钟｜内地｜国语</p>
+                           <p>导演：伍士贤</p>
+                           <p>主演：夏雨 李冰冰 </p>
+                           <p>类型：搞笑｜剧情｜爱情</p>
+                           <p>简介：年轻的陈文（夏雨饰）是一个古董店的小老板，他与一班好友怀揣梦想，等待着真爱的到来。一次陈文偶...<a>更多>></a></p>
+                         </td>
+                     </tr>
+                       {% endif %}
+                   {% endfor %}
+                </tbody>
+            </table>
+        </div>
+     </div>
+   </div>
 
 </div>
+ 
+
+
+
+
+
+

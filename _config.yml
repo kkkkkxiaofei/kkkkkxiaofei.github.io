@@ -1,14 +1,38 @@
 # Site settings
-title: Your awesome title
-email: your-email@domain.com
-description: > # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+title: Pursue's blog
+email: 348564768@qq.com
+description: > # this blog is ceated by Pursue whose usuarl accout is kkkkkkxiaofei.
 baseurl: "" # the subpath of your site, e.g. /blog/
-url: "http://yourdomain.com" # the base hostname & protocol for your site
+url: "http://kkkkkkxiaofei.github.io" # the base hostname & protocol for your site
 twitter_username: jekyllrb
-github_username:  jekyll
+github_username:  kkkkkkxiaofei
 
 # Build settings
 markdown: kramdown
+
+
+#Global params
+
+# use 'jkeyll build' can add source files into destination
+source: .
+destination: ./_site
+tab_categories: ['article','photo','music','movie','about']
+keep_files: ['.js','.css']
+css_links: [
+             '/css/main.css',
+             '/css/bootstrap.css'
+           ]
+js_links:  [
+             '/lib/jquery-1.11.1.min.js',
+             '/lib/jquery-tmpl.js',
+             '/lib/knockout-3.3.0.js',
+             '/lib/underscore.js',
+             '/lib/bootstrap.js',
+             '/model/page.js',
+             '/model/movie.js',
+             '/model/photo.js',
+             '/model/article.js',
+             '/model/music.js'
+           ]
+
+
