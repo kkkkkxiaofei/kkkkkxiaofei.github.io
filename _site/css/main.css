@@ -1,8 +1,24 @@
 /**
  * My css settings
  */
+
+.back-music {
+    float: right;
+    margin: 18px 10px 10px 10px;
+}
+
+.hover {
+  /*background-color: #fff;*/
+
+}
+
+.keep-backcolor {
+ background-color: #e9ecf0;
+}
+
  .x-small {
   font-size: 50%;
+  padding-right: 10px;
 }
 
 .article-link {
@@ -13,35 +29,101 @@
   margin-bottom: 10px;
 }
 .movie-part {
-  border-right: solid 1px #ccc;
-  border-bottom: solid 1px #ccc;
-  border-top: solid 1px #ccc;
-  background-color: #fff;
+/*  background-color: #e9ecf0;
+  border-left: solid 1px #ccc;
+*/
+  max-height: 930px;
+  overflow-x:hidden;
+  overflow-y:auto; 
 }
-.movie-inner-part {
-  border-right: 1px solid #ccc;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-  border-left: 1px solid #ccc;  
+
+.movie-part:hover {
+  overflow-x:hidden;
+  overflow-y:scroll; 
+}
+
+.movie-img-padding {
+    /*margin: 0 -8px 0 -8px;*/
+    padding: 5px 0px 5px 0px;}
+.movie-img:{
   background-color: #e9ecf0;
 
 }
+
+.movie-img:hover {
+  border: 1px solid #ccc;
+} 
+.movie-info {
+  background-color: #e9ecf0;
+
+}
+
+.movie-inner-part: {
+  background-color: #e9ecf0;
+
+}
+.movie-inner-part:hover {
+  
+}
 .article-part {
-  border: solid 1px #ccc;
   /*background-color: #fff;*/
 }
 .article-inner-part {
-  margin: 4px -11px 4px -11px;
+
+  margin: 4px -1px 4px -1px;
+  max-height: 400px;  
+  overflow-x:hidden;
+  overflow-y:auto;  
 /*  border-right: 1px solid #ccc;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   border-left: 1px solid #ccc;
   background-color: #e9ecf0;
 */}
+
+.article-inner-part:hover {
+  /*border: solid 1px #ccc;*/
+
+  overflow-x:hidden;
+  overflow-y:scroll; 
+}
+
 .article-title {
   margin-left: 8px;
   margin-right: 2px;
 }
+.music-header {
+  margin: 5px 0px 0px 10px;
+  font-family: Arial,Tahoma,"hiragino sans gb",Helvetica;
+}
+
+.music-head {
+  height: 44px;
+  padding: 2px 0;
+  overflow: hidden;
+  margin: 0 0 17px 17px;
+  border-left: solid 5px #0dad51;}
+
+.music-part {
+  font-size: smaller;
+
+}
+
+.music-index {
+    font-family: Arial,Tahoma,"hiragino sans gb",Helvetica;
+    font-style: italic;
+    color: #ccc;
+
+}.music-name {
+    font-family: Arial,Tahoma,"hiragino sans gb",Helvetica;
+    color: #0dad51;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}.music-author {
+    font-family: Arial,Tahoma,"hiragino sans gb",Helvetica;
+}
+
 
 
 /**
@@ -57,7 +139,8 @@ dl, dd, ol, ul, figure {
  * Basic styling
  */
 body {
-  font-family: Helvetica, Arial, sans-serif;
+  /*font-family: Helvetica, Arial, sans-serif;*/
+  font-family: Arial,Tahoma,"hiragino sans gb",Helvetica;
   font-size: 16px;
   line-height: 1.5;
   font-weight: 300;
@@ -161,16 +244,16 @@ pre {
  * Wrapper
  */
 .wrapper {
-  max-width: -webkit-calc(800px - (30px * 2));
-  max-width: calc(800px - (30px * 2));
+  max-width: -webkit-calc(1280px - (30px * 2));
+  max-width: calc(1280px - (30px * 2));
   margin-right: auto;
   margin-left: auto;
   padding-right: 30px;
   padding-left: 30px; }
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 1280px) {
     .wrapper {
-      max-width: -webkit-calc(800px - (30px));
-      max-width: calc(800px - (30px));
+      max-width: -webkit-calc(1280px - (30px));
+      max-width: calc(1280px - (30px));
       padding-right: 15px;
       padding-left: 15px; } }
 
@@ -197,7 +280,7 @@ pre {
  * Site header
  */
 .site-header {
-  border-top: 5px solid #424242;
+  /*border-top: 5px solid #424242;*/
   border-bottom: 1px solid #e8e8e8;
   min-height: 56px;
   position: relative; }

@@ -3,10 +3,16 @@ layout: default
 ---
   
 <div class="wrapper">
+    
 
    <div class="row">
        <div class="col-xs-4 article-part">
           <div class="table-scroll article-inner-part">
+            <div class="row">
+                <div class="music-head">
+                  <h2 class="music-header">最近文章</h2>
+                </div>
+            </div>
               
               {% for post in site.posts %}
 
@@ -24,37 +30,77 @@ layout: default
 
                {% endfor %}
           </div>
+          
+          <div class="table-scroll article-inner-part">
+              <div class="row">
+                  <div class="music-head">
+                    <h2 class="music-header">好歌推荐</h2>
+                  </div>
+              </div>
+              
+              {% for post in site.posts %}
+
+                    <!-- musics -->
+                   {% if post.type == 1 %}
+                      <!-- <div class="form-inline article-margin">
+                        <div class="form-group article-title">
+                           <a class="article-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+                        </div>
+                        <div class="form-group pull-right">
+                         <p class="x-small">{{ post.date | date: "%b %-d, %Y" }}</p>
+                        </div>
+                      </div> -->
+                 
+                  <div class="row music-part">
+                      
+                      <div class="col-xs-1 music-index">01.</div>
+                      <div class="col-xs-5 music-name">模特模特模特</div>
+                      <div class="col-xs-5 music-author">李荣浩模特</div>
+
+
+                  </div>
+                  {% endif %}
+
+
+               {% endfor %}
+                 
+          </div>
+
        </div>
+
+
    
 
    
-     <div class="col-xs-8">
-        <div class="table-scroll">
-            <table class="table table-light table-noborder">
-                <tbody>
-                    {% for post in site.posts %}
-                       <!-- movies -->
-                       {% if post.type == 1 %}
-                     <tr class="movie-part">
-                         <td class="movie-inner-part">
-                            <div>
-                               <img src="/img/wait-alone.jpg" class="img-responsive center-block" alt="Waiting Alone">
-                            </div>
-                         </td>
-                         <td class="movie-inner-part">
-                           <p>2014年上映｜106分钟｜内地｜国语</p>
-                           <p>导演：伍士贤</p>
-                           <p>主演：夏雨 李冰冰 </p>
-                           <p>类型：搞笑｜剧情｜爱情</p>
-                           <p>简介：年轻的陈文（夏雨饰）是一个古董店的小老板，他与一班好友怀揣梦想，等待着真爱的到来。一次陈文偶...<a>更多>></a></p>
-                         </td>
-                     </tr>
-                       {% endif %}
-                   {% endfor %}
-                </tbody>
-            </table>
-        </div>
+     <div class="col-xs-8 movie-part">
+            <div class="row">
+                <div class="music-head">
+                  <h2 class="music-header">电影推荐</h2>
+                </div>
+            </div>
+             {% for post in site.posts %}
+                <!-- movies -->
+                {% if post.type == 1 %}
+                    <div class="col-xs-3 hover">
+                       <div class="movie-img-padding">
+                          <img src="/img/wait-alone.jpg" class="img-responsive center-block" alt="Waiting Alone">
+                       </div>
+                    </div>
+                    <div class="col-xs-3 movie-info">
+                      <p>2014年上映｜106分钟｜内地｜国语</p>
+                      <p>导演：伍士贤</p>
+                      <p>主演：夏雨 李冰冰 </p>
+                      <p>类型：搞笑｜剧情｜爱情</p>
+                      <p>简介：年轻的陈文（夏雨饰）是一个古董店的小老板，他与一班好友怀揣梦想，等待着真爱的到来。一次陈文偶...<a>更多>></a></p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+
      </div>
+
+      
+
    </div>
 
 </div>
