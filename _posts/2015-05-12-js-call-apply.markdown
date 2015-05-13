@@ -1,11 +1,11 @@
 ---
-layout: post
+layout: post_layout
 title:  "How to use Function.prototype.apply()."
 date:   2015-05-12 10:10PM
 categories: jekyll update
 type: 2
 ---
-#Summary
+###Summary
 Function.prototype.apply()将会调用一个以this和数组形式的arguments为参数的方法，而call()方法则只是在第二个参数形式与之不同而已。
 
 ```sh
@@ -16,13 +16,13 @@ fun.apply(thisArg, [argsArray])
 fun.call(thisArg, arg1, arg2, arg3...)
 ```
 
-#Description
+###Description
 
 每当要为一个新的对象添加一个方法时，有时不得不为其重写一个方法。而如果利用apply的话，只需要写一次方法，然后在这个新的对象中继承它即可，十分方便。
 
 apply和call方法十分相似，仅仅只是参数不同而已，但证实因为这一点，我们在用apply时不必知道被调用的对象的具体参数，可以只传递arguments，如此一来，被调用的这个对象将负责handle传递的agrumets.
 
-#Examples
+###Examples
 
 ####1.Using apply to chain constructors
 

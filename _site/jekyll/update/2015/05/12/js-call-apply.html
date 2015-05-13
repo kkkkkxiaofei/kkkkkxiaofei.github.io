@@ -45,61 +45,7 @@
 
   <body class="back">
 
-    <header class="site-header">
-  
-  <div class="wrapper">
-
-    <a class="site-title" href="/">Pursue's blog</a>
     
-    <div class="back-music">
-      
-          <audio id="player" src="/music/mt-lrh.mp3" autoplay controls></audio>
-              <!-- <input type=button value=暂停 onclick="aaa.pause();">
-              <input type=button value=播放 onclick="aaa.play();">
-               -->          
-    </div>
-
-    <nav class="site-nav">
-      <a href="#" class="menu-icon">
-        <svg viewBox="0 0 18 15">
-          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
-          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
-          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
-        </svg>
-      </a>
-      
-      <div class="trigger">
-
-        <!-- 
-          <a class="page-link" href="/jekyll/update/2015/05/12/js-call-apply.html">article</a>
-        
-          <a class="page-link" href="/jekyll/update/2015/05/12/js-call-apply.html">photo</a>
-        
-          <a class="page-link" href="/jekyll/update/2015/05/12/js-call-apply.html">music</a>
-        
-          <a class="page-link" href="/jekyll/update/2015/05/12/js-call-apply.html">movie</a>
-        
-          <a class="page-link" href="/jekyll/update/2015/05/12/js-call-apply.html">about</a>
-        
-
-        
-          
-          <a class="page-link" href="/about/">About</a>
-          
-        
-          
-        
-          
-         -->
-
-
-      </div>
-    </nav>
-    
-  </div>
-  
-</header>
-
 
         <div class="wrapper">
 	<div class="post">
@@ -107,11 +53,11 @@
 	  <header class="post-header">
 	    <h1 class="post-title">How to use Function.prototype.apply().</h1>
 
-	    <p class="post-meta">May 12, 2015</p>
+	    <p class="post-meta pull-right">May 12, 2015</p>
 	  </header>
 
 	  <article class="post-content">
-	    <h1 id="summary">Summary</h1>
+	    <h3 id="summary">Summary</h3>
 <p>Function.prototype.apply()将会调用一个以this和数组形式的arguments为参数的方法，而call()方法则只是在第二个参数形式与之不同而已。</p>
 
 <p><code>sh
@@ -122,13 +68,13 @@ fun.apply(thisArg, [argsArray])
 fun.call(thisArg, arg1, arg2, arg3...)
 </code></p>
 
-<h1 id="description">Description</h1>
+<h3 id="description">Description</h3>
 
 <p>每当要为一个新的对象添加一个方法时，有时不得不为其重写一个方法。而如果利用apply的话，只需要写一次方法，然后在这个新的对象中继承它即可，十分方便。</p>
 
 <p>apply和call方法十分相似，仅仅只是参数不同而已，但证实因为这一点，我们在用apply时不必知道被调用的对象的具体参数，可以只传递arguments，如此一来，被调用的这个对象将负责handle传递的agrumets.</p>
 
-<h1 id="examples">Examples</h1>
+<h3 id="examples">Examples</h3>
 
 <h4 id="using-apply-to-chain-constructors">1.Using apply to chain constructors</h4>
 
@@ -190,7 +136,6 @@ fun.call(thisArg, arg1, arg2, arg3...)
 
 	</div>
 </div>
-
 
 
     <footer class="site-footer">

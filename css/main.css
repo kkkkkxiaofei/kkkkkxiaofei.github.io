@@ -419,6 +419,15 @@ pre {
 .post-header {
   margin-bottom: 30px; }
 
+@media screen and (max-width: 800px) {
+  .post-header h1,
+  .post-header p {
+    width: -webkit-calc(80% - (30px / 2));
+    width: calc(20% - (30px / 2)); }
+
+
+
+
 .post-title {
   font-size: 42px;
   letter-spacing: -1px;
@@ -426,6 +435,7 @@ pre {
   @media screen and (max-width: 800px) {
     .post-title {
       font-size: 36px; } }
+
 
 .post-content {
   margin-bottom: 30px; }

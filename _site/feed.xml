@@ -5,13 +5,13 @@
     <description></description>
     <link>http://kkkkkkxiaofei.github.io/</link>
     <atom:link href="http://kkkkkkxiaofei.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 13 May 2015 22:14:04 +0800</pubDate>
-    <lastBuildDate>Wed, 13 May 2015 22:14:04 +0800</lastBuildDate>
+    <pubDate>Wed, 13 May 2015 23:27:00 +0800</pubDate>
+    <lastBuildDate>Wed, 13 May 2015 23:27:00 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
         <title>How to use Function.prototype.apply().</title>
-        <description>&lt;h1 id=&quot;summary&quot;&gt;Summary&lt;/h1&gt;
+        <description>&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
 &lt;p&gt;Function.prototype.apply()将会调用一个以this和数组形式的arguments为参数的方法，而call()方法则只是在第二个参数形式与之不同而已。&lt;/p&gt;
 
 &lt;p&gt;&lt;code&gt;sh
@@ -22,13 +22,13 @@ fun.apply(thisArg, [argsArray])
 fun.call(thisArg, arg1, arg2, arg3...)
 &lt;/code&gt;&lt;/p&gt;
 
-&lt;h1 id=&quot;description&quot;&gt;Description&lt;/h1&gt;
+&lt;h3 id=&quot;description&quot;&gt;Description&lt;/h3&gt;
 
 &lt;p&gt;每当要为一个新的对象添加一个方法时，有时不得不为其重写一个方法。而如果利用apply的话，只需要写一次方法，然后在这个新的对象中继承它即可，十分方便。&lt;/p&gt;
 
 &lt;p&gt;apply和call方法十分相似，仅仅只是参数不同而已，但证实因为这一点，我们在用apply时不必知道被调用的对象的具体参数，可以只传递arguments，如此一来，被调用的这个对象将负责handle传递的agrumets.&lt;/p&gt;
 
-&lt;h1 id=&quot;examples&quot;&gt;Examples&lt;/h1&gt;
+&lt;h3 id=&quot;examples&quot;&gt;Examples&lt;/h3&gt;
 
 &lt;h4 id=&quot;using-apply-to-chain-constructors&quot;&gt;1.Using apply to chain constructors&lt;/h4&gt;
 
