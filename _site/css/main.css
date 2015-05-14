@@ -420,10 +420,17 @@ pre {
   margin-bottom: 30px; }
 
 @media screen and (max-width: 800px) {
-  .post-header h1,
-  .post-header p {
-    width: -webkit-calc(80% - (30px / 2));
-    width: calc(20% - (30px / 2)); }
+  .post-header h1 {
+    font-size: 28px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .post-hear p {
+    font-size: 38px;
+  }  
+}
+
 
 
 

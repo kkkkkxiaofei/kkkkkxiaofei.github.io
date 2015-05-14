@@ -5,12 +5,12 @@
     <description></description>
     <link>http://kkkkkkxiaofei.github.io/</link>
     <atom:link href="http://kkkkkkxiaofei.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 13 May 2015 23:27:00 +0800</pubDate>
-    <lastBuildDate>Wed, 13 May 2015 23:27:00 +0800</lastBuildDate>
+    <pubDate>Fri, 15 May 2015 00:09:31 +0800</pubDate>
+    <lastBuildDate>Fri, 15 May 2015 00:09:31 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
-        <title>How to use Function.prototype.apply().</title>
+        <title>Javascript中Function.prototype.apply()的用法</title>
         <description>&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
 &lt;p&gt;Function.prototype.apply()将会调用一个以this和数组形式的arguments为参数的方法，而call()方法则只是在第二个参数形式与之不同而已。&lt;/p&gt;
 
