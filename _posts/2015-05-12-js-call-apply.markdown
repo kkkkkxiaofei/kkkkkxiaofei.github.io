@@ -8,13 +8,13 @@ type: 2
 ###Summary
 Function.prototype.apply()将会调用一个以this和数组形式的arguments为参数的方法，而call()方法则只是在第二个参数形式与之不同而已。
 
-```sh
+{% highlight sh %}
 fun.apply(thisArg, [argsArray])
-```
+{% endhighlight %}
 
-```sh
+{% highlight sh %}
 fun.call(thisArg, arg1, arg2, arg3...)
-```
+{% endhighlight %}
 
 ###Description
 

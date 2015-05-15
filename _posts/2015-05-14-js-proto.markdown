@@ -12,6 +12,7 @@ __proto__可以看作是一个公开对象原型的内部访问器，大多数�
 ###Syntax
 
 {% highlight javascript %}
+
 function Circle() {
   this.name = "circle";
 }
