@@ -32,7 +32,8 @@ js_links:  [
              '/model/movie.js',
              '/model/photo.js',
              '/model/article.js',
-             '/model/music.js'
+             '/model/music.js',
+             '/script/index.js'
            ]
 
 

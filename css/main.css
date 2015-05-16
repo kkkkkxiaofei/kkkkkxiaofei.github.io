@@ -51,7 +51,7 @@
   width: 700px;
   height: 53px;
   background-color: rgba(0,0,0,.8);
-  background-image: url(about:blank);
+  /*background-image: url(about:blank);*/
 }
 
 .mod_focus_show .mod_focus_title li {
@@ -70,6 +70,15 @@
   background-position: 0 0;
   margin: 0 1px 0 0;
 }
+.focus_switch .icon_prev:hover {
+  background-position: -30px 0;
+}
+.focus_switch .icon_next {
+  background-position: -60px 0;
+}
+.focus_switch .icon_next:hover {
+  background-position: -90px 0;
+}
 
 .focus_switch a {
   float: left;
@@ -80,15 +89,17 @@
   cursor: pointer;
 }
 
-.focus_switch .icon_next {
-  background-position: -60px 0;
-}
-
 .mod_focus_show .mod_focus_list {
   padding: 10px 5px;
   background: #000;
   overflow: hidden;
   height: 86px;
+}
+
+.mod_focus_show .mod_focus_list li img {
+  display: block;
+  width: 60px;
+  height: 60px;
 }
 
 .mod_focus_show .mod_focus_list li {
@@ -97,6 +108,7 @@
   float: left;
   margin: 0 4px 0 5px;
   position: relative;
+  display: block;
 }
 
 .mod_focus_show .mod_focus_list .photo_border {
@@ -123,6 +135,11 @@
   background: #000;
   opacity: .5;
   filter: alpha(opacity=50);
+}
+
+.mod_focus_show .mod_focus_list li a:hover .mask,
+.mod_focus_show .mod_focus_list .current .mask {
+   display: none; 
 }
 
 /**
