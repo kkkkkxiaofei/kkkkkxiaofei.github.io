@@ -1,6 +1,133 @@
 /**
- * My css settings
+ * My photo settings
  */
+
+ li.current {
+   width: 590px;
+   padding: 0 0 0 20px;
+   overflow: hidden;
+   word-break: keep-all;
+   word-wrap: keep-all;
+   white-space: nowrap;
+   table-layout: fixed;
+   -o-text-overflow: ellipsis;
+   text-overflow: ellipsis;
+ }
+
+
+ .mod_focus_show {
+   width: 700px;
+   height: 410px;
+   position: relative;
+   overflow: hidden;
+   margin-bottom: 20px;
+   margin-top: 20px;
+   margin-left: auto;
+   margin-right: auto;
+ }
+
+ .mod_focus_show .mod_focus_pic {
+   display: block;
+   width: 700px;
+   height: 320px;
+ }
+
+.focus_switch {
+  width: 59px;
+  height: 29px;
+  position: absolute;
+  z-index: 2;
+  right: 15px;
+  bottom: 100px;
+}
+
+.mod_focus_show .mod_focus_title {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  bottom: 80px;
+  overflow: hidden;
+  zoom: 1;
+  width: 700px;
+  height: 53px;
+  background-color: rgba(0,0,0,.8);
+  background-image: url(about:blank);
+}
+
+.mod_focus_show .mod_focus_title li {
+  width: 590px;
+  padding: 0 0 0 20px;
+  overflow: hidden;
+  word-break: keep-all;
+  word-wrap: keep-all;
+  white-space: nowrap;
+  table-layout: fixed;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+
+.focus_switch .icon_prev {
+  background-position: 0 0;
+  margin: 0 1px 0 0;
+}
+
+.focus_switch a {
+  float: left;
+  width: 29px;
+  height: 29px;
+  background-image: url(../img/icon_focus_switch.png);
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.focus_switch .icon_next {
+  background-position: -60px 0;
+}
+
+.mod_focus_show .mod_focus_list {
+  padding: 10px 5px;
+  background: #000;
+  overflow: hidden;
+  height: 86px;
+}
+
+.mod_focus_show .mod_focus_list li {
+  width: 60px;
+  height: 60px;
+  float: left;
+  margin: 0 4px 0 5px;
+  position: relative;
+}
+
+.mod_focus_show .mod_focus_list .photo_border {
+  display: block;
+  height: 5px;
+  width: 60px;
+  font-size: 0;
+  overflow: hidden;
+  position: absolute;
+  /*left: 0;*/
+  bottom: 0;
+  background: #0cc65b;
+}
+
+.mod_focus_show .mod_focus_list li .mask {
+  display: block;
+  height: 60px;
+  width: 60px;
+  position: relative;
+  top: -60px;
+  margin: 0 0 -60px;
+  eft: 0;
+  bottom: 0;
+  background: #000;
+  opacity: .5;
+  filter: alpha(opacity=50);
+}
+
+/**
+music setting
+*/
 
 .back-music {
     float: right;
@@ -178,7 +305,8 @@ figcaption {
  * Lists
  */
 ul, ol {
-  margin-left: 30px; }
+  /*margin-left: 30px; */
+}
 
 li > ul,
 li > ol {
@@ -245,16 +373,16 @@ pre {
  * Wrapper
  */
 .wrapper {
-  max-width: -webkit-calc(1280px - (30px * 2));
-  max-width: calc(1280px - (30px * 2));
+  max-width: -webkit-calc(928px - (30px * 2));
+  max-width: calc(928px - (30px * 2));
   margin-right: auto;
   margin-left: auto;
   padding-right: 30px;
   padding-left: 30px; }
-  @media screen and (max-width: 1280px) {
+  @media screen and (max-width: 928px) {
     .wrapper {
-      max-width: -webkit-calc(1280px - (30px));
-      max-width: calc(1280px - (30px));
+      max-width: -webkit-calc(928px - (30px));
+      max-width: calc(928px - (30px));
       padding-right: 15px;
       padding-left: 15px; } }
 

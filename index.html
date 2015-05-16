@@ -4,10 +4,78 @@ layout: default
   
 <div class="wrapper">
     
-
-   
+      
+      <!-- photo -->
       <div class="row">
-          <div class="col-xs-6 article-part">
+          <div class="mod_focus_show" id="divimgplay">
+              <ul class="mod_focus_pic" id="divimginfog_imgPlayer"><li style="display: list-item;"><a href=""><img src="http://imgcache.qq.com/music/common/product/focus_img/big0720150515234232.jpg" alt="巅峰乐语路王力宏预告" width="700" height="320"></a></li></ul>
+              
+              <ul class="mod_focus_title" id="ptitleg_imgPlayer"><li class="current"> <a href="" class="focus_icon_play" style="display:none;" ></a> <h3><a href="http://y.qq.com/topic/yjdp64/index.html">BIGBANG:终于等到宇宙大爆炸</a></h3> <p class=""></p> </li></ul>
+
+
+              <div class="focus_switch">
+                  <a href="javascript:;" class="icon_prev" onclick="g_imgPlayer.prev()"></a>
+                  <a href="javascript:;" class="icon_next" onclick="g_imgPlayer.next()"></a>
+              </div>
+              <ul class="mod_focus_list" id="divpageinfog_imgPlayer">
+                  <li class="">
+                      <a href="http://y.qq.com/vip/1qb/index.html" >
+                          <img src="http://imgcache.qq.com/music/common/product/focus_img/small0720150515234232.jpg" alt="巅峰乐语路王力宏预告" width="60" height="60"><span class="photo_border"></span><span class="mask"></span>
+                      </a>
+                  </li>
+                  <li class="">
+                      <a href="http://y.qq.com/vip/1qb/index.html" >
+                          <img src="http://imgcache.qq.com/music/common/product/focus_img/small0720150515234232.jpg" alt="巅峰乐语路王力宏预告" width="60" height="60"><span class="photo_border"></span><span class="mask"></span>
+                      </a>
+                  </li>
+                  <li class="">
+                      <a href="http://y.qq.com/vip/1qb/index.html" >
+                          <img src="http://imgcache.qq.com/music/common/product/focus_img/small0720150515234232.jpg" alt="巅峰乐语路王力宏预告" width="60" height="60"><span class="photo_border"></span><span class="mask"></span>
+                      </a>
+                  </li>
+                  <li class="">
+                      <a href="http://y.qq.com/vip/1qb/index.html" >
+                          <img src="http://imgcache.qq.com/music/common/product/focus_img/small0720150515234232.jpg" alt="巅峰乐语路王力宏预告" width="60" height="60"><span class="photo_border"></span><span class="mask"></span>
+                      </a>
+                  </li>
+                  <li class="">
+                      <a href="http://y.qq.com/vip/1qb/index.html" >
+                          <img src="http://imgcache.qq.com/music/common/product/focus_img/small0720150515234232.jpg" alt="巅峰乐语路王力宏预告" width="60" height="60"><span class="photo_border"></span><span class="mask"></span>
+                      </a>
+                  </li>
+                  <li class="">
+                      <a href="http://y.qq.com/vip/1qb/index.html" >
+                          <img src="http://imgcache.qq.com/music/common/product/focus_img/small0720150515234232.jpg" alt="巅峰乐语路王力宏预告" width="60" height="60"><span class="photo_border"></span><span class="mask"></span>
+                      </a>
+                  </li>
+                  <li class="">
+                      <a href="http://y.qq.com/vip/1qb/index.html" >
+                          <img src="http://imgcache.qq.com/music/common/product/focus_img/small0720150515234232.jpg" alt="巅峰乐语路王力宏预告" width="60" height="60"><span class="photo_border"></span><span class="mask"></span>
+                      </a>
+                  </li>
+                  <li class="">
+                      <a href="http://y.qq.com/vip/1qb/index.html" >
+                          <img src="http://imgcache.qq.com/music/common/product/focus_img/small0720150515234232.jpg" alt="巅峰乐语路王力宏预告" width="60" height="60"><span class="photo_border"></span><span class="mask"></span>
+                      </a>
+                  </li>
+                  <li class="">
+                      <a href="http://y.qq.com/vip/1qb/index.html" >
+                          <img src="http://imgcache.qq.com/music/common/product/focus_img/small0720150515234232.jpg" alt="巅峰乐语路王力宏预告" width="60" height="60"><span class="photo_border"></span><span class="mask"></span>
+                      </a>
+                  </li>
+                  <li class="">
+                      <a href="http://y.qq.com/vip/1qb/index.html" >
+                          <img src="http://imgcache.qq.com/music/common/product/focus_img/small0720150515234232.jpg" alt="巅峰乐语路王力宏预告" width="60" height="60"><span class="photo_border"></span><span class="mask"></span>
+                      </a>
+                  </li>
+              </ul>
+          </div>
+      </div>  
+
+         
+
+      <div class="row">
+          <div class="col-xs-12 article-part">
              <div class="row">
                    <div class="music-head">
                      <h3 class="music-header">最近文章</h3>
@@ -73,15 +141,9 @@ layout: default
 
            </div>
       </div>
-
-
-
-
-
-
-
+      
       <div class="row">
-          <div class="col-xs-6">
+          <div class="col-xs-12">
               <div class="row">
                  <div class="music-head">
                    <h3 class="music-header">电影推荐</h3>
@@ -92,7 +154,7 @@ layout: default
                       {% for post in site.posts %}
                          <!-- movies -->
                          {% if post.type == 1 %}
-                             <div class="col-xs-3 hover">
+                             <div class="col-xs-6 hover">
                                 <div class="movie-img-padding">
                                    <img src="/img/wait-alone.jpg" class="img-responsive center-block" alt="Waiting Alone">
                                 </div>
@@ -110,6 +172,13 @@ layout: default
           </div>
           
       </div>
+
+
+
+
+
+
+     
 
      
     
