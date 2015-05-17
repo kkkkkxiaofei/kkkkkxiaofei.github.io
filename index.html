@@ -136,7 +136,7 @@ layout: default
          
 
       <div class="row">
-          <div class="col-xs-12 article-part">
+          <div class="col-xs-7 article-part">
              <div class="row">
                    <div class="music-head">
                      <h3 class="music-header">最近文章</h3>
@@ -164,7 +164,7 @@ layout: default
           </div>
 
            
-           <div class="col-xs-6">
+           <div class="col-xs-5">
                <div class="table-scroll article-inner-part">
                    <div class="row">
                        <div class="music-head">
@@ -172,10 +172,9 @@ layout: default
                        </div>
                    </div>
                    
-                   {% for post in site.posts %}
 
                          <!-- musics -->
-                        {% if post.type == 1 %}
+                        
                            <!-- <div class="form-inline article-margin">
                              <div class="form-group article-title">
                                 <a class="article-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
@@ -186,68 +185,63 @@ layout: default
                            </div> -->
                       
                        <div class="row music-part">
-                           
                            <div class="col-xs-1 music-index">01.</div>
-                           <div class="col-xs-5 music-name">模特模特模特</div>
-                           <div class="col-xs-5 music-author">李荣浩模特</div>
-
-
+                           <div class="col-xs-7 music-name">我怀念的</div>
+                           <div class="col-xs-4 music-author">孙燕姿</div>
                        </div>
-                       {% endif %}
+                       <div class="row music-part">
+                           <div class="col-xs-1 music-index">02.</div>
+                           <div class="col-xs-7 music-name">如果没有你</div>
+                           <div class="col-xs-4 music-author">萧敬腾</div>
+                       </div>
+                       <div class="row music-part">
+                           <div class="col-xs-1 music-index">03.</div>
+                           <div class="col-xs-7 music-name">活着</div>
+                           <div class="col-xs-4 music-author">郝云</div>
+                       </div>
+                       <div class="row music-part">
+                           <div class="col-xs-1 music-index">04.</div>
+                           <div class="col-xs-7 music-name">原点</div>
+                           <div class="col-xs-4 music-author">蔡健雅</div>
+                       </div>
+                       <div class="row music-part">
+                           <div class="col-xs-1 music-index">05.</div>
+                           <div class="col-xs-7 music-name">世界唯一的你</div>
+                           <div class="col-xs-4 music-author">曹格</div>
+                       </div>
+                       <div class="row music-part">
+                           <div class="col-xs-1 music-index">06.</div>
+                           <div class="col-xs-7 music-name">空白格</div>
+                           <div class="col-xs-4 music-author">杨宗纬</div>
+                       </div>
+                       <div class="row music-part">
+                           <div class="col-xs-1 music-index">07.</div>
+                           <div class="col-xs-7 music-name">顺其自然</div>
+                           <div class="col-xs-4 music-author">黄小琥</div>
+                       </div>
+                       <div class="row music-part">
+                           <div class="col-xs-1 music-index">08.</div>
+                           <div class="col-xs-7 music-name">模特</div>
+                           <div class="col-xs-4 music-author">李荣浩</div>
+                       </div>
+                       <div class="row music-part">
+                           <div class="col-xs-1 music-index">09.</div>
+                           <div class="col-xs-7 music-name">我在人民广场吃炸鸡</div>
+                           <div class="col-xs-4 music-author">阿肆</div>
+                       </div>
+                       <div class="row music-part">
+                           <div class="col-xs-1 music-index">10.</div>
+                           <div class="col-xs-7 music-name">阴天</div>
+                           <div class="col-xs-4 music-author">莫文蔚</div>
+                       </div>
+                       
 
+                       
 
-                    {% endfor %}
-                      
                </div>   
 
            </div>
       </div>
-      
-      <div class="row">
-          <div class="col-xs-12">
-              <div class="row">
-                 <div class="music-head">
-                   <h3 class="music-header">电影推荐</h3>
-                 </div>
-              </div>
-              <div class="row movie-part">
-
-                      {% for post in site.posts %}
-                         <!-- movies -->
-                         {% if post.type == 1 %}
-                             <div class="col-xs-6 hover">
-                                <div class="movie-img-padding">
-                                   <img src="/img/wait-alone.jpg" class="img-responsive center-block" alt="Waiting Alone">
-                                </div>
-                             </div>
-                             <div class="col-xs-3 movie-info">
-                               <p>2014年上映｜106分钟｜内地｜国语</p>
-                               <p>导演：伍士贤</p>
-                               <p>主演：夏雨 李冰冰 </p>
-                               <p>类型：搞笑｜剧情｜爱情</p>
-                               <p>简介：年轻的陈文（夏雨饰）是一个古董店的小老板，他与一班好友怀揣梦想，等待着真爱的到来。一次陈文偶...<a>更多>></a></p>
-                             </div>
-                         {% endif %}
-                     {% endfor %}
-              </div>
-          </div>
-          
-      </div>
-
-
-
-
-
-
-     
-
-     
-    
-
-      
-
-   
-
 </div>
  
 
