@@ -390,16 +390,16 @@ pre {
  * Wrapper
  */
 .wrapper {
-  max-width: -webkit-calc(928px - (30px * 2));
-  max-width: calc(928px - (30px * 2));
+  max-width: -webkit-calc(828px - (30px * 2));
+  max-width: calc(828px - (30px * 2));
   margin-right: auto;
   margin-left: auto;
   padding-right: 30px;
   padding-left: 30px; }
-  @media screen and (max-width: 928px) {
+  @media screen and (max-width: 828px) {
     .wrapper {
-      max-width: -webkit-calc(928px - (30px));
-      max-width: calc(928px - (30px));
+      max-width: -webkit-calc(828px - (30px));
+      max-width: calc(828px - (30px));
       padding-right: 15px;
       padding-left: 15px; } }
 

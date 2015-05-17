@@ -6,6 +6,19 @@ $().ready(function(){
     var bigPhotos = $('ul#big-photo li');
     var photoDescriptions = $('ul#photo-descriotion li');
     var thumbPhotos = $('span.mask');
+   	var photoDescription = $('ul#photo-descriotion a');
+    var descriptions = [
+	    				'王力宏，永远的男神0',
+					    '王力宏，永远的男神1',
+					    '王力宏，永远的男神2',
+					    '王力宏，永远的男神3',
+					    '王力宏，永远的男神4',
+					    '王力宏，永远的男神5',
+					    '王力宏，永远的男神6',
+					    '王力宏，永远的男神7',
+					    '王力宏，永远的男神8',
+					    '王力宏，永远的男神9'
+					 ];
 
 	$('ul#thumb-photo li').hover(function()	{
 		// var index = getChildIndex($(this).parent().children(), this);
@@ -34,6 +47,7 @@ $().ready(function(){
 
 	function activeThumbPhoto(index) {
 		thumbPhotos.eq(index).removeClass('mask');
+		photoDescription.text(descriptions[index]);
 	}
 
 	function unActiveThumbPhoto(index) {
@@ -44,16 +58,16 @@ $().ready(function(){
 		
 	}, 1000);
 
-	$('.focus_switch').click(test);
+	$('.focus_switch').click(autoSelect);
 
 	(function initThumbAndBigPhoto(){
 		activeThumbPhoto(MIN);
 		bigPhotoDisplay(MIN);
 	})();
 
-	setInterval(test, 1500);
+	setInterval(autoSelect, 1500);
 
-	function test(){
+	function autoSelect() {
 		if(currentIndex > MIN){
 			unActiveThumbPhoto(currentIndex -1);
 			bigPhotoDisplayNone(currentIndex -1);
@@ -61,7 +75,6 @@ $().ready(function(){
 			unActiveThumbPhoto(MAX);
 			bigPhotoDisplayNone(MAX);
 		}
-
 		activeThumbPhoto(currentIndex);
 		bigPhotoDisplay(currentIndex);
 		if(currentIndex < MAX){
@@ -70,5 +83,4 @@ $().ready(function(){
 			currentIndex = MIN;
 		}
 	}
-
-})
+});
