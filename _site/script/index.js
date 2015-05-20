@@ -21,16 +21,16 @@ $().ready(function(){
 				   	'/music/阴天.mp3'
    	 			];
     var descriptions = [
-	    				  '其实我更喜欢老萧的版本～',
-					      '老萧的《爱的自选时刻》太好听了～',
-					      '郝云天生的民谣嗓子，这首活着也是让我醉了很久～',
+	    				  '我怀念的是无话不说，我怀念的是一起做梦～',
+					      'Hey，我真的好想你～',
+					      '我不想这样活着～',
 					      '是你，第一眼就认出来，这是命运的安排～',
 					      '太喜欢Tanya了，慵懒的嗓音让人爱到不行～',
 					      '小琥姐的暖心歌曲，歌词很是不错～',
 					      '可是怎么说，怎么说，我们之间留了太多空白格',
 					      '新逆袭的小眼男生，算是最近比较火了～',
-					      '简直就是高逼格的神曲，第一次听完就直接被洗脑两星期～',
-					      '李宗盛的经典作品，小女人的演绎～'
+					      '我在人民广场吃炸鸡呀～',
+					      '阴天，在不开灯的房间～'
 					  ];
 
 	$('ul#thumb-photo li').hover(function()	{
@@ -78,7 +78,7 @@ $().ready(function(){
 		bigPhotoDisplay(MIN);
 	})();
 
-	setInterval(autoSelect, 1500);
+	setInterval(autoSelect, 1000);
 
 	function autoSelect() {
 		if(currentIndex > MIN){
@@ -103,7 +103,7 @@ $().ready(function(){
 		$('#player').attr('src',musicSrcs[index]);
 	});
 
-	function play() {
-		$('#player').attr('src','/music/阴天.mp3');
-	}
+	$('#player').attr('src',musicSrcs[0]);
+
+	
 });
