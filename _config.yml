@@ -3,9 +3,9 @@ title: Pursue
 email: 348564768@qq.com
 description: > # this blog is ceated by Pursue whose usuarl accout is kkkkkkxiaofei.
 baseurl: "" # the subpath of your site, e.g. /blog/
-url: "http://kkkkkkxiaofei.github.io" # the base hostname & protocol for your site
+url: "https://github.com/kkkkkxiaofei" # the base hostname & protocol for your site
 twitter_username: jekyllrb
-github_username:  kkkkkkxiaofei
+github_username:  kkkkkxiaofei
 
 # Build settings
 markdown: kramdown

@@ -145,6 +145,48 @@
 /**
 music setting
 */
+.music-head {
+  height: 38px;
+  padding: 2px 0;
+  overflow: hidden;
+  margin: 0 0 17px 17px;
+  border-left: solid 5px #0dad51;}
+
+.music-part {
+  font-size: smaller;
+  padding-left: 18px;
+}
+
+.music-index {
+    font-family: Arial,Tahoma,"hiragino sans gb",Helvetica;
+    font-style: italic;
+    color: #ccc;
+
+}
+.music-name {
+    font-family: Arial,Tahoma,"hiragino sans gb",Helvetica;
+    color: #0dad51;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+
+}
+.music-name:hover {
+  font-size: 120%;
+  background-color: #383838;
+  opacity: 90%;
+}
+
+.music-author {
+    font-family: Arial,Tahoma,"hiragino sans gb",Helvetica;
+}
+.music-play-icon {
+  height: 16px;
+  width: 16px;
+  background-image: url(../img/music16.GIF);
+  background-repeat: no-repeat;
+  display: none;
+} 
 
 .back-music {
     float: right;
@@ -242,32 +284,7 @@ music setting
   font-family: Arial,Tahoma,"hiragino sans gb",Helvetica;
 }
 
-.music-head {
-  height: 38px;
-  padding: 2px 0;
-  overflow: hidden;
-  margin: 0 0 17px 17px;
-  border-left: solid 5px #0dad51;}
 
-.music-part {
-  font-size: smaller;
-  padding-left: 18px;
-}
-
-.music-index {
-    font-family: Arial,Tahoma,"hiragino sans gb",Helvetica;
-    font-style: italic;
-    color: #ccc;
-
-}.music-name {
-    font-family: Arial,Tahoma,"hiragino sans gb",Helvetica;
-    color: #0dad51;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-}.music-author {
-    font-family: Arial,Tahoma,"hiragino sans gb",Helvetica;
-}
 
 
 

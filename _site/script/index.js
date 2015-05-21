@@ -78,7 +78,7 @@ $().ready(function(){
 		bigPhotoDisplay(MIN);
 	})();
 
-	setInterval(autoSelect, 1000);
+	setInterval(autoSelect, 3500);
 
 	function autoSelect() {
 		if(currentIndex > MIN){
@@ -97,13 +97,22 @@ $().ready(function(){
 		}
 	}
 	
+	function palyMusic(index) {
+		$('.music-play-icon').css('display','none');
+		$('.music-part .music-play-icon').eq(index).css('display','block');
+		$('#player').attr('src', musicSrcs[index]);
+	}
 
 	musics.click(function() {
 		var index = getChildIndex(musics, this);
-		$('#player').attr('src',musicSrcs[index]);
+		palyMusic(index);
 	});
 
-	$('#player').attr('src',musicSrcs[0]);
+	palyMusic(0);
+
+
+	
+
 
 	
 });
