@@ -120,23 +120,21 @@ $().ready(function(){
 	function loadLyric(lyric) {
 		var lyricContent = $('#show-lrc-content');
 		_.each(lyric, function(content, index, $){
-			lyricContent.append('<p id=' + index + '>' + content[1] + '</p>');
+			lyricContent.append('<p name="lyric" id=' + index + '>' + content[1] + '</p>');
 		});
 	}
 
 
-	var lyricIndex = 0
 	document.getElementById('player').ontimeupdate = function(e) {
 		if(this.ended){
 			palyMusic(currentIndex == MAX ? 0 : currentIndex + 1);
 		}
-		for (var i = lyricIndex;i < lyric.length; i++) {
+		for (var i = 0;i < lyric.length; i++) {
 	        if (this.currentTime > lyric[i][0] - 1) {
-	            $('p#'+(lyricIndex == 0 ? lyricIndex : lyricIndex-1)).css('color', '#fff');//clear style of previous lyric 
+	            $('p[name=lyric]').css('color', '#fff'); 
 	            $('p#'+i).css('color', '#a6e22d');
-	            lyricIndex = i + 1;
-	            $('.lyric-content').css('top',parseInt($('.lyric-content').css('top')) - 30);
-	            return;
+
+	            $('.lyric-content').css('top',210 - 30 * (i + 1));
 	        };
 	    };
 
@@ -150,13 +148,14 @@ $().ready(function(){
 	        lines = lines.slice(1);
 	    };
 	    lines[lines.length - 1].length === 0 && lines.pop();
-	    _.each(lines, function(data){
-	        var time = data.match(pattern),
-	            value = data.replace(pattern, '');
-	        _.each(time, function(timeStr){
-	        	var timeArr = timeStr.slice(1, -1).split(':');
-	        	result.push([parseInt(timeArr[0], 10) * 60 + parseFloat(timeArr[1]), value]);
-	        });
+	    _.each(lines, function(data, step){
+	        var index = data.indexOf(']');
+	        var time = data.substring(0, index+1),
+	        	value = data.substring(index+1);
+        	var timeString = time.substring(1, time.length-2);
+        	var timeArr = timeString.split(':');
+        	result.push([parseInt(timeArr[0], 10) * 60 + parseFloat(timeArr[1]), value]);
+
 	    });
 	    result.sort(function(a, b) {
 	        return a[0] - b[0];
