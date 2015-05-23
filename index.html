@@ -8,6 +8,12 @@ layout: default
       <!-- photo -->
       <div class="row">
           <div class="mod_focus_show" id="divimgplay">
+              <div class="lyric-mask">
+                <div class="lyric-box">
+                    <div class="lyric-content" id="show-lrc-content">
+                    </div>
+                </div>            
+              </div>
               <ul id="big-photo" class="mod_focus_pic" id="divimginfog_imgPlayer">
                   <li id="wlh" style="display: block;">
                       <a href="">
@@ -151,18 +157,6 @@ layout: default
                        <!-- articles -->
                       {% if post.type == 2 %}
                          <div class="form-inline article-margin">
-                           <div class="form-group article-title">
-                              <a class="article-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-                           </div>
-                           <div class="form-group pull-right">
-                            <p class="x-small">{{ post.date | date: "%b %-d, %Y" }}</p>
-                           </div>
-                           <div class="form-group article-title">
-                              <a class="article-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-                           </div>
-                           <div class="form-group pull-right">
-                            <p class="x-small">{{ post.date | date: "%b %-d, %Y" }}</p>
-                           </div>
                            <div class="form-group article-title">
                               <a class="article-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
                            </div>

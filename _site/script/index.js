@@ -8,18 +8,19 @@ $().ready(function(){
     var thumbPhotos = $('span.mask');
    	var photoDescription = $('ul#photo-descriotion a');
    	var musics = $('.music-part');
+   	var lyric = [];
    	var musicSrcs = [
-	   				'/music/我怀念的.mp3',
-				   	'/music/如果没有你.mp3', 
-				   	'/music/如果没有你.mp3',
-				   	'/music/世界唯一的你.mp3', 
-				   	'/music/原点.mp3',
-				   	'/music/空白格.mp3', 
-				   	'/music/顺其自然.mp3',
-				   	'/music/模特.mp3',
-				   	'/music/我在人民广场吃炸鸡.mp3',
-				   	'/music/阴天.mp3'
-   	 			];
+						'/music/我怀念的.mp3',
+						'/music/如果没有你.mp3', 
+						'/music/如果没有你.mp3',
+						'/music/世界唯一的你.mp3', 
+						'/music/原点.mp3',
+						'/music/空白格.mp3', 
+						'/music/顺其自然.mp3',
+						'/music/模特.mp3',
+						'/music/我在人民广场吃炸鸡.mp3',
+						'/music/阴天.mp3'
+					];
     var descriptions = [
 	    				  '我怀念的是无话不说，我怀念的是一起做梦～',
 					      'Hey，我真的好想你～',
@@ -32,6 +33,7 @@ $().ready(function(){
 					      '我在人民广场吃炸鸡呀～',
 					      '阴天，在不开灯的房间～'
 					  ];
+
 
 	$('ul#thumb-photo li').hover(function()	{
 		// var index = getChildIndex($(this).parent().children(), this);
@@ -110,9 +112,55 @@ $().ready(function(){
 
 	palyMusic(0);
 
+	$.get('/music/我怀念的.lrc', function(lrc) {
+	 	lyric = parseLyric(lrc);
+	 	loadLyric(lyric);
+	});
 
-	
+	function loadLyric(lyric) {
+		var lyricContent = $('#show-lrc-content');
+		_.each(lyric, function(content, index, $){
+			lyricContent.append('<p id=' + index + '>' + content[1] + '</p>');
+		});
+	}
 
 
-	
+	var lyricIndex = 0
+	document.getElementById('player').ontimeupdate = function(e) {
+		if(this.ended){
+			palyMusic(currentIndex == MAX ? 0 : currentIndex + 1);
+		}
+		for (var i = lyricIndex;i < lyric.length; i++) {
+	        if (this.currentTime > lyric[i][0] - 1) {
+	            $('p#'+(lyricIndex == 0 ? lyricIndex : lyricIndex-1)).css('color', '#fff');//clear style of previous lyric 
+	            $('p#'+i).css('color', '#a6e22d');
+	            lyricIndex = i + 1;
+	            $('.lyric-content').css('top',parseInt($('.lyric-content').css('top')) - 30);
+	            return;
+	        };
+	    };
+
+	}
+
+	function parseLyric(lyric) {
+	    var lines = lyric.split('\n'),
+	        pattern = /\[\d{2}:\d{2}.\d{2}\]/g,
+	        result = [];
+	    while (!pattern.test(lines[0])) {
+	        lines = lines.slice(1);
+	    };
+	    lines[lines.length - 1].length === 0 && lines.pop();
+	    _.each(lines, function(data){
+	        var time = data.match(pattern),
+	            value = data.replace(pattern, '');
+	        _.each(time, function(timeStr){
+	        	var timeArr = timeStr.slice(1, -1).split(':');
+	        	result.push([parseInt(timeArr[0], 10) * 60 + parseFloat(timeArr[1]), value]);
+	        });
+	    });
+	    result.sort(function(a, b) {
+	        return a[0] - b[0];
+	    });
+    	return result;
+	}
 });
