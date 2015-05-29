@@ -509,13 +509,18 @@ h1, h2, h3, h4, h5, h6 {
 /**
  * Links
  */
-
+a.article-link:visited {
+  color: #393939;
+}
+a.article-link:hover {
+  color: #2a7ae2;
+}
 
 a {
   color: #383838;
   text-decoration: none; }
   a:visited {
-    color: #ccc; }
+    color: #ccc }
   a:hover {
     color: #2a7ae2;
     text-decoration: underline; }
