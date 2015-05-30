@@ -140,7 +140,7 @@ pre.sh {
   color: #d96f5d;
   white-space: pre;
   font-size: 16px;
-  word-wrap: word-break;
+  word-wrap: break-word;
 }
 
 .post-content ul {
