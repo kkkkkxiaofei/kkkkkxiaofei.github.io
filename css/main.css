@@ -1,6 +1,22 @@
 /*
 Markdown setting
 */
+
+/*
+  foot setting
+*/
+.foot-center {
+  text-align: center;
+}
+
+.fake-read-time {
+  margin-right: 20px;
+}
+
+.follow-me {
+  color: #3b94c7;
+}
+
 .post-content blockquote {
   position: relative;
   padding: 10px 15px;
@@ -11,6 +27,15 @@ Markdown setting
   font-size: 16px;
   font-weight: 100;
   line-height: 30px;
+  text-align: center;
+}
+
+.post-content blockquote img {
+  max-width: 100%;
+  width: auto\9;
+  height: auto;
+  vertical-align: middle;
+  border: 0;
 }
 
 .post-content {
