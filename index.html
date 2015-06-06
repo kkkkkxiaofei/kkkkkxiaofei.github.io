@@ -142,18 +142,15 @@ layout: default
 
          
 
-      <div class="row">
-          <div class="col-xs-7 article-part">
+      <div class="article-music-box">
+          <div class="article-part">
              <div class="row">
-                   <div class="music-head">
-                     <h3 class="music-header">最近文章</h3>
+                   <div class="article-head">
+                     <h3 class="article-header">最近文章</h3>
                    </div>
              </div>
-             <div class="table-scroll article-inner-part">
-               
-                 
+             <div class="article-inner-part">
                  {% for post in site.posts %}
-
                        <!-- articles -->
                       {% if post.type == 2 %}
                          <div class="form-inline article-margin">
@@ -172,27 +169,14 @@ layout: default
           </div>
 
            
-           <div class="col-xs-5">
-               <div class="table-scroll article-inner-part">
+           <div class=" music-part">
+               <div class="music-inner-part">
                    <div class="row">
                        <div class="music-head clo-xs-4">
                          <h3 class="music-header">好歌推荐
                          </h3>
                        </div>
                    </div>
-                   
-
-                         <!-- musics -->
-                        
-                           <!-- <div class="form-inline article-margin">
-                             <div class="form-group article-title">
-                                <a class="article-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-                             </div>
-                             <div class="form-group pull-right">
-                              <p class="x-small">{{ post.date | date: "%b %-d, %Y" }}</p>
-                             </div>
-                           </div> -->
-                      
                        <div class="row music-part">
 
                            <div class="col-xs-1 music-index">01.</div>
