@@ -1,6 +1,6 @@
 ---
 layout: post_layout
-title:  "Javascript中Function.prototype.apply()的用法"
+title:  "Javascript中apply()的用法"
 date:   2015-05-12 10:10PM
 categories: jekyll update
 type: 2

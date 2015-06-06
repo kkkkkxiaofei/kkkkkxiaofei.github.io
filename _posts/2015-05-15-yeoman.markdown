@@ -1,6 +1,6 @@
 ---
 layout: post_layout
-title:  "如何利用自动化工具构建一个完整的webapp项目"
+title:  "自动化构建webapp项目"
 date:   2015-05-15 19:00PM
 categories: jekyll update
 type: 2

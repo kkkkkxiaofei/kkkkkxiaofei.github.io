@@ -5,8 +5,8 @@
     <description></description>
     <link>https://github.com/kkkkkxiaofei/</link>
     <atom:link href="https://github.com/kkkkkxiaofei/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 06 Jun 2015 17:08:05 +0800</pubDate>
-    <lastBuildDate>Sat, 06 Jun 2015 17:08:05 +0800</lastBuildDate>
+    <pubDate>Sat, 06 Jun 2015 17:35:59 +0800</pubDate>
+    <lastBuildDate>Sat, 06 Jun 2015 17:35:59 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -146,7 +146,7 @@
       </item>
     
       <item>
-        <title>一个例子让你彻底明白原型对象和原型链</title>
+        <title>一个例子让你明白原型对象和原型链</title>
         <description>&lt;h3 id=&quot;section&quot;&gt;开篇&lt;/h3&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;之前对js中的原型链和原型对象有所了解，每当别人问我什么是原型链和原型对象时，我总是用很官方（其实自己不懂）的解释去描述。有一句话说的好：如果你不能把一个很复杂的东西用最简单的话语描述出来，那就说明你没有真正的理解。最近正在读《Javascript高级程序设计》，书中对原型对象和原型链的描述让我受益匪浅，下面仅用一个对比性的例子来说明。&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -597,7 +597,7 @@
       </item>
     
       <item>
-        <title>利用Html5的audio标签实现歌词滚动同步</title>
+        <title>Html5实现歌词滚动同步</title>
         <description>&lt;h4 id=&quot;yeoman&quot;&gt;Yeoman&lt;/h4&gt;
 &lt;p&gt;当你需要构建一个webapp项目时，为了更好的管理项目，Yeoman是一个不错的选择。有一下工具你可能需要提前安装：&lt;/p&gt;
 
@@ -693,7 +693,7 @@
       </item>
     
       <item>
-        <title>如何利用自动化工具构建一个完整的webapp项目</title>
+        <title>自动化构建webapp项目</title>
         <description>&lt;h4 id=&quot;yeoman&quot;&gt;Yeoman&lt;/h4&gt;
 &lt;p&gt;当你需要构建一个webapp项目时，为了更好的管理项目，Yeoman是一个不错的选择。有一下工具你可能需要提前安装：&lt;/p&gt;
 
@@ -779,7 +779,7 @@
       </item>
     
       <item>
-        <title>Javascript中Function.prototype.apply()的用法</title>
+        <title>Javascript中apply()的用法</title>
         <description>&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
 &lt;p&gt;Function.prototype.apply()将会调用一个以this和数组形式的arguments为参数的方法，而call()方法则只是在第二个参数形式与之不同而已。&lt;/p&gt;
 
