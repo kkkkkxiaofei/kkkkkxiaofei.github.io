@@ -6,7 +6,7 @@ layout: default
     
       
       <!-- photo -->
-      <div class="row">
+      <div class="photo-box">
           <div class="mod_focus_show" id="divimgplay">
               <div class="lyric-mask">
                 <div class="lyric-box">
@@ -154,11 +154,11 @@ layout: default
                        <!-- articles -->
                       {% if post.type == 2 %}
                          <div class="form-inline article-margin">
-                           <div class="form-group article-title">
+                           <div class="inline-group article-title">
                               <a class="article-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
                            </div>
                           
-                           <div class="form-group pull-right">
+                           <div class="inline-group date-position">
                             <p class="x-small">{{ post.date | date: "%b %-d, %Y" }}</p>
                            </div>
                          </div>

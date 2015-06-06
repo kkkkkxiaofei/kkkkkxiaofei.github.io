@@ -350,6 +350,7 @@ music setting
   padding-left: 18px;
   width: 300px;
   float: left;
+  font-size: 12px;
 }
 
 .music-index {
@@ -487,8 +488,16 @@ music setting
   margin-right: 2px;
 }
 
+.article-inner-part .inline-group {
+  display: inline-block;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
 
-
+.date-position {
+  float: right;
+  font-weight: bold;
+}
 
 
 
@@ -631,6 +640,10 @@ pre {
     padding-right: 15px;
     padding-left: 15px; 
   }
+  .photo-box {
+    margin-left: -15px;
+    margin-right: 15px;
+  }
   .music-part {
     clear: both;
     width: 100%;
@@ -638,7 +651,7 @@ pre {
   .article-part {
     width: 100%;
   }
-  #palyer {
+  .back-music {
     display: none;
   }
   .mod_focus_show {
@@ -654,6 +667,12 @@ pre {
   .mod_focus_show .lyric-box,
   .mod_focus_show img {
     width: 100%;
+  }
+  .inline-group a {
+    font-size: 90%;
+  }
+  .music-part {
+    font-size: 10px;
   }
 
 }
