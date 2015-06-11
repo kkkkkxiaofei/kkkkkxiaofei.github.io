@@ -5,9 +5,126 @@
     <description></description>
     <link>https://github.com/kkkkkxiaofei/</link>
     <atom:link href="https://github.com/kkkkkxiaofei/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 08 Jun 2015 23:42:47 +0800</pubDate>
-    <lastBuildDate>Mon, 08 Jun 2015 23:42:47 +0800</lastBuildDate>
+    <pubDate>Fri, 12 Jun 2015 09:35:09 +0800</pubDate>
+    <lastBuildDate>Fri, 12 Jun 2015 09:35:09 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Html5实现歌词滚动同步</title>
+        <description>&lt;h4 id=&quot;section&quot;&gt;开篇&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;HTML5的最强大之处莫过于对媒体文件的处理，如利用一个简单的vedio标签就可以实现视频播放。类似地,在HTML5中也有对应的处理音频文件的标签，那就是&amp;lt;audio&amp;gt;.标签&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://kkkkkxiaofei.github.io/lyric-demo&quot;&gt;在线Demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;audio&quot;&gt;audio标签&lt;/h4&gt;
+
+&lt;p&gt;实现一个audio标签非常简单，对应的html代码如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&amp;lt;audio &lt;span class=&quot;nv&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;player&amp;quot;&lt;/span&gt; 
+    &lt;span class=&quot;nv&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;music/我在人民广场吃炸鸡.mp3&amp;quot;&lt;/span&gt; 
+    autoplay controls&amp;gt;
+&amp;lt;/audio&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;上述代码不需要一行js脚本就能实现音乐播放。其中有三个常用的属性，分别为：音频源文件，是否自动播放以及是否显示播放器控件。由于没有任何ui的展现，audio标签在chrome的默认风格如下图:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/Html5实现歌词滚动同步/audio.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;可以看出，一个基本的播放器还包括了显示当前时间，播放，暂停，快进快退等功能。这些功能都决定了如何很好的实现歌词同步（后续介绍）。&lt;/p&gt;
+
+&lt;p&gt;既然这么容易就就能播放音乐，那作为一项前端的技术，audio标签在各个浏览器中的兼容性又是怎样的呢？
+&lt;code&gt;Browser Compatibility&lt;/code&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/Html5实现歌词滚动同步/compacibility.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;可以看出，各大浏览器对audio标签基本功能都支持，只是在细微的特性上表现不一，但是这些基本的功能已经足已做出一个好的播放器。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;歌词&lt;/h4&gt;
+&lt;p&gt;一般标准的lyric文件是由&lt;code&gt;[时间]内容&lt;/code&gt;的tag标签组成，如下图：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/Html5实现歌词滚动同步/standard.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;为了更精确的展现每个字在每句歌词中的时间，又出现了特殊的歌词形式，如下：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/Html5实现歌词滚动同步/special.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这种歌词的格式的最好例子就是QRC歌词文件（如QQ音乐播放器）：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/Html5实现歌词滚动同步/qrc.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;为了描述简单，本文仅以最简单的lyric格式作为说明，讲解如何分离歌词进行歌词同步。如下，为一首歌曲的歌词文件:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/Html5实现歌词滚动同步/song.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;现对该歌词文件作一下处理：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;1.以行为单位拆分每一句歌词&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;2.将没句歌词的时间tag和内容分离&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;3.将时间转换为分钟&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;转换过程较为简单，只需一个简单的正则匹配，过程如下：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/Html5实现歌词滚动同步/convert.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;分离出来的[时间,内容]可以与audio当前的播放时间进行对比，若需要显示对应的歌词则将该行高亮，同时每次更新对应DOM节点的top则可在视觉上达到滚动效果。&lt;/p&gt;
+
+&lt;h4 id=&quot;ui&quot;&gt;制作歌词ui。&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;1.定义一个现实歌词的区域，添加audio控件&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/Html5实现歌词滚动同步/empty_canvas.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;2.添加背景图片，制作标题边框&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/Html5实现歌词滚动同步/backgroud.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;3.添加歌词&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/Html5实现歌词滚动同步/add_lyric.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;到此，歌词同步以及ui绘制全部完毕。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://kkkkkxiaofei.github.io/lyric-demo&quot;&gt;在线Demo&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Thu, 11 Jun 2015 22:14:00 +0800</pubDate>
+        <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/06/11/lyric.html</link>
+        <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/06/11/lyric.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
     
       <item>
         <title>Javascript中几种较为流行的继承方式</title>
@@ -549,150 +666,6 @@
       </item>
     
       <item>
-        <title>Github Page构建静态博客</title>
-        <description>&lt;h3 id=&quot;github-page&quot;&gt;Github Page&lt;/h3&gt;
-&lt;p&gt;当你需要构建一个webapp项目时，为了更好的管理项目，Yeoman是一个不错的选择。有一下工具你可能需要提前安装：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;yo&lt;/code&gt; - &lt;code&gt;Yeoman&lt;/code&gt;用来自动初始化项目的工具.—-create a new web app&lt;/li&gt;
-  &lt;li&gt;你还需要一个包管理器，例如&lt;code&gt;bower&lt;/code&gt;和&lt;code&gt;npm&lt;/code&gt;.—-handle dependencies &lt;/li&gt;
-  &lt;li&gt;当然，我们还需要build项目，如&lt;code&gt;Grunt&lt;/code&gt;和&lt;code&gt;Gulp&lt;/code&gt;.—-preview,test and buid&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;yo&quot;&gt;安装yo&lt;/h3&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;npm install -g yo bower grunt-cli gulp&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;npm install -g yo bower grunt-cli gulp&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;为了生成web app，我们还需要一个web generator&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;npm install -g generator-webapp&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;这个generator将会包括&lt;code&gt;HTML5&lt;/code&gt; , &lt;code&gt;jQuery&lt;/code&gt;, &lt;code&gt;Modernizr&lt;/code&gt;, and &lt;code&gt;Bootstrap&lt;/code&gt;等重要依赖，同时它将使用&lt;code&gt;Grunt&lt;/code&gt;来build项目. &lt;/p&gt;
-
-&lt;h3 id=&quot;section&quot;&gt;接下来就会让我们新初始化一个项目吧&lt;/h3&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;mkdir my-yo-project
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;my-yo-project
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;yo webapp&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;这样你一个新的web项目就建立成功了。&lt;/p&gt;
-
-&lt;h3 id=&quot;section-1&quot;&gt;启动项目&lt;/h3&gt;
-&lt;p&gt;由于build时用到了Grunt，所以利用&lt;code&gt;Grunt&lt;/code&gt;可以启动项目，若不加任何参数则默认会执行项目所有task，包括测试。若想启动项目，则&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;Grunt serve&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-</description>
-        <pubDate>Wed, 27 May 2015 22:29:00 +0800</pubDate>
-        <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/05/27/github-page.html</link>
-        <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/05/27/github-page.html</guid>
-        
-        
-        <category>jekyll</category>
-        
-        <category>update</category>
-        
-      </item>
-    
-      <item>
-        <title>Html5实现歌词滚动同步</title>
-        <description>&lt;h4 id=&quot;yeoman&quot;&gt;Yeoman&lt;/h4&gt;
-&lt;p&gt;当你需要构建一个webapp项目时，为了更好的管理项目，Yeoman是一个不错的选择。有一下工具你可能需要提前安装：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;yo&lt;/code&gt; - &lt;code&gt;Yeoman&lt;/code&gt;用来自动初始化项目的工具.—-create a new web app&lt;/li&gt;
-  &lt;li&gt;你还需要一个包管理器，例如&lt;code&gt;bower&lt;/code&gt;和&lt;code&gt;npm&lt;/code&gt;.—-handle dependencies &lt;/li&gt;
-  &lt;li&gt;当然，我们还需要build项目，如&lt;code&gt;Grunt&lt;/code&gt;和&lt;code&gt;Gulp&lt;/code&gt;.—-preview,test and buid&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;yo&quot;&gt;安装yo&lt;/h4&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;npm install -g yo bower grunt-cli gulp&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;npm install -g yo bower grunt-cli gulp&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;为了生成web app，我们还需要一个web generator&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;npm install -g generator-webapp&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;这个generator将会包括&lt;code&gt;HTML5&lt;/code&gt; , &lt;code&gt;jQuery&lt;/code&gt;, &lt;code&gt;Modernizr&lt;/code&gt;, and &lt;code&gt;Bootstrap&lt;/code&gt;等重要依赖，同时它将使用&lt;code&gt;Grunt&lt;/code&gt;来build项目. &lt;/p&gt;
-
-&lt;h4 id=&quot;section&quot;&gt;接下来就会让我们新初始化一个项目吧&lt;/h4&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;mkdir my-yo-project
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;my-yo-project
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;yo webapp&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;这样你一个新的web项目就建立成功了。&lt;/p&gt;
-
-&lt;h4 id=&quot;section-1&quot;&gt;启动项目&lt;/h4&gt;
-&lt;p&gt;由于build时用到了Grunt，所以利用&lt;code&gt;Grunt&lt;/code&gt;可以启动项目，若不加任何参数则默认会执行项目所有task，包括测试。若想启动项目，则&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;Grunt serve&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-</description>
-        <pubDate>Mon, 25 May 2015 23:49:00 +0800</pubDate>
-        <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/05/25/lyric.html</link>
-        <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/05/25/lyric.html</guid>
-        
-        
-        <category>jekyll</category>
-        
-        <category>update</category>
-        
-      </item>
-    
-      <item>
-        <title>jekyll构建Github Page项目</title>
-        <description>&lt;h4 id=&quot;yeoman&quot;&gt;Yeoman&lt;/h4&gt;
-&lt;p&gt;当你需要构建一个webapp项目时，为了更好的管理项目，Yeoman是一个不错的选择。有一下工具你可能需要提前安装：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;yo&lt;/code&gt; - &lt;code&gt;Yeoman&lt;/code&gt;用来自动初始化项目的工具.—-create a new web app&lt;/li&gt;
-  &lt;li&gt;你还需要一个包管理器，例如&lt;code&gt;bower&lt;/code&gt;和&lt;code&gt;npm&lt;/code&gt;.—-handle dependencies &lt;/li&gt;
-  &lt;li&gt;当然，我们还需要build项目，如&lt;code&gt;Grunt&lt;/code&gt;和&lt;code&gt;Gulp&lt;/code&gt;.—-preview,test and buid&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;yo&quot;&gt;安装yo&lt;/h4&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;npm install -g yo bower grunt-cli gulp&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;npm install -g yo bower grunt-cli gulp&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;为了生成web app，我们还需要一个web generator&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;npm install -g generator-webapp&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;这个generator将会包括&lt;code&gt;HTML5&lt;/code&gt; , &lt;code&gt;jQuery&lt;/code&gt;, &lt;code&gt;Modernizr&lt;/code&gt;, and &lt;code&gt;Bootstrap&lt;/code&gt;等重要依赖，同时它将使用&lt;code&gt;Grunt&lt;/code&gt;来build项目. &lt;/p&gt;
-
-&lt;h4 id=&quot;section&quot;&gt;接下来就会让我们新初始化一个项目吧&lt;/h4&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;mkdir my-yo-project
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;my-yo-project
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;yo webapp&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;这样你一个新的web项目就建立成功了。&lt;/p&gt;
-
-&lt;h4 id=&quot;section-1&quot;&gt;启动项目&lt;/h4&gt;
-&lt;p&gt;由于build时用到了Grunt，所以利用&lt;code&gt;Grunt&lt;/code&gt;可以启动项目，若不加任何参数则默认会执行项目所有task，包括测试。若想启动项目，则&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;Grunt serve&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-</description>
-        <pubDate>Mon, 25 May 2015 23:49:00 +0800</pubDate>
-        <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/05/25/jekyll.html</link>
-        <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/05/25/jekyll.html</guid>
-        
-        
-        <category>jekyll</category>
-        
-        <category>update</category>
-        
-      </item>
-    
-      <item>
         <title>自动化构建webapp项目</title>
         <description>&lt;h4 id=&quot;yeoman&quot;&gt;Yeoman&lt;/h4&gt;
 &lt;p&gt;当你需要构建一个webapp项目时，为了更好的管理项目，Yeoman是一个不错的选择。有一下工具你可能需要提前安装：&lt;/p&gt;
@@ -854,6 +827,34 @@
         <pubDate>Tue, 12 May 2015 22:10:00 +0800</pubDate>
         <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/05/12/js-call-apply.html</link>
         <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/05/12/js-call-apply.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
+    
+      <item>
+        <title>Welcome to Jekyll!</title>
+        <description>&lt;p&gt;You’ll find this post in your &lt;code&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code&gt;jekyll serve --watch&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+
+&lt;p&gt;To add new posts, simply add a file in the &lt;code&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+
+&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Tom&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &amp;#39;Hi, Tom&amp;#39; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://github.com/jekyll/jekyll-help&quot;&gt;Jekyll’s dedicated Help repository&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 01 May 2015 21:12:13 +0800</pubDate>
+        <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/05/01/welcome-to-jekyll.html</link>
+        <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/05/01/welcome-to-jekyll.html</guid>
         
         
         <category>jekyll</category>
