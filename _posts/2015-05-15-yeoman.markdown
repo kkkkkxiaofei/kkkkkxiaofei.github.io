@@ -4,6 +4,8 @@ title:  "自动化构建webapp项目"
 date:   2015-05-15 19:00PM
 categories: jekyll update
 type: 2
+summary: "当你需要构建一个webapp项目时，为了更好的管理项目，Yeoman是一个不错的选择。有一下工具你可能需要提前安装："
+icon: "grunt-icon.jpg"
 ---
 ####Yeoman
 当你需要构建一个webapp项目时，为了更好的管理项目，Yeoman是一个不错的选择。有一下工具你可能需要提前安装：

@@ -4,6 +4,8 @@ title:  "Javascript中apply()的用法"
 date:   2015-05-12 10:10PM
 categories: jekyll update
 type: 2
+summary: "Function.prototype.apply()将会调用一个以this和数组形式的arguments为参数的方法，而call()方法则只是在第二个参数形式与之不同而已。"
+icon: "js-icon.jpg"
 ---
 ###Summary
 Function.prototype.apply()将会调用一个以this和数组形式的arguments为参数的方法，而call()方法则只是在第二个参数形式与之不同而已。
