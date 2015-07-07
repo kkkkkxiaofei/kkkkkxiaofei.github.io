@@ -368,9 +368,7 @@ music setting
 
 }
 .music-name:hover {
-  font-size: 120%;
-  background-color: #383838;
-  opacity: 90%;
+  color: #393939;
 }
 
 .music-author {
@@ -385,8 +383,9 @@ music setting
 } 
 
 .back-music {
-    float: right;
-    margin: 18px 10px 10px 10px;
+    /*float: right;*/
+    /*margin: 18px 10px 10px 10px;*/
+    display: none;
 }
 
 .keep-backcolor {
@@ -473,9 +472,7 @@ music setting
 
 .article-inner-part {
   margin: 4px -1px 4px -1px;
-  max-height: 400px;  
   overflow-x:hidden;
-  overflow-y:auto;  
 }
 
 .article-inner-part:hover {

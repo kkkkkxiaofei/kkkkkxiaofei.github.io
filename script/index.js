@@ -34,14 +34,6 @@ $().ready(function(){
 					      '阴天，在不开灯的房间～'
 					  ];
 
-
-	$('ul#thumb-photo li').hover(function()	{
-		// var index = getChildIndex($(this).parent().children(), this);
-		// bigPhotoDisplayNone(currentIndex);
-		// bigPhotoDisplay(index);
-		// currentIndex = index;
-	});
-
 	function getChildIndex (children, ele){
 		for(var i = 0;i < children.length;i ++) {
 			if(children[i] === ele) {
@@ -68,10 +60,6 @@ $().ready(function(){
 	function unActiveThumbPhoto(index) {
 		thumbPhotos.eq(index).addClass('mask');
 	}
-
-	setInterval(function() {
-		
-	}, 1000);
 
 	$('.focus_switch').click(autoSelect);
 
