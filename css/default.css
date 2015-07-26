@@ -438,6 +438,28 @@ ul.style3 .first .date
 
 
 
+.style1 li:nth-child(odd) {
+	-webkit-animation-duration: 2s;
+	-webkit-animation-name: slidein;
+}
+
+@keyframes slidein {
+	from {
+		margin-left: 100%;
+		width: 100%; 
+	}
+	75% {
+		margin-left: 25%;
+		width: 100%;
+	}
+	to {
+		width: 100%;
+	}
+}
+
+
+
+
 
 
 

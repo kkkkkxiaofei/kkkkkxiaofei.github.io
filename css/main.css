@@ -78,6 +78,11 @@ Markdown setting
     border-radius: 50%;
 }
 
+.post-content .meta-top .avatar:hover {
+    width: 90px;
+    height: 90px;
+}
+
 .avatar img {
   width: 100%;
   height: 100%;
