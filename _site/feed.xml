@@ -5,8 +5,8 @@
     <description></description>
     <link>https://github.com/kkkkkxiaofei/</link>
     <atom:link href="https://github.com/kkkkkxiaofei/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 27 Jul 2015 22:47:40 +0800</pubDate>
-    <lastBuildDate>Mon, 27 Jul 2015 22:47:40 +0800</lastBuildDate>
+    <pubDate>Mon, 27 Jul 2015 23:24:40 +0800</pubDate>
+    <lastBuildDate>Mon, 27 Jul 2015 23:24:40 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -151,7 +151,6 @@
 &lt;/blockquote&gt;
 
 &lt;p&gt;总结：&lt;code&gt;对于浮动或者特殊的定位方式，推荐显式的设置容器宽度，避免出现意想不到的结果&lt;/code&gt;&lt;/p&gt;
-
 </description>
         <pubDate>Mon, 27 Jul 2015 14:05:00 +0800</pubDate>
         <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/07/27/shrink.html</link>
