@@ -440,10 +440,14 @@ ul.style3 .first .date
 
 .style1 li:nth-child(odd) {
 	-webkit-animation-duration: 2s;
-	-webkit-animation-name: slidein;
+	-moz-animation-duration: 2s;
+	-o-animation-duration: 2s;
+	-webkit-animation-name: odd-slide;
+	-moz-animation-name: odd-slide;
+	-o-animation-name: odd-slide;
 }
 
-@keyframes slidein {
+@keyframes odd-slide {
 	from {
 		margin-left: 100%;
 		width: 100%; 
@@ -457,7 +461,28 @@ ul.style3 .first .date
 	}
 }
 
+.style1 li:nth-child(even) {
+	-webkit-animation-duration: 2s;
+	-moz-animation-duration: 2s;
+	-o-animation-duration: 2s;
+	-webkit-animation-name: even-slide;
+	-moz-animation-name: even-slide;
+	-o-animation-name: even-slide;
+}
 
+@keyframes even-slide {
+	from {
+		margin-left: -100%;
+		width: 100%; 
+	}
+	75% {
+		margin-left: -10%;
+		width: 100%;
+	}
+	to {
+		width: 100%;
+	}
+}
 
 
 

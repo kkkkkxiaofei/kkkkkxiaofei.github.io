@@ -5,8 +5,8 @@
     <description></description>
     <link>https://github.com/kkkkkxiaofei/</link>
     <atom:link href="https://github.com/kkkkkxiaofei/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 27 Jul 2015 18:12:56 +0800</pubDate>
-    <lastBuildDate>Mon, 27 Jul 2015 18:12:56 +0800</lastBuildDate>
+    <pubDate>Mon, 27 Jul 2015 21:29:03 +0800</pubDate>
+    <lastBuildDate>Mon, 27 Jul 2015 21:29:03 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -18,10 +18,10 @@
 &lt;h4 id=&quot;w3cshrink-to-fit&quot;&gt;W3C规范中描述的几种shrink-to-fit的情况&lt;/h4&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;1.&lt;a href=&quot;http://www.w3.org/TR/CSS21/visudet.html#float-width&quot;&gt;10.3.5 Floating, non-replaced elements&lt;/a&gt; &lt;/li&gt;
-  &lt;li&gt;2.&lt;a href=&quot;http://www.w3.org/TR/CSS21/visudet.html#abs-non-replaced-width&quot;&gt;10.3.7 Absolutely positioned, non-replaced elements&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;3.&lt;a href=&quot;http://www.w3.org/TR/CSS21/visudet.html#abs-replaced-width&quot;&gt;10.3.8 Absolutely positioned, replaced elements&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;4.&lt;a href=&quot;http://www.w3.org/TR/CSS21/visudet.html#abs-non-replaced-height&quot;&gt;10.6.4 Absolutely positioned, non-replaced elements&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.w3.org/TR/CSS21/visudet.html#float-width&quot;&gt;10.3.5 Floating, non-replaced elements&lt;/a&gt; &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.w3.org/TR/CSS21/visudet.html#abs-non-replaced-width&quot;&gt;10.3.7 Absolutely positioned, non-replaced elements&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.w3.org/TR/CSS21/visudet.html#abs-replaced-width&quot;&gt;10.3.8 Absolutely positioned, replaced elements&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.w3.org/TR/CSS21/visudet.html#abs-non-replaced-height&quot;&gt;10.6.4 Absolutely positioned, non-replaced elements&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;规范中提到了一个基本概念，我们先来了解一下。&lt;/p&gt;
@@ -31,7 +31,7 @@
 &lt;p&gt;css把html元素分为了两类：不可替换元素和可替换元素。&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;不可替换元素&lt;/code&gt;：&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;1.不可替换元素&lt;/code&gt;：&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;大部分的html元素都由闭合标签构成，如：&lt;/p&gt;
@@ -41,7 +41,7 @@
 &lt;p&gt;上边的div的内容被嵌入在两个标签之间，这种元素就是可替换元素，因为它的内容就真真切切的现实在那里（就在闭合标签的内部）。&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;可替换元素&lt;/code&gt;：&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;2.可替换元素&lt;/code&gt;：&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;有一些元素没有构成闭合标签，自然它的内容也不在标签内，而是由外部资源加载出来的，这种元素就是可替换元素（内容可由外部资源来替换）。例如img:&lt;/p&gt;
@@ -119,7 +119,7 @@
   &lt;p&gt;&lt;img src=&quot;/../img/shrink/no-shrink.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;这的确是我们想要的，可这却巧妙地’躲’过了不可替换元素浮动这个场景。老实讲，我多次遇到过这个场景，但是无非也就是利用上述两个方案去尝试，可不不知晓真正的原因，于是还时啃了一下W3C有关这方面的规范，规范的描述如下：&lt;/p&gt;
+&lt;p&gt;这的确是我们想要的，可这却巧妙地’躲’过了不可替换元素浮动这个场景。老实讲，我多次遇到过这个场景，但是无非也就是利用上述两个方案去尝试，可并不知晓真正的原因，于是还是啃了一下W3C有关这方面的规范，规范的描述如下：&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;&lt;img src=&quot;/../img/shrink/shrink-rule.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
@@ -127,30 +127,30 @@
 
 &lt;p&gt;首先不说英文的问题，单纯的’Roughly’和‘CSS 2.1 does not define the exact algorithm’这两句就让人哭笑不得，然后还给出了shrink-to-fit的一个公式：&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-min(max(preferred minimum width, available width), preferred width)
-&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;min(max(preferred minimum width, available width), preferred width)&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;呵呵，然并卵啊，天知道这三个值怎么算。&lt;/p&gt;
 
-&lt;p&gt;再网上google一下，发现很多人都遇到这个问题，但是也读不懂规范，真是有人把上面一段翻译为：&lt;/p&gt;
+&lt;p&gt;再网上google一下，发现很多人都遇到这个问题，但也是读不懂规范，也有人把上面一段翻译了一下，大家可以看看：&lt;/p&gt;
 
 &lt;p&gt;&lt;code&gt;CSS2.1 并未给出 preferred minimum width、available width 和 preferred width 确切算法，通常，将内容中非明确的换行外的其他部分强制不换行来计算 preferred width；反之，尝试将内容尽可能的换行，以得到 preferred minimum width；available width 即该元素的包含块的宽度减去 &#39;margin-left&#39;，&#39;border-left-width&#39;，&#39;padding-left&#39;，&#39;padding-right&#39;，&#39;border-right-width&#39;，&#39;margin-right&#39; 的值以及任何存在的纵向滚动条的宽度。&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;已被绕晕的举手。。。。。。。。。。。。。&lt;/p&gt;
+&lt;p&gt;已被这段翻译绕晕的请举手。。。。。。。。。。。。。&lt;/p&gt;
 
 &lt;p&gt;再次回归主题，经过近一个小时的摸索，终于让我把这段难懂的英文捋顺了：&lt;/p&gt;
 
-&lt;p&gt;这里有三个参数，分别为：preferred minimum width, available width, preferred width
+&lt;p&gt;这里有三个参数，分别为：preferred minimum width, available width, preferred width.
 只需关心preferred width的计算方式即可，preferred width的计算方式如下：&lt;/p&gt;
 
 &lt;p&gt;&lt;code&gt;让元素内容强制不换行后的最大宽度即为shrink-to-fit后的宽度&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;具体拿上面的例子，inner中的sub1的内容由于宽度不够被换行了，将其强制不换行算出的宽度就是inner自适应的宽度(inner本身没设宽度喔～)，如何强制不换行也很简单，慢慢的将sub1的宽度调大，就会发现调至100%时恰好足够用一行来现实其内容，用图来证明，如下：&lt;/p&gt;
+&lt;p&gt;具体拿上面的例子，inner中的sub1的内容由于宽度不够被换行了，将其强制不换行算出的宽度就是inner自适应的宽度(inner本身没设宽度喔～)，如何强制不换行也很简单，慢慢的将sub1的宽度调大，就会发现调至100%时恰好足够用一行来现实其内容，这时内容的宽度就是inner自适应后的宽度。直接上图：&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;&lt;img src=&quot;/../img/shrink/shrink-test.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
+
+&lt;p&gt;总结：&lt;code&gt;对于浮动或者特殊的定位方式，推荐显式的设置容器宽度，避免出现意想不到的结果&lt;/code&gt;&lt;/p&gt;
 
 </description>
         <pubDate>Mon, 27 Jul 2015 14:05:00 +0800</pubDate>
