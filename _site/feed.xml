@@ -5,8 +5,8 @@
     <description></description>
     <link>https://github.com/kkkkkxiaofei/</link>
     <atom:link href="https://github.com/kkkkkxiaofei/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 27 Jul 2015 23:34:29 +0800</pubDate>
-    <lastBuildDate>Mon, 27 Jul 2015 23:34:29 +0800</lastBuildDate>
+    <pubDate>Tue, 28 Jul 2015 12:17:20 +0800</pubDate>
+    <lastBuildDate>Tue, 28 Jul 2015 12:17:20 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -28,10 +28,10 @@
 
 &lt;h4 id=&quot;replaced-elements--non-replaced-elements&quot;&gt;replaced elements &amp;amp; non-replaced elements&lt;/h4&gt;
 
-&lt;p&gt;css把html元素分为了两类：不可替换元素和可替换元素。&lt;/p&gt;
+&lt;p&gt;css把html元素分为了两类：替换元素和非替换元素。&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;1.不可替换元素&lt;/code&gt;：&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;1.替换元素&lt;/code&gt;：&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;大部分的html元素都由闭合标签构成，如：&lt;/p&gt;
@@ -41,7 +41,7 @@
 &lt;p&gt;上边的div的内容被嵌入在两个标签之间，这种元素就是可替换元素，因为它的内容就真真切切的现实在那里（就在闭合标签的内部）。&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;2.可替换元素&lt;/code&gt;：&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;2.非替换元素&lt;/code&gt;：&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;有一些元素没有构成闭合标签，自然它的内容也不在标签内，而是由外部资源加载出来的，这种元素就是可替换元素（内容可由外部资源来替换）。例如img:&lt;/p&gt;

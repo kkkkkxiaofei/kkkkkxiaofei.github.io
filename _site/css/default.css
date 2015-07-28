@@ -439,9 +439,11 @@ ul.style3 .first .date
 
 
 .style1 li:nth-child(odd) {
+	animation-duration: 2s;
 	-webkit-animation-duration: 2s;
 	-moz-animation-duration: 2s;
 	-o-animation-duration: 2s;
+	animation-name: odd-slide;
 	-webkit-animation-name: odd-slide;
 	-moz-animation-name: odd-slide;
 	-o-animation-name: odd-slide;
@@ -462,9 +464,11 @@ ul.style3 .first .date
 }
 
 .style1 li:nth-child(even) {
+	animation-duration: 2s;
 	-webkit-animation-duration: 2s;
 	-moz-animation-duration: 2s;
 	-o-animation-duration: 2s;
+	animation-name: even-slide;
 	-webkit-animation-name: even-slide;
 	-moz-animation-name: even-slide;
 	-o-animation-name: even-slide;
