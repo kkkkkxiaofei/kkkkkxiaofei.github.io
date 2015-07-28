@@ -450,7 +450,7 @@ ul.style3 .first .date
 }
 
 @keyframes odd-slide {
-	from {
+	0% {
 		margin-left: 100%;
 		width: 100%; 
 	}
@@ -458,7 +458,21 @@ ul.style3 .first .date
 		margin-left: 25%;
 		width: 100%;
 	}
-	to {
+	100% {
+		width: 100%;
+	}
+}
+
+@-webkit-keyframes odd-slide {
+	0% {
+		margin-left: 100%;
+		width: 100%; 
+	}
+	75% {
+		margin-left: 25%;
+		width: 100%;
+	}
+	100% {
 		width: 100%;
 	}
 }
@@ -475,7 +489,7 @@ ul.style3 .first .date
 }
 
 @keyframes even-slide {
-	from {
+	0% {
 		margin-left: -100%;
 		width: 100%; 
 	}
@@ -483,7 +497,21 @@ ul.style3 .first .date
 		margin-left: -10%;
 		width: 100%;
 	}
-	to {
+	100% {
+		width: 100%;
+	}
+}
+
+@-webkit-keyframes even-slide {
+	0% {
+		margin-left: -100%;
+		width: 100%; 
+	}
+	75% {
+		margin-left: -10%;
+		width: 100%;
+	}
+	100% {
 		width: 100%;
 	}
 }
