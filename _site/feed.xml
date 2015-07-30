@@ -5,8 +5,8 @@
     <description></description>
     <link>https://github.com/kkkkkxiaofei/</link>
     <atom:link href="https://github.com/kkkkkxiaofei/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 28 Jul 2015 22:56:53 +0800</pubDate>
-    <lastBuildDate>Tue, 28 Jul 2015 22:56:53 +0800</lastBuildDate>
+    <pubDate>Thu, 30 Jul 2015 14:20:24 +0800</pubDate>
+    <lastBuildDate>Thu, 30 Jul 2015 14:20:24 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -31,22 +31,16 @@
 &lt;p&gt;css把html元素分为了两类：替换元素和非替换元素。&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;1.替换元素&lt;/code&gt;：&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;1.可替换元素&lt;/code&gt;：&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;大部分的html元素都由闭合标签构成，如：&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;this is my content&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;上边的div的内容被嵌入在两个标签之间，这种元素就是可替换元素，因为它的内容就真真切切的现实在那里（就在闭合标签的内部）。&lt;/p&gt;
+&lt;p&gt;可替换元素是这样一些元素，其展现不是由CSS来控制的。这些外部元素的展现不依赖于CSS规范。 典型的可替换元素有 &lt;img /&gt;、 &lt;object&gt;、 &lt;video&gt; 以及 &lt;textarea&gt;、 &lt;input /&gt; 这样的表单元素。 一些元素，比如 &lt;audio&gt; 和 &lt;canvas&gt; ，只在一些特殊情况下是可替换元素。 使用了 CSS content 属性插入的对象被称作匿名的可替换元素。&lt;/canvas&gt;&lt;/audio&gt;&lt;/textarea&gt;&lt;/video&gt;&lt;/object&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;2.非替换元素&lt;/code&gt;：&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;2.不可替换元素&lt;/code&gt;：&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;有一些元素没有构成闭合标签，自然它的内容也不在标签内，而是由外部资源加载出来的，这种元素就是可替换元素（内容可由外部资源来替换）。例如img:&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;img&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;1.jpg&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;反之，则为不可替换元素。&lt;/p&gt;
 
 &lt;p&gt;了解了概念后，我们回归主题。shrink-to-fit的情况有多种，这里介绍一种最常见的情况，即不可替代元素浮动时的自适应宽度（Floating, non-replaced elements），听起来有点抽象，先看一个例子：&lt;/p&gt;
 
