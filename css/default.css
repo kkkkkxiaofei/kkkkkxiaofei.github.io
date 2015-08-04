@@ -191,7 +191,6 @@ hr {
 	float: left;
 	width: 600px;
 	padding: 40px;
-	background: rgba(0,0,0,0.70);
 }
 
 #content h2 a
@@ -403,7 +402,9 @@ ul.style3 .first .date
 
 @media screen and (max-width: 700px) {
 	.welcome {
-		width: 280px;
+		width: 90%;
+		margin: 0;
+		padding: 5px;
 		float: none;
 	}
 	.welcome h2 {
@@ -413,25 +414,28 @@ ul.style3 .first .date
 		display: none;
 	}
 	.article-body {
-		margin-left: 0;
+	    margin-left: 0;
+	    padding-right: 10px; 
 	}
 	.short-summary {
 		max-height: 200px;
 	}
-	ul.style1 {
-		width: 300px;
-	}
 	#content {
 		padding: 10px;
+		width: 100%;
 	}
 	#logo h1 a {
 		padding: 0 0 0 10px;
 	}
 	#wrapper {
 		margin-top: 10px;
+		width: 92%
 	}
-	#header-wrapper {
-		margin-bottom: -20px;
+	#header-wrapper,
+	#page,
+	#footer {
+		margin: auto;
+		width: 100%
 	}
 }
 
