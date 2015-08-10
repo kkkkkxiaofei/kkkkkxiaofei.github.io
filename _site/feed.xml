@@ -5,12 +5,12 @@
     <description></description>
     <link>https://github.com/kkkkkxiaofei/</link>
     <atom:link href="https://github.com/kkkkkxiaofei/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 10 Aug 2015 21:16:24 +0800</pubDate>
-    <lastBuildDate>Mon, 10 Aug 2015 21:16:24 +0800</lastBuildDate>
+    <pubDate>Mon, 10 Aug 2015 21:20:00 +0800</pubDate>
+    <lastBuildDate>Mon, 10 Aug 2015 21:20:00 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
-        <title>理解CSS中的BFC(块级可视化上下文)</title>
+        <title>理解CSS中的BFC(块级可视化上下文)[译]</title>
         <description>&lt;h4 id=&quot;section&quot;&gt;开篇&lt;/h4&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;一些元素，如float元素，如position为absolute,inline-block,table-cell或table-caption的元素，以及overflow属性不为visible的元素，它们将会建立一个新的块级格式化上下文。&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
