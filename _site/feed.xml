@@ -5,9 +5,737 @@
     <description></description>
     <link>https://github.com/kkkkkxiaofei/</link>
     <atom:link href="https://github.com/kkkkkxiaofei/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 10 Aug 2015 21:32:29 +0800</pubDate>
-    <lastBuildDate>Mon, 10 Aug 2015 21:32:29 +0800</lastBuildDate>
+    <pubDate>Sun, 23 Aug 2015 22:28:40 +0800</pubDate>
+    <lastBuildDate>Sun, 23 Aug 2015 22:28:40 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>你必须记住的30个CSS选择器[译]</title>
+        <description>&lt;h4 id=&quot;section&quot;&gt;开篇&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;有30个CSS选择器你必须烂熟于心，它们适应于当今各大主流浏览器。&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;1.&lt;code&gt;*&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;margin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;*&lt;/code&gt;选择器选择的是每一个单一元素。很多程序员用上面的CSS将所有元素的margin和padding清零。虽然这是有效的，但最好还是别这么做，这会使得浏览器的负担很重。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;*&lt;/code&gt;选择器也可以用在孩子选择器中。&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nf&quot;&gt;#container&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;border&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1px&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;solid&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;这会使#container所有孩子都有border，但还是那句话，如果不是必须得这么做，还是别用星选择器。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/star.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE6+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;x&quot;&gt;2.&lt;code&gt;#x&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nf&quot;&gt;#container&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;960px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;margin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;auto&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;id选择器的优先级很高，因此在用之前问问自己：&lt;code&gt;我仅仅是为了找到这个元素而去给他加id的吗？&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/id.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-1&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE6+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;x-1&quot;&gt;3.&lt;code&gt;.x&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nc&quot;&gt;.error&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;class选择器和id选择器不同，首先优先级没有id高，再者id选择器只能选择一个，而class选择器则可以筛选出来一组。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/class.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-2&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE6+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;x-y&quot;&gt;4.&lt;code&gt;x y&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;text-decoration&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;none&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;当不是选择所有后代时，后代选择器将会非常有用，但有一点得注意：
+&lt;code&gt;如果你的选择器是x y z a b.error, 那你就用错了。你得问问自己是否需要应用每一层？&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/descend.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-3&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE6+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;x-2&quot;&gt;5.&lt;code&gt;x&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;ul&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;margin-left&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;如果想选择同一类元素，那就不要用id或class了，直接用元素选择器。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/tagName.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-4&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE6+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xvisted-and-xlink&quot;&gt;6.&lt;code&gt;x:visted and x:link&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:link&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:visted&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;purple&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;我们常常用伪类:link筛选a标签是还未被点击；而用:visited去筛选哪些别点击过了。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/links.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-5&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE7+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;x--y&quot;&gt;7.&lt;code&gt;x + y&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;ul&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;相邻选择器会选择第一个相邻的元素，如上面的例子会让ul后第一个段落的字体变为红色（而ul与p之间是不能有其他元素的）。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/adjacent.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-6&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE7+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;x--y-1&quot;&gt;8.&lt;code&gt;x &amp;gt; y&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;#container&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;ul&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;border&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1px&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;solid&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;这也是一种后代选择器，但它与&lt;code&gt;x y&lt;/code&gt;这种后代选择器不同，它只能选择直系后代。如：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;container&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;ul&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt; List Item
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;ul&amp;gt;&lt;/span&gt;
+           &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt; Child &lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/ul&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt; List Item &lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt; List Item &lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt; List Item &lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;/ul&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;在这个例子中，&lt;code&gt;#cotainer &amp;gt; ul&lt;/code&gt;只会选择第一个ul,而不会search到ul里面那个包含li的ul。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/childcombinator.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-7&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE7+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;x--y-2&quot;&gt;9.&lt;code&gt;x ~ y&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;ul&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;~&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;这种兄弟选择器与&lt;code&gt;x + y&lt;/code&gt;类似，但不同的是，后者只能筛选第一个p，而这种却可以满足ul下所有的直系p标签。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/generalcombinator.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-8&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE7+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xtitle&quot;&gt;10.&lt;code&gt;x[title]&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;green&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;属性选择器。这将选择所有具有title属性的a标签。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-9&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE7+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xhreffoo&quot;&gt;11.&lt;code&gt;x[href=&quot;foo&quot;]&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;http://net.tutsplus.com&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;#1f6053&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;/* nettuts green */&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;这个选择器可以选择链接为&lt;code&gt;href=&quot;http://net.tutsplus.com&quot;&lt;/code&gt;的a标签，可如果这个里这个链接变了呢？，这未免有些严格，可以适当的用正则表达式去匹配。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes2.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-10&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE7+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xhrefnettuts&quot;&gt;12.&lt;code&gt;x[href*=&quot;nettuts&quot;]&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;tuts&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;#1f6053&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;/* nettuts green */&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;‘*‘号将匹配href中含有nuttuts字符，如果想更加严格，还可以用&lt;code&gt;^&lt;/code&gt;和&lt;code&gt;$&lt;/code&gt;表示开始和结束。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes3.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-11&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE7+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xhrefhttp&quot;&gt;13.&lt;code&gt;x[href^=&quot;http&quot;]&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;^=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;http&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;sx&quot;&gt;url(path/to/external/icon.png)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;no-repeat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;padding-left&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;10px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;这样去筛选具有有效href的a将匹配http://和https://.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes4.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-12&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE7+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xhrefjpg&quot;&gt;14.&lt;code&gt;x[href$=&quot;.jpg&quot;]&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;.jpg&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;这将会选择链接为jpg格式的图片链接，可是如果图片类型为png或gif等怎么办？&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes5.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-13&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE7+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xdata-foo&quot;&gt;15.&lt;code&gt;x[data-*=&quot;foo&quot;]&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;data-filetype&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;image&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;按照规则&lt;code&gt;14.&lt;/code&gt;我们可能得：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;.jpg&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;],&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;.jpeg&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;],&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;.png&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;],&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;.gif&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;可这也太。。。
+我们可以加一个属性用以标示。&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;path/to/image.jpg&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;data-filetype=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;image&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt; Image Link &lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;data-filetype&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;image&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes6.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-14&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE7+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xfoobar&quot;&gt;16.&lt;code&gt;x[foo~=&quot;bar&quot;]&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;data-info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;external&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+ 
+&lt;span class=&quot;nt&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;data-info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;image&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;border&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1px&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;solid&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;~&lt;/code&gt;将会让我们匹配到属性值被空格分隔符分开的值，如：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;&amp;lt;a href=&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.jpg&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot; data-info=&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;external&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;Click&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;Me&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;Fool&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes7.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-15&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE7+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xchecked&quot;&gt;17.&lt;code&gt;x:checked&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;radio&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:checked&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;border&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1px&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;solid&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;这个常常对checkbox非常有用。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/checked.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-16&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE9+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xafter&quot;&gt;18.&lt;code&gt;x:after&lt;/code&gt;&lt;/h4&gt;
+
+&lt;p&gt;伪类&lt;code&gt;before&lt;/code&gt;和&lt;code&gt;after&lt;/code&gt;已经有了一些新的用法，比如最常见的：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nc&quot;&gt;.clearfix&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:after&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;display&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;block&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;clear&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;both&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;visibility&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;hidden&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;font-size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+ 
+&lt;span class=&quot;nc&quot;&gt;.clearfix&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; 
+   &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;display&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;inline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;block&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; 
+   &lt;span class=&quot;n&quot;&gt;_height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;没错，这就是默认标准clearfix的实现原理。&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-17&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE8+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xhover&quot;&gt;19.&lt;code&gt;x:hover&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:hover&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;#e3e3e3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;但是得注意，&lt;code&gt;:hover&lt;/code&gt;在早期IE中并不适用。&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-18&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE6+（In IE6, :hover must be applied to an anchor element）&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xnotselector&quot;&gt;20.&lt;code&gt;x:not(selector)&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:not&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;#container&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;blue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;反选选择器。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/not.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-19&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE9+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xpseudoelement&quot;&gt;21.&lt;code&gt;x::pseudoElement&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:first-line&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;font-weight&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;bold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;font-size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1.2em&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:first-letter&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;font-size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;2em&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;font-weight&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;bold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;font-family&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;cursive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;padding-right&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;2px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;伪元素选择器，注意尽量还是按标准来，多使用&lt;code&gt;::&lt;/code&gt;而不是&lt;code&gt;:&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/pseudoElements.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-20&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE6+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xnth-childn&quot;&gt;22.&lt;code&gt;x:nth-child(n)&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:nth-child&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;选择一组中特定的孩子。n表示第几个，也可以是表达式，如2n+1,2n.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/nth.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-21&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE9+&lt;/li&gt;
+  &lt;li&gt;Firefox 3.5+&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xnth-last-childn&quot;&gt;23.&lt;code&gt;x:nth-last-child(n)&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:nth-last-child&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;如果li有400个，而你需要target到第397个，那用这个咱合适不过了。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/nthLast.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-22&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE9+&lt;/li&gt;
+  &lt;li&gt;Firefox 3.5+&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xnth-of-typen&quot;&gt;24.&lt;code&gt;x:nth-of-type(n)&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;ul&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:nth-of-type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;border&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1px&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;solid&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;如果ul没有id，而你又要找第三个ul，那个这种方式是不错。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/nthOfType.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-23&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE9+&lt;/li&gt;
+  &lt;li&gt;Firefox 3.5+&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xnth-last-of-typen&quot;&gt;25.&lt;code&gt;x:nth-last-of-type(n)&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;ul&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:nth-last-of-type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;border&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1px&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;solid&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;与&lt;code&gt;ul:nth-of-type&lt;/code&gt;刚好相反。&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-24&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE9+&lt;/li&gt;
+  &lt;li&gt;Firefox 3.5+&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xfirst-child&quot;&gt;26.&lt;code&gt;x:first-child&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;ul&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:first-child&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;border-top&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;none&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstChild.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-25&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE7+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xlast-child&quot;&gt;27.&lt;code&gt;x:last-child&lt;/code&gt;&lt;/h4&gt;
+
+&lt;h5 id=&quot;example&quot;&gt;Example&lt;/h5&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;ul&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt; List Item &lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt; List Item &lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt; List Item &lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/ul&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;ul&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+ &lt;span class=&quot;k&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;200px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ &lt;span class=&quot;k&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;#292929&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;white&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ &lt;span class=&quot;k&quot;&gt;list-style&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;none&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ &lt;span class=&quot;k&quot;&gt;padding-left&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+ 
+&lt;span class=&quot;nt&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+ &lt;span class=&quot;k&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;10px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ &lt;span class=&quot;k&quot;&gt;border-bottom&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1px&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;solid&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ &lt;span class=&quot;k&quot;&gt;border-top&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1px&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;solid&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;#3c3c3c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/../img/selector/list.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/extraBorders.png&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;但是我不想要第一个的上边框和最后一个的下边框，可以这么做：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:first-child&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;border-top&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;none&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+ 
+&lt;span class=&quot;nt&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:last-child&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;border-bottom&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;none&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstChild.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-26&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE9+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xonly-child&quot;&gt;28.&lt;code&gt;X:only-child&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:only-child&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;这将匹配div里只有一个p的元素。如：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;My&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;paragraph&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;here&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+ 
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;Two&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;paragraphs&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;total&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;Two&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;paragraphs&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;total&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/onlyChild.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-27&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE9+&lt;/li&gt;
+  &lt;li&gt;Firefox&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xonly-of-type&quot;&gt;29.&lt;code&gt;X:only-of-type&lt;/code&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:only-of-type&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;font-weight&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;bold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;这将匹配元素内只有一个li的元素，有时这个做法很简便。比如要寻找只有一个列表的ul，可以：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;ul&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:only-of-type&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;font-weight&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;bold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/onlyOfType.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-28&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE9+&lt;/li&gt;
+  &lt;li&gt;Firefox 3.5+&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;xfirst-of-type&quot;&gt;30.&lt;code&gt;x:first-of-type&lt;/code&gt;&lt;/h4&gt;
+
+&lt;h5 id=&quot;example-1&quot;&gt;Example&lt;/h5&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt; My paragraph here. &lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;ul&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt; List Item 1 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt; List Item 2 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;/ul&amp;gt;&lt;/span&gt;
+ 
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;ul&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt; List Item 3 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt; List Item 4 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;/ul&amp;gt;&lt;/span&gt;   
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;如何寻找上面的 “List Item 2”呢？&lt;/p&gt;
+
+&lt;h5 id=&quot;section-2&quot;&gt;办法1&lt;/h5&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;ul:first-of-type &amp;gt; li:nth-child(2) {
+   font-weight: bold;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h5 id=&quot;section-3&quot;&gt;办法2&lt;/h5&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;p + ul li:last-child {
+   font-weight: bold;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h5 id=&quot;section-4&quot;&gt;办法3&lt;/h5&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;ul:first-of-type li:nth-last-child(1) {
+   font-weight: bold;   
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstOfType.html&quot;&gt;view demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-29&quot;&gt;Compatibility&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;IE9+&lt;/li&gt;
+  &lt;li&gt;Firefox 3.5+&lt;/li&gt;
+  &lt;li&gt;Chrome&lt;/li&gt;
+  &lt;li&gt;Safari&lt;/li&gt;
+  &lt;li&gt;Opera&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;section-5&quot;&gt;总结&lt;/h4&gt;
+
+&lt;p&gt;上述选择器在IE6中的使用要尤其小心，但是别因为这而影响你阅读这篇文章。你可以参考一下&lt;a href=&quot;http://www.quirksmode.org/css/contents.html&quot;&gt;浏览器兼容表&lt;/a&gt;，或者你可以用&lt;a href=&quot;http://code.google.com/p/ie7-js/&quot;&gt; Dean Edward’s excellent IE9.js script &lt;/a&gt;为旧版浏览器提供这些选择器的支持。&lt;/p&gt;
+
+&lt;p&gt;另外，当你在使用一些Javascript库时，如jQuery，请尽量的使用这些原生的CSS3选择器，因为浏览器选择器引擎将会按照浏览器的原生方式去解析，&lt;a href=&quot;http://jsperf.com/jquery-css3-not-vs-not&quot;&gt;这将使得你的代码更加高效&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;原文&lt;a href=&quot;http://code.tutsplus.com/tutorials/the-30-css-selectors-you-must-memorize--net-16048&quot;&gt;请戳&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;注：此文为译文&lt;/code&gt;&lt;a href=&quot;http://www.sitepoint.com/understanding-block-formatting-contexts-in-css/&quot;&gt;原文请戳&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 23 Aug 2015 20:12:00 +0800</pubDate>
+        <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/08/23/css-selector.html</link>
+        <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/08/23/css-selector.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
     
       <item>
         <title>理解CSS中的BFC(块级可视化上下文)[译]</title>
@@ -1163,44 +1891,6 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
         <pubDate>Fri, 15 May 2015 19:00:00 +0800</pubDate>
         <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/05/15/yeoman.html</link>
         <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/05/15/yeoman.html</guid>
-        
-        
-        <category>jekyll</category>
-        
-        <category>update</category>
-        
-      </item>
-    
-      <item>
-        <title>理解Javascript中的__proto__</title>
-        <description>&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-
-&lt;p&gt;__proto__可以看作是一个公开对象原型的内部访问器，大多数浏览器都实现了该属性。一个对象如何访问原型链上的方法，都是取决于__proto__的，因此暴露了这个属性则势必会为对象的安全性带来影响，所以MDN并不推荐随意改变一个对象的原型链，但是我们还是有必要了解它。&lt;/p&gt;
-
-&lt;h3 id=&quot;syntax&quot;&gt;Syntax&lt;/h3&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Circle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;circle&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;Circle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;prototype&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;area&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;shape&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{},&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;circle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Circle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;__proto__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Object {}&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// Set the object prototype&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;__proto__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;circle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// Get the object prototype&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;__proto__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Circle {name: &amp;#39;circle&amp;#39;, area: function}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;上述例子中的shape对象首先由Object构造而来，因为起原型链指向Object.在改变其原型链指向circle后，则shape成为了Circle的实例,因为shape具有原生属性name和原型方法area。&lt;/p&gt;
-
-&lt;p&gt;需要注意的是，如果将上述代码改为&lt;code&gt;shape.__proto__ = Circle.prototype&lt;/code&gt;的话，则shape.__prototype将输出Circle {area: function}.&lt;/p&gt;
-
-&lt;p&gt;要理解__proto__,可以参考Object.creat()方法。&lt;/p&gt;
-
-</description>
-        <pubDate>Thu, 14 May 2015 23:31:00 +0800</pubDate>
-        <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/05/14/js-proto.html</link>
-        <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/05/14/js-proto.html</guid>
         
         
         <category>jekyll</category>
