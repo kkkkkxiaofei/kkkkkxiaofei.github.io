@@ -5,8 +5,8 @@
     <description></description>
     <link>https://github.com/kkkkkxiaofei/</link>
     <atom:link href="https://github.com/kkkkkxiaofei/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 28 Aug 2015 16:51:41 +0800</pubDate>
-    <lastBuildDate>Fri, 28 Aug 2015 16:51:41 +0800</lastBuildDate>
+    <pubDate>Fri, 28 Aug 2015 17:01:39 +0800</pubDate>
+    <lastBuildDate>Fri, 28 Aug 2015 17:01:39 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -720,8 +720,6 @@
 &lt;p&gt;上述选择器在IE6中的使用要尤其小心，但是别因为这而影响你阅读这篇文章。你可以参考一下&lt;a href=&quot;http://www.quirksmode.org/css/contents.html&quot;&gt;浏览器兼容表&lt;/a&gt;，或者你可以用&lt;a href=&quot;http://code.google.com/p/ie7-js/&quot;&gt; Dean Edward’s excellent IE9.js script &lt;/a&gt;为旧版浏览器提供这些选择器的支持。&lt;/p&gt;
 
 &lt;p&gt;另外，当你在使用一些Javascript库时，如jQuery，请尽量的使用这些原生的CSS3选择器，因为浏览器选择器引擎将会按照浏览器的原生方式去解析，&lt;a href=&quot;http://jsperf.com/jquery-css3-not-vs-not&quot;&gt;这将使得你的代码更加高效&lt;/a&gt;。&lt;/p&gt;
-
-&lt;p&gt;原文&lt;a href=&quot;http://code.tutsplus.com/tutorials/the-30-css-selectors-you-must-memorize--net-16048&quot;&gt;请戳&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;code&gt;注：此文为译文&lt;/code&gt;&lt;a href=&quot;http://www.sitepoint.com/understanding-block-formatting-contexts-in-css/&quot;&gt;原文请戳&lt;/a&gt;&lt;/p&gt;
 

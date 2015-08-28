@@ -772,17 +772,6 @@ ul:first-of-type li:nth-last-child(1) {
 
 另外，当你在使用一些Javascript库时，如jQuery，请尽量的使用这些原生的CSS3选择器，因为浏览器选择器引擎将会按照浏览器的原生方式去解析，[这将使得你的代码更加高效](http://jsperf.com/jquery-css3-not-vs-not)。
 
-原文[请戳](http://code.tutsplus.com/tutorials/the-30-css-selectors-you-must-memorize--net-16048)
-
-
-
-
-
-
-
-
-
-
 
 `注：此文为译文`[原文请戳](http://www.sitepoint.com/understanding-block-formatting-contexts-in-css/)
 
