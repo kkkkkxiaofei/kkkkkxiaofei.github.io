@@ -70,16 +70,14 @@ Markdown setting
     text-decoration: none;
 }
 
-.post-content p {
+.post-content .clearfix > p {
   text-indent: 2em;
 }
 
 .post-content p img {
-    max-height: 70%;
-    max-width: 70%;
-    margin-left: 10%;
-    margin-bottom: 30px;
-    margin-top: 30px;
+    max-height: 80%;
+    max-width: 80%;
+    margin: 10%;
 }
 
 .post-content .meta-top .avatar {
@@ -118,8 +116,8 @@ Markdown setting
 .post-content h6 {
   font-weight: bold;
   opacity: 0.9;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .post-content h3 {
