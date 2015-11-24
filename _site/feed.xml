@@ -5,17 +5,19 @@
     <description></description>
     <link>https://github.com/kkkkkxiaofei/</link>
     <atom:link href="https://github.com/kkkkkxiaofei/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 24 Nov 2015 20:06:17 +0800</pubDate>
-    <lastBuildDate>Tue, 24 Nov 2015 20:06:17 +0800</lastBuildDate>
+    <pubDate>Tue, 24 Nov 2015 20:31:52 +0800</pubDate>
+    <lastBuildDate>Tue, 24 Nov 2015 20:31:52 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
         <title>出来乍到，如何融入公司的技术圈</title>
-        <description>&lt;p&gt;初来公司至今，也有半年之久。听说过，也有幸接触了许多新鲜的技术和大牛，作为一名有情怀的dev，在一步步融入这个这技术圈时，总感觉犹如行走在大漠之中，有时周遭的一切让我好奇，带着好奇有时也会寻找到一汪清泉，每一口都滋润着心房；而有时周遭的一切亦让我对未知感到恐惧，只不知道前进的方向，不得不踱步前行。&lt;/p&gt;
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;初来公司至今，也有半年之久。听说过，也有幸接触了许多新鲜的技术和大牛，作为一名有情怀的dev，在一步步融入这个这技术圈时，总感觉犹如行走在大漠之中，有时周遭的一切让我好奇，带着好奇有时也会寻找到一汪清泉，每一口都滋润着心房；而有时周遭的一切亦让我对未知感到恐惧，只不知道前进的方向，不得不踱步前行。&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h4 id=&quot;section&quot;&gt;首先要活下来&lt;/h4&gt;
 
-&lt;p&gt;一来公司就听说了我司的&lt;a href=&quot;http://martinfowler.com/bliki/ThreePillars.html&quot;&gt;Three Pillars&lt;/a&gt;，跟一些前辈聊天时，时常能听到他们对Three Pillars的见解，我装作能听懂的样子，微微点头－－可事实是我根本不知道“Pillars”这个单词是什么？怎么拼？我十分需要有道一下。
+&lt;p&gt;一来公司就听说了我司的&lt;a href=&quot;http://martinfowler.com/bliki/ThreePillars.html&quot;&gt;Three Pillars&lt;/a&gt;，跟一些前辈聊天时，时常能听到他们对Three Pillars的见解，我装作能听懂的样子，微微点－－可事实是我根本不知道“Pillars”这个单词是什么？怎么拼？我十分需要有道一下。
 很显然，我离我司的Three Pillars还很远，很长的一段时间里，“我该怎么办？我该做点什么？好担心被认为抵触公司文化”的顾虑萦绕在我的心头。&lt;/p&gt;
 
 &lt;p&gt;一天早晨，在公司的厨房偶遇一位面试我的前辈，相互打过招呼后他便询问了我最近的工作状况，我只是简单的回应了一句“还行吧”。他也许听出了什么，很认真的对我说：“你首先得想办法活下来”。我很不解的看着他：“什么意思？”。他喝了口咖啡回答道：“能去独立完成你的工作”，便转身离去了。&lt;/p&gt;
@@ -24,9 +26,11 @@
 也许是Story做的还可以，这让我在工作之余有了一些其他的时间去学习，我又开始了自己的博客撰写。学习新的知识，每天让自己很充实，这让我觉得我已经活下来了，而且是在其层次之上的。慢慢地我又发现，大家会很愿意和你探讨你以前曾经认为的那些不觉明厉的技术，也偶尔会向你寻求帮助，这让我一度之间受宠若惊。
 我突然觉得，“Three Pillars”离我好近，但它似乎并不是公司大我的文化体现，而更像是小我的自我实现：&lt;/p&gt;
 
-&lt;p&gt;－ 首先，你得胜任你的工作
-－ 然后，你得利用业余时间去充实自己
-－ 最后，你应该乐于分享和帮助别人&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;首先，你得胜任你的工作&lt;/li&gt;
+  &lt;li&gt;然后，你得利用业余时间去充实自己&lt;/li&gt;
+  &lt;li&gt;最后，你应该乐于分享和帮助别人&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;没有小我，哪有大我。是的，没错。可首先，你得要先让自己活下来。&lt;/p&gt;
 
