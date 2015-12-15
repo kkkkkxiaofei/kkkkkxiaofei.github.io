@@ -5,9 +5,26 @@
     <description></description>
     <link>https://github.com/kkkkkxiaofei/</link>
     <atom:link href="https://github.com/kkkkkxiaofei/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 02 Dec 2015 21:52:26 +0800</pubDate>
-    <lastBuildDate>Wed, 02 Dec 2015 21:52:26 +0800</lastBuildDate>
+    <pubDate>Mon, 14 Dec 2015 22:54:14 +0800</pubDate>
+    <lastBuildDate>Mon, 14 Dec 2015 22:54:14 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>打造属于自己的MVVM框架: 1.什么是MVVM</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;初来公司至今，也有半年之久。听说过，也有幸接触了许多新鲜的技术和大牛，作为一名有情怀的Dev，在一步步融入这个这技术圈时，总感觉犹如行走在大漠之中，有时周遭的一切让我好奇，带着好奇有时也会寻找到一汪清泉，每一口都滋润着心房；而有时周遭的一切亦让我对未知感到恐惧，看不清眼前的方向，只得踱步缓行。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        <pubDate>Mon, 14 Dec 2015 22:54:00 +0800</pubDate>
+        <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/12/14/mvvm(1).html</link>
+        <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/12/14/mvvm(1).html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
     
       <item>
         <title>初来乍到，如何融入公司的技术圈</title>
@@ -1780,214 +1797,6 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
         <pubDate>Wed, 03 Jun 2015 22:47:00 +0800</pubDate>
         <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/06/03/proto.html</link>
         <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/06/03/proto.html</guid>
-        
-        
-        <category>jekyll</category>
-        
-        <category>update</category>
-        
-      </item>
-    
-      <item>
-        <title>买菜大妈都能听得懂的技术</title>
-        <description>&lt;h3 id=&quot;section&quot;&gt;来源&lt;/h3&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;首先声明，真的不是标题党。昨天毛P分享的号称买菜大妈都能听得懂的技术Session很不错，大家都纷纷点赞，全票通过称为当之无愧的Share Man，喝酸奶那是必须的（可不可以换养乐多啊，哈哈）。不夸张的说，不光UX和QA听得懂了，回去给我女朋讲，连她都可以在听得过程中指出‘画师是不是应该是你们开发人员，而画布才是view呢？’，瞬间让我无言以对。所以，早上起来就觉得应该重新排版下，扩散到朋友圈。好啦，Session开始啦，前排板凳花生伺候。&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.001.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.002.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.003.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.004.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.005.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.006.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.007.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.008.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.009.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.010.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.011.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.012.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.013.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.014.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.015.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.016.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.017.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.018.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.019.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.020.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.021.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.022.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.023.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.024.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.025.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.026.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.027.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.028.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.029.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.030.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.031.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.032.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.033.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.034.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.035.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.036.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.037.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.038.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.039.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.040.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.041.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.042.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.043.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.044.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.045.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.046.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/买菜大妈都能听懂的技术session/买菜大妈都能听懂的技术session.047.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;code&gt;此文真的很赞，绝对的把妹神文，别(求)你妹(大爷)的看完就闪人了(赏个脸)，求转发求扩散～&lt;/code&gt; &lt;/p&gt;
-
-</description>
-        <pubDate>Sat, 30 May 2015 09:34:00 +0800</pubDate>
-        <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/05/30/mao-chao-session.html</link>
-        <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/05/30/mao-chao-session.html</guid>
         
         
         <category>jekyll</category>

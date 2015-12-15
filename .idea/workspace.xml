@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="489486fc-f7ef-42bb-8f67-09f1a07f47c3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_posts/2015-11-21-how-to-adjust.md" afterPath="$PROJECT_DIR$/_posts/2015-11-21-how-to-adjust.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_site/feed.xml" afterPath="$PROJECT_DIR$/_site/feed.xml" />
-    </list>
+    <list default="true" id="489486fc-f7ef-42bb-8f67-09f1a07f47c3" name="Default" comment="" />
     <ignored path="kkkkkxiaofei.github.io.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -188,7 +185,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/repos/misk5" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
@@ -627,12 +624,12 @@
       <workItem from="1447342325367" duration="25000" />
       <workItem from="1447342382207" duration="21000" />
       <workItem from="1449059412749" duration="1965000" />
-      <workItem from="1449064331098" duration="16000" />
+      <workItem from="1449064331098" duration="285000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5073000" />
+    <option name="totallyTimeSpent" value="5342000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="4" y="23" width="1436" height="877" extended-state="6" />
