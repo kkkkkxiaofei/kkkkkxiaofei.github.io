@@ -5,8 +5,8 @@
     <description></description>
     <link>https://github.com/kkkkkxiaofei/</link>
     <atom:link href="https://github.com/kkkkkxiaofei/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 22 Dec 2015 15:48:57 +0800</pubDate>
-    <lastBuildDate>Tue, 22 Dec 2015 15:48:57 +0800</lastBuildDate>
+    <pubDate>Tue, 22 Dec 2015 16:42:31 +0800</pubDate>
+    <lastBuildDate>Tue, 22 Dec 2015 16:42:31 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -51,9 +51,8 @@
 
 &lt;p&gt;可以看到，&lt;code&gt;Object.observe&lt;/code&gt;十分强大，它不但能监控对象的变化，而且连变化的类型都知道，十分的方便。
 然而，狗血的事情来了。正如我上面所说，它只是未来ECMA的标准，因此属于非标准的用法。兼容性如下：
-&lt;img src=&quot;/../img/mvvm3/observe.jpg&quot; alt=&quot;&quot; /&gt;;&lt;/p&gt;
-
-&lt;h3 id=&quot;objectdefineproperty&quot;&gt;方案2.Object.defineProperty&lt;/h3&gt;
+&lt;img src=&quot;/../img/mvvm3/observe.jpg&quot; alt=&quot;&quot; /&gt;
+###方案2.Object.defineProperty&lt;/p&gt;
 
 &lt;p&gt;&lt;code&gt;Object.defineProperty&lt;/code&gt;可以在对象上新添一个自定义的属性，属性的所有设置都有自己配置（是否可枚举，是否可读写等），十分灵活。这些并不能实现对象的监控，但它提供了&lt;code&gt;get&lt;/code&gt;和&lt;code&gt;set&lt;/code&gt;的属性器以及事件回调，因此我们可以利用这个&lt;code&gt;set&lt;/code&gt;事件去实现对象的监控。&lt;/p&gt;
 
