@@ -5,9 +5,145 @@
     <description></description>
     <link>https://github.com/kkkkkxiaofei/</link>
     <atom:link href="https://github.com/kkkkkxiaofei/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 22 Dec 2015 16:42:31 +0800</pubDate>
-    <lastBuildDate>Tue, 22 Dec 2015 16:42:31 +0800</lastBuildDate>
+    <pubDate>Thu, 07 Jan 2016 23:19:25 +0800</pubDate>
+    <lastBuildDate>Thu, 07 Jan 2016 23:19:25 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Hello, Knockout</title>
+        <description>&lt;h3 id=&quot;section&quot;&gt;来源&lt;/h3&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;也许你有过一些使用MVVM框架的经验，并且你熟悉各种主流框架的使用规则（Angular, Knockout），可你是否静下心去读一读其中的源码，思考一下其内部的实现呢？这个deck是根据我对MVVM框架的理解编写而成，其中的demo完全模拟了Knockout.js的接口，希望可以跟大家一起去分享一下如何实现一个简单的MVVM框架。&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.001.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.002.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.003.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.004.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.005.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.006.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.007.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.008.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.009.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.010.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.011.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.012.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.013.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.014.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.015.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.016.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.017.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.018.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.019.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.020.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.021.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.022.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.023.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.024.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.025.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.026.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.027.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.028.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/knockout/knockout.029.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code&gt;此文真的很赞，绝对的把妹神文，别(求)你妹(大爷)的看完就闪人了(赏个脸)，求转发求扩散～&lt;/code&gt; &lt;/p&gt;
+
+</description>
+        <pubDate>Thu, 07 Jan 2016 10:48:00 +0800</pubDate>
+        <link>https://github.com/kkkkkxiaofei/jekyll/update/2016/01/07/hello-knockout.html</link>
+        <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2016/01/07/hello-knockout.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
     
       <item>
         <title>打造属于自己的MVVM框架: 3.双向绑定</title>
@@ -1828,123 +1964,6 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
         <pubDate>Sun, 26 Jul 2015 22:14:00 +0800</pubDate>
         <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/07/26/collapsing.html</link>
         <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/07/26/collapsing.html</guid>
-        
-        
-        <category>jekyll</category>
-        
-        <category>update</category>
-        
-      </item>
-    
-      <item>
-        <title>Html5实现歌词滚动同步</title>
-        <description>&lt;h4 id=&quot;section&quot;&gt;开篇&lt;/h4&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;HTML5的最强大之处莫过于对媒体文件的处理，如利用一个简单的vedio标签就可以实现视频播放。类似地,在HTML5中也有对应的处理音频文件的标签，那就是audio标签。&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://kkkkkxiaofei.github.io/lyric-demo&quot;&gt;在线Demo&lt;/a&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;audio&quot;&gt;audio标签&lt;/h4&gt;
-
-&lt;p&gt;实现一个audio标签非常简单，对应的html代码如下：&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&amp;lt;audio &lt;span class=&quot;nv&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;player&amp;quot;&lt;/span&gt; 
-    &lt;span class=&quot;nv&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;music/我在人民广场吃炸鸡.mp3&amp;quot;&lt;/span&gt; 
-    autoplay controls&amp;gt;
-&amp;lt;/audio&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;上述代码不需要一行js脚本就能实现音乐播放。其中有三个常用的属性，分别为：音频源文件，是否自动播放以及是否显示播放器控件。由于没有任何ui的展现，audio标签在chrome的默认风格如下图:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/Html5实现歌词滚动同步/audio.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;可以看出，一个基本的播放器还包括了显示当前时间，播放，暂停，快进快退等功能。这些功能都决定了如何很好的实现歌词同步（后续介绍）。&lt;/p&gt;
-
-&lt;p&gt;既然这么容易就就能播放音乐，那作为一项前端的技术，audio标签在各个浏览器中的兼容性又是怎样的呢？
-&lt;code&gt;Browser Compatibility&lt;/code&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/Html5实现歌词滚动同步/compacibility.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;可以看出，各大浏览器对audio标签基本功能都支持，只是在细微的特性上表现不一，但是这些基本的功能已经足已做出一个好的播放器。&lt;/p&gt;
-
-&lt;h4 id=&quot;section-1&quot;&gt;歌词&lt;/h4&gt;
-&lt;p&gt;一般标准的lyric文件是由&lt;code&gt;[时间]内容&lt;/code&gt;的tag标签组成，如下图：&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/Html5实现歌词滚动同步/standard.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;为了更精确的展现每个字在每句歌词中的时间，又出现了特殊的歌词形式，如下：&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/Html5实现歌词滚动同步/special.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;这种歌词的格式的最好例子就是QRC歌词文件（如QQ音乐播放器）：&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/Html5实现歌词滚动同步/qrc.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;为了描述简单，本文仅以最简单的lyric格式作为说明，讲解如何分离歌词进行歌词同步。如下，为一首歌曲的歌词文件:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/Html5实现歌词滚动同步/song.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;现对该歌词文件作一下处理：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;1.以行为单位拆分每一句歌词&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code&gt;2.将没句歌词的时间tag和内容分离&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code&gt;3.将时间转换为分钟&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;转换过程较为简单，只需一个简单的正则匹配，过程如下：&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/Html5实现歌词滚动同步/convert.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;分离出来的[时间,内容]可以与audio当前的播放时间进行对比，若需要显示对应的歌词则将该行高亮，同时每次更新对应DOM节点的top则可在视觉上达到滚动效果。&lt;/p&gt;
-
-&lt;h4 id=&quot;ui&quot;&gt;制作歌词ui。&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;1.定义一个现实歌词的区域，添加audio控件&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/Html5实现歌词滚动同步/empty_canvas.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;2.添加背景图片，制作标题边框&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/Html5实现歌词滚动同步/backgroud.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;3.添加歌词&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;img src=&quot;/../img/Html5实现歌词滚动同步/add_lyric.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;到此，歌词同步以及ui绘制全部完毕。&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://kkkkkxiaofei.github.io/lyric-demo&quot;&gt;在线Demo&lt;/a&gt;&lt;/p&gt;
-
-</description>
-        <pubDate>Thu, 11 Jun 2015 22:14:00 +0800</pubDate>
-        <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/06/11/lyric.html</link>
-        <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/06/11/lyric.html</guid>
         
         
         <category>jekyll</category>
