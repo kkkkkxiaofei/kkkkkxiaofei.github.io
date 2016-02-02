@@ -46,7 +46,7 @@
 	  	<div class="clearfix">
 	    <h3 id="section">开篇</h3>
 
-<figure class="highlight"><pre><code class="language-sh" data-lang="sh">从<span class="s1">'严格'</span>意义上说，javascript并不是一门真正的面向对象语言。这种说法原因一般都是觉得javascript作为一门弱类型语言与类似java或c#之类的强型语言的继承方式有很大的区别，因而默认它就是非主流的面向对象方式，甚至竟有很多书将其描述为<span class="s1">'非完全面向对象'</span>语言。其实个人觉得，什么方式并不重要，重要的是否具有面向对象的思想，说javascript不是面向对象语言的，往往都可能没有深入研究过javascript的继承方式，故特撰此文以供交流。</code></pre></figure>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">从<span class="s1">&#39;严格&#39;</span>意义上说，javascript并不是一门真正的面向对象语言。这种说法原因一般都是觉得javascript作为一门弱类型语言与类似java或c#之类的强型语言的继承方式有很大的区别，因而默认它就是非主流的面向对象方式，甚至竟有很多书将其描述为<span class="s1">&#39;非完全面向对象&#39;</span>语言。其实个人觉得，什么方式并不重要，重要的是否具有面向对象的思想，说javascript不是面向对象语言的，往往都可能没有深入研究过javascript的继承方式，故特撰此文以供交流。</code></pre></div>
 
 <h3 id="javascript">为何需要利用javascript实现继承</h3>
 
@@ -56,116 +56,116 @@
 
 <p>现从前台抽离一个model名为Person，其有基本属性name和age，默认每个人都会说话，因此将说话的功能say放在了原型对象上，以供每个实例享用。现在对于Man来说，它需要继承Person的基本属性，并且在此基础上添加自己特有的属性。</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">Person</span> <span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">Person</span> <span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">;</span>
 <span class="p">}</span>
 <span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">say</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'hello, my name is '</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;hello, my name is &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
 <span class="p">};</span>
 <span class="kd">function</span> <span class="nx">Man</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">//my own properties</span>
-<span class="p">}</span></code></pre></figure>
+<span class="p">}</span></code></pre></div>
 
 <h3 id="section-2">下面介绍几种主流的继承方式。</h3>
 
 <h3 id="section-3">1.原型链继承</h3>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">Person</span> <span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">Person</span> <span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">;</span>
 <span class="p">}</span>
 <span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">say</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'hello, my name is '</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;hello, my name is &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
 <span class="p">};</span>
 <span class="kd">function</span> <span class="nx">Man</span><span class="p">()</span> <span class="p">{</span>
 <span class="p">}</span>
-<span class="nx">Man</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="s1">'pursue'</span><span class="p">);</span>
+<span class="nx">Man</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="s1">&#39;pursue&#39;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">man1</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Man</span><span class="p">();</span>
 <span class="nx">man1</span><span class="p">.</span><span class="nx">say</span><span class="p">();</span> <span class="c1">//hello, my name is pursue</span>
 <span class="kd">var</span> <span class="nx">man2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Man</span><span class="p">();</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">man1</span><span class="p">.</span><span class="nx">say</span> <span class="o">===</span> <span class="nx">man2</span><span class="p">.</span><span class="nx">say</span><span class="p">);</span><span class="c1">//true</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">man1</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="nx">man2</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span><span class="c1">//true</span></code></pre></figure>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">man1</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="nx">man2</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span><span class="c1">//true</span></code></pre></div>
 
-<p>这种继承方式很直接，为了获取<code class="highlighter-rouge">Person</code>的所有属性方法(实例上的和原型上的)，直接将父类的实例<code class="highlighter-rouge">new Person('pursue')</code>赋给了子类的原型，其实子类的实例<code class="highlighter-rouge">man1,man2</code>本身是一个完全空的对象，所有的属性和方法都得去原型链上去找，因而找到的属性方法都是同一个。
+<p>这种继承方式很直接，为了获取<code>Person</code>的所有属性方法(实例上的和原型上的)，直接将父类的实例<code>new Person('pursue')</code>赋给了子类的原型，其实子类的实例<code>man1,man2</code>本身是一个完全空的对象，所有的属性和方法都得去原型链上去找，因而找到的属性方法都是同一个。
 所以直接利用原型链继承是不现实的。</p>
 
 <h3 id="section-4">2.利用构造函数继承</h3>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">Person</span> <span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">Person</span> <span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">;</span>
 <span class="p">}</span>
 <span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">say</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'hello, my name is '</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;hello, my name is &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
 <span class="p">};</span>
 <span class="kd">function</span> <span class="nx">Man</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">Person</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
 <span class="p">}</span>
-<span class="c1">//Man.prototype = new Person('pursue');</span>
-<span class="kd">var</span> <span class="nx">man1</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Man</span><span class="p">(</span><span class="s1">'joe'</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">man2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Man</span><span class="p">(</span><span class="s1">'david'</span><span class="p">);</span>
+<span class="c1">//Man.prototype = new Person(&#39;pursue&#39;);</span>
+<span class="kd">var</span> <span class="nx">man1</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Man</span><span class="p">(</span><span class="s1">&#39;joe&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">man2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Man</span><span class="p">(</span><span class="s1">&#39;david&#39;</span><span class="p">);</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">man1</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="nx">man2</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span><span class="c1">//false</span>
-<span class="nx">man1</span><span class="p">.</span><span class="nx">say</span><span class="p">();</span> <span class="c1">//say is not a function</span></code></pre></figure>
+<span class="nx">man1</span><span class="p">.</span><span class="nx">say</span><span class="p">();</span> <span class="c1">//say is not a function</span></code></pre></div>
 
 <p>这里子类的在构造函数里利用了apply去调用父类的构造函数，从而达到继承父类属性的效果，比直接利用原型链要好的多，至少每个实例都有自己那一份资源，但是这种办法只能继承父类的实例属性，因而找不到say方法，为了继承父类所有的属性和方法，则就要修改原型链，从而引入了组合继承方式。</p>
 
 <h3 id="section-5">3.组合继承</h3>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">Person</span> <span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">Person</span> <span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">;</span>
 <span class="p">}</span>
 <span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">say</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'hello, my name is '</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;hello, my name is &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
 <span class="p">};</span>
 <span class="kd">function</span> <span class="nx">Man</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">Person</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
 <span class="p">}</span>
 <span class="nx">Man</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">();</span>
-<span class="kd">var</span> <span class="nx">man1</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Man</span><span class="p">(</span><span class="s1">'joe'</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">man2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Man</span><span class="p">(</span><span class="s1">'david'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">man1</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Man</span><span class="p">(</span><span class="s1">&#39;joe&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">man2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Man</span><span class="p">(</span><span class="s1">&#39;david&#39;</span><span class="p">);</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">man1</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="nx">man2</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span><span class="c1">//false</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">man1</span><span class="p">.</span><span class="nx">say</span> <span class="o">===</span> <span class="nx">man2</span><span class="p">.</span><span class="nx">say</span><span class="p">);</span><span class="c1">//true</span>
-<span class="nx">man1</span><span class="p">.</span><span class="nx">say</span><span class="p">();</span> <span class="c1">//hello, my name is joe</span></code></pre></figure>
+<span class="nx">man1</span><span class="p">.</span><span class="nx">say</span><span class="p">();</span> <span class="c1">//hello, my name is joe</span></code></pre></div>
 
-<p>需要注意的是<code class="highlighter-rouge">man1和man2</code>的实例属性其实是覆盖了原型属性，但是并没要覆盖掉原型上的<code class="highlighter-rouge">say</code>方法（因为它们没有），所以这里<code class="highlighter-rouge">man1.say === man2.say</code>依然返回true，因而需要十分小心没有覆盖掉的原型属性，因为它是所有实例共有的。</p>
+<p>需要注意的是<code>man1和man2</code>的实例属性其实是覆盖了原型属性，但是并没要覆盖掉原型上的<code>say</code>方法（因为它们没有），所以这里<code>man1.say === man2.say</code>依然返回true，因而需要十分小心没有覆盖掉的原型属性，因为它是所有实例共有的。</p>
 
 <h3 id="section-6">4.寄生组合继承</h3>
 
 <p>说实话我真不知道下面的这种形式叫这名字，但是它确实是最流行，最经典的javascript的继承方式。
 其实，只需要明白原型对象的结构即可：</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">Person</span> <span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">Person</span> <span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
             <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">;</span>
         <span class="p">}</span>
 <span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">say</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'hello, my name is '</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;hello, my name is &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
 <span class="p">};</span>
 <span class="kd">function</span> <span class="nx">Man</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">Person</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
 <span class="p">}</span>
 <span class="nx">Man</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span><span class="p">);</span><span class="c1">//a.</span>
 <span class="nx">Man</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">constructor</span> <span class="o">=</span> <span class="nx">Man</span><span class="p">;</span><span class="c1">//b.</span>
-<span class="kd">var</span> <span class="nx">man1</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Man</span><span class="p">(</span><span class="s1">'pursue'</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">man2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Man</span><span class="p">(</span><span class="s1">'joe'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">man1</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Man</span><span class="p">(</span><span class="s1">&#39;pursue&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">man2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Man</span><span class="p">(</span><span class="s1">&#39;joe&#39;</span><span class="p">);</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">man1</span><span class="p">.</span><span class="nx">say</span> <span class="o">==</span> <span class="nx">man2</span><span class="p">.</span><span class="nx">say</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">man1</span><span class="p">.</span><span class="nx">name</span> <span class="o">==</span> <span class="nx">man2</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span></code></pre></figure>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">man1</span><span class="p">.</span><span class="nx">name</span> <span class="o">==</span> <span class="nx">man2</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span></code></pre></div>
 
-<p>其实寄生组合继承和上面的组合继承区别仅在于构造子类原型对象的方式上（<code class="highlighter-rouge">a.和b.</code>），这里用到了<code class="highlighter-rouge">Object.creat(obj)</code>方法，该方法会对传入的obj对象进行浅拷贝，类似于：</p>
+<p>其实寄生组合继承和上面的组合继承区别仅在于构造子类原型对象的方式上（<code>a.和b.</code>），这里用到了<code>Object.creat(obj)</code>方法，该方法会对传入的obj对象进行浅拷贝，类似于：</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">create</span><span class="p">(</span><span class="nx">obj</span><span class="p">){</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">create</span><span class="p">(</span><span class="nx">obj</span><span class="p">){</span>
     <span class="kd">function</span> <span class="nx">T</span><span class="p">(){};</span>
     <span class="nx">T</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">;</span>
     <span class="k">return</span> <span class="k">new</span> <span class="nx">T</span><span class="p">();</span>
-<span class="p">}</span></code></pre></figure>
+<span class="p">}</span></code></pre></div>
 
-<p>因此，<code class="highlighter-rouge">a.</code>会将子类的原型对象与父类的原型对象进行很好的连接，而并不像一般的组合继承那样直接对子类的原型进行复制（如<code class="highlighter-rouge">Man.prototype = new Person();</code>）,这样只是很暴力的在对属性进行覆盖。而寄生组合继承方式则对实例属性和原型属性分别进行了继承，在实现上更加合理。</p>
+<p>因此，<code>a.</code>会将子类的原型对象与父类的原型对象进行很好的连接，而并不像一般的组合继承那样直接对子类的原型进行复制（如<code>Man.prototype = new Person();</code>）,这样只是很暴力的在对属性进行覆盖。而寄生组合继承方式则对实例属性和原型属性分别进行了继承，在实现上更加合理。</p>
 
-<p><code class="highlighter-rouge">注意:</code>代码b.并不会改变instanceof的结果，但是对于需要用到construcor的场景，这么做更加严谨。</p>
+<p><code>注意:</code>代码b.并不会改变instanceof的结果，但是对于需要用到construcor的场景，这么做更加严谨。</p>
 
-<p><code class="highlighter-rouge">注：本文与简书同步</code><a href="#http://www.jianshu.com/p/1e402922ee32/">简书请戳</a></p>
+<p><code>注：本文与简书同步</code><a href="#http://www.jianshu.com/p/1e402922ee32/">简书请戳</a></p>
 
 	    </div>
 	  </article>

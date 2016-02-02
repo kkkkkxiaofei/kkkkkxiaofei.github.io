@@ -47,9 +47,9 @@
 	    <h3 id="summary">Summary</h3>
 <p>Function.prototype.apply()将会调用一个以this和数组形式的arguments为参数的方法，而call()方法则只是在第二个参数形式与之不同而已。</p>
 
-<figure class="highlight"><pre><code class="language-sh" data-lang="sh">fun.apply<span class="o">(</span>thisArg, <span class="o">[</span>argsArray]<span class="o">)</span></code></pre></figure>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">fun.apply<span class="o">(</span>thisArg, <span class="o">[</span>argsArray<span class="o">])</span></code></pre></div>
 
-<figure class="highlight"><pre><code class="language-sh" data-lang="sh">fun.call<span class="o">(</span>thisArg, arg1, arg2, arg3...<span class="o">)</span></code></pre></figure>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">fun.call<span class="o">(</span>thisArg, arg1, arg2, arg3...<span class="o">)</span></code></pre></div>
 
 <h3 id="description">Description</h3>
 
@@ -63,46 +63,46 @@
 
 <p>我们可以像Java那样，利用apply为一个对象创建构造链。在下面的例子中，我们将创建一个名为construct的全局方法，这个方法可以不必让你传递一个一个的参数，取而代之的则是传递一个参数数组。</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nb">Function</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">construct</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">aArgs</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nb">Function</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">construct</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">aArgs</span><span class="p">)</span> <span class="p">{</span>
   <span class="kd">var</span> <span class="nx">oNew</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">prototype</span><span class="p">);</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">oNew</span><span class="p">,</span> <span class="nx">aArgs</span><span class="p">);</span>
   <span class="k">return</span> <span class="nx">oNew</span><span class="p">;</span>
-<span class="p">};</span></code></pre></figure>
+<span class="p">};</span></code></pre></div>
 
 <p>Example usage:</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">MyConstructor</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">MyConstructor</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">nProp</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">nProp</span> <span class="o">&lt;</span> <span class="nx">arguments</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">nProp</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">[</span><span class="s1">'property'</span> <span class="o">+</span> <span class="nx">nProp</span><span class="p">]</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">[</span><span class="nx">nProp</span><span class="p">];</span>
+    <span class="k">this</span><span class="p">[</span><span class="s1">&#39;property&#39;</span> <span class="o">+</span> <span class="nx">nProp</span><span class="p">]</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">[</span><span class="nx">nProp</span><span class="p">];</span>
   <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="kd">var</span> <span class="nx">myArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="s1">'Hello world!'</span><span class="p">,</span> <span class="kc">false</span><span class="p">];</span>
+<span class="kd">var</span> <span class="nx">myArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;Hello world!&#39;</span><span class="p">,</span> <span class="kc">false</span><span class="p">];</span>
 <span class="kd">var</span> <span class="nx">myInstance</span> <span class="o">=</span> <span class="nx">MyConstructor</span><span class="p">.</span><span class="nx">construct</span><span class="p">(</span><span class="nx">myArray</span><span class="p">);</span>
 
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myInstance</span><span class="p">.</span><span class="nx">property1</span><span class="p">);</span>                <span class="c1">// 'Hello world!'</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myInstance</span> <span class="k">instanceof</span> <span class="nx">MyConstructor</span><span class="p">);</span> <span class="c1">// 'true'</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myInstance</span><span class="p">.</span><span class="nx">constructor</span><span class="p">);</span>              <span class="c1">// 'MyConstructor'</span></code></pre></figure>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myInstance</span><span class="p">.</span><span class="nx">property1</span><span class="p">);</span>                <span class="c1">// &#39;Hello world!&#39;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myInstance</span> <span class="k">instanceof</span> <span class="nx">MyConstructor</span><span class="p">);</span> <span class="c1">// &#39;true&#39;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myInstance</span><span class="p">.</span><span class="nx">constructor</span><span class="p">);</span>              <span class="c1">// &#39;MyConstructor&#39;</span></code></pre></div>
 
 <h4 id="using-apply-and-built-in-functions">2.Using apply and built-in functions</h4>
 
 <p>利用apply调用javascript的内建方法是一种比较聪明的用法，例如下面的例子，利用apply调用系统max方法获取最大值。一般如果你要在一个数组中找到最大或最小值，那将不得不进行loop，即使利用系统自带的max函数，那也得传递有限个参数，十分不便。</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="cm">/* min/max number in an array */</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="cm">/* min/max number in an array */</span>
 <span class="kd">var</span> <span class="nx">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">];</span>
 
 <span class="cm">/* using Math.min/Math.max apply */</span>
-<span class="kd">var</span> <span class="nx">max</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">numbers</span><span class="p">);</span> <span class="cm">/* This about equal to Math.max(numbers[0], ...)
-                                            or Math.max(5, 6, ...) */</span>
-<span class="kd">var</span> <span class="nx">min</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">numbers</span><span class="p">);</span></code></pre></figure>
+<span class="kd">var</span> <span class="nx">max</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">numbers</span><span class="p">);</span> <span class="cm">/* This about equal to Math.max(numbers[0], ...)</span>
+<span class="cm">                                            or Math.max(5, 6, ...) */</span>
+<span class="kd">var</span> <span class="nx">min</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">numbers</span><span class="p">);</span></code></pre></div>
 
 <h4 id="using-apply-in-monkey-patching">3.Using apply in monkey-patching</h4>
 
 <p>apply还是一种很好的扩展内置对象方法的方式。如下面的例子，已有someobject.foo方法, 你可以像黑客那样在其原有的基础上修改它，从而破坏其封装性。</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">someobject</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">someobject</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
 <span class="nx">someobject</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'This is the originalfoo function.'</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;This is the originalfoo function.&#39;</span><span class="p">);</span>
 <span class="p">};</span>
 
 <span class="kd">var</span> <span class="nx">originalfoo</span> <span class="o">=</span> <span class="nx">someobject</span><span class="p">.</span><span class="nx">foo</span><span class="p">;</span>
@@ -112,7 +112,7 @@
   <span class="c1">// Call the function as it would have been called normally:</span>
   <span class="nx">originalfoo</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="nx">arguments</span><span class="p">);</span>
   <span class="c1">// Run stuff after, here.</span>
-<span class="p">}</span></code></pre></figure>
+<span class="p">}</span></code></pre></div>
 
 
 	    </div>

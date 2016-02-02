@@ -58,9 +58,9 @@
 
 <h3 id="objectobserve">方案1.Object.observe</h3>
 
-<p><code class="highlighter-rouge">Object.observe</code>将会成为ECMAScript的标准，它不需要任何的库就能实现对象的变化的监控。如下：</p>
+<p><code>Object.observe</code>将会成为ECMAScript的标准，它不需要任何的库就能实现对象的变化的监控。如下：</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Let's say we have a model with data</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Let&#39;s say we have a model with data</span>
 <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="p">{};</span>
 <span class="c1">// Which we then observe</span>
 <span class="nb">Object</span><span class="p">.</span><span class="nx">observe</span><span class="p">(</span><span class="nx">model</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">changes</span><span class="p">){</span>
@@ -72,7 +72,7 @@
         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">change</span><span class="p">.</span><span class="nx">type</span><span class="p">,</span> <span class="nx">change</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">change</span><span class="p">.</span><span class="nx">oldValue</span><span class="p">);</span>
     <span class="p">});</span>
 
-<span class="p">});</span></code></pre></figure>
+<span class="p">});</span></code></pre></div>
 
 <p>在Chrome调试如下：</p>
 
@@ -82,16 +82,16 @@
 
 <p>“xiaofei”</p>
 
-<p>可以看到，<code class="highlighter-rouge">Object.observe</code>十分强大，它不但能监控对象的变化，而且连变化的类型都知道，十分的方便。
+<p>可以看到，<code>Object.observe</code>十分强大，它不但能监控对象的变化，而且连变化的类型都知道，十分的方便。
 然而，狗血的事情来了。正如我上面所说，它只是未来ECMA的标准，因此属于非标准的用法。兼容性如下：
 <img src="/../img/mvvm3/observe.jpg" alt="" />
 ###方案2.Object.defineProperty</p>
 
-<p><code class="highlighter-rouge">Object.defineProperty</code>可以在对象上新添一个自定义的属性，属性的所有设置都有自己配置（是否可枚举，是否可读写等），十分灵活。这些并不能实现对象的监控，但它提供了<code class="highlighter-rouge">get</code>和<code class="highlighter-rouge">set</code>的属性器以及事件回调，因此我们可以利用这个<code class="highlighter-rouge">set</code>事件去实现对象的监控。</p>
+<p><code>Object.defineProperty</code>可以在对象上新添一个自定义的属性，属性的所有设置都有自己配置（是否可枚举，是否可读写等），十分灵活。这些并不能实现对象的监控，但它提供了<code>get</code>和<code>set</code>的属性器以及事件回调，因此我们可以利用这个<code>set</code>事件去实现对象的监控。</p>
 
 <p>代码如下：</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ko</span><span class="p">.</span><span class="nx">observable</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">defaultValue</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ko</span><span class="p">.</span><span class="nx">observable</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">defaultValue</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="p">{};</span>
     <span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">defaultValue</span><span class="p">;</span>
     <span class="kd">var</span> <span class="nx">fn</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
@@ -102,22 +102,22 @@
         <span class="p">}</span>
     <span class="p">};</span>
     <span class="nx">fn</span><span class="p">.</span><span class="nx">isObservable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span> 
-    <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="p">{</span>
-        <span class="na">get</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
             <span class="k">return</span> <span class="nx">value</span><span class="p">;</span>
         <span class="p">},</span>
-        <span class="na">set</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
             <span class="nx">value</span> <span class="o">=</span> <span class="nx">val</span><span class="p">;</span>
-            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"here I can capture changes event"</span><span class="p">);</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;here I can capture changes event&quot;</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">});</span>
 
     <span class="k">return</span> <span class="nx">fn</span><span class="p">;</span>
-<span class="p">}</span></code></pre></figure>
+<span class="p">}</span></code></pre></div>
 
 <p>思路如下：</p>
 
-<p>ko.observable方法会将对象封装为一个observable对象，该对象的值由<code class="highlighter-rouge">Object.defineProperty</code>定义，因此当observable更新值时会触发<code class="highlighter-rouge">Object.defineProperty</code>的set方法，此时可以认为该对象变化了。</p>
+<p>ko.observable方法会将对象封装为一个observable对象，该对象的值由<code>Object.defineProperty</code>定义，因此当observable更新值时会触发<code>Object.defineProperty</code>的set方法，此时可以认为该对象变化了。</p>
 
 <p>在Chrome下测试结果为：</p>
 
@@ -141,9 +141,9 @@
 
 <p>看起来似乎不错，可是为了实现foreach，我们还需要另外创建一个observableArray对象，毕竟数组和基本的对象不太一样，参考上面的实现：</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ko</span><span class="p">.</span><span class="nx">observableArray</span><span class="err">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">defaultValue</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span><span class="p">(</span><span class="nx">defaultValue</span> <span class="o">&amp;&amp;</span> <span class="nx">defaultValue</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">name</span> <span class="o">!=</span> <span class="s1">'Array'</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">throw</span> <span class="s2">"observableArray param must be array."</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ko</span><span class="p">.</span><span class="nx">observableArray</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">defaultValue</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">defaultValue</span> <span class="o">&amp;&amp;</span> <span class="nx">defaultValue</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">name</span> <span class="o">!=</span> <span class="s1">&#39;Array&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="s2">&quot;observableArray param must be array.&quot;</span>
     <span class="p">}</span>
     <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="p">{};</span>
     <span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">defaultValue</span><span class="p">;</span>
@@ -155,7 +155,7 @@
         <span class="p">}</span>
     <span class="p">};</span>
     <span class="nx">fn</span><span class="p">.</span><span class="nx">isObservable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span> 
-    <span class="kd">var</span> <span class="nx">keys</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"pop"</span><span class="p">,</span> <span class="s2">"push"</span><span class="p">,</span> <span class="s2">"reverse"</span><span class="p">,</span> <span class="s2">"shift"</span><span class="p">,</span> <span class="s2">"sort"</span><span class="p">,</span> <span class="s2">"splice"</span><span class="p">,</span> <span class="s2">"unshift"</span><span class="p">,</span> <span class="s2">"concat"</span><span class="p">,</span> <span class="s2">"join"</span><span class="p">,</span> <span class="s2">"slice"</span><span class="p">,</span> <span class="s2">"indexOf"</span><span class="p">,</span> <span class="s2">"lastIndexOf"</span><span class="p">,</span> <span class="s2">"forEach"</span><span class="p">,</span> <span class="s2">"every"</span><span class="p">,</span> <span class="s2">"map"</span><span class="p">,</span> <span class="s2">"some"</span><span class="p">,</span> <span class="s2">"reduce"</span><span class="p">,</span> <span class="s2">"reduceRight"</span><span class="p">,</span> <span class="s2">"each"</span><span class="p">,</span> <span class="s2">"clone"</span><span class="p">,</span> <span class="s2">"min"</span><span class="p">,</span> <span class="s2">"max"</span><span class="p">,</span> <span class="s2">"average"</span><span class="p">,</span> <span class="s2">"sum"</span><span class="p">,</span> <span class="s2">"unique"</span><span class="p">,</span> <span class="s2">"shuffle"</span><span class="p">,</span> <span class="s2">"pluck"</span><span class="p">];</span>
+    <span class="kd">var</span> <span class="nx">keys</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;pop&quot;</span><span class="p">,</span> <span class="s2">&quot;push&quot;</span><span class="p">,</span> <span class="s2">&quot;reverse&quot;</span><span class="p">,</span> <span class="s2">&quot;shift&quot;</span><span class="p">,</span> <span class="s2">&quot;sort&quot;</span><span class="p">,</span> <span class="s2">&quot;splice&quot;</span><span class="p">,</span> <span class="s2">&quot;unshift&quot;</span><span class="p">,</span> <span class="s2">&quot;concat&quot;</span><span class="p">,</span> <span class="s2">&quot;join&quot;</span><span class="p">,</span> <span class="s2">&quot;slice&quot;</span><span class="p">,</span> <span class="s2">&quot;indexOf&quot;</span><span class="p">,</span> <span class="s2">&quot;lastIndexOf&quot;</span><span class="p">,</span> <span class="s2">&quot;forEach&quot;</span><span class="p">,</span> <span class="s2">&quot;every&quot;</span><span class="p">,</span> <span class="s2">&quot;map&quot;</span><span class="p">,</span> <span class="s2">&quot;some&quot;</span><span class="p">,</span> <span class="s2">&quot;reduce&quot;</span><span class="p">,</span> <span class="s2">&quot;reduceRight&quot;</span><span class="p">,</span> <span class="s2">&quot;each&quot;</span><span class="p">,</span> <span class="s2">&quot;clone&quot;</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="s2">&quot;average&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="s2">&quot;unique&quot;</span><span class="p">,</span> <span class="s2">&quot;shuffle&quot;</span><span class="p">,</span> <span class="s2">&quot;pluck&quot;</span><span class="p">];</span>
     <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">keys</span><span class="p">)</span> <span class="p">{</span>
         <span class="kd">var</span> <span class="nx">key</span> <span class="o">=</span> <span class="nx">keys</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
         <span class="nx">fn</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
@@ -166,20 +166,20 @@
             <span class="p">};</span>
         <span class="p">})(</span><span class="nx">key</span><span class="p">);</span>
     <span class="p">}</span>
-    <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="p">{</span>
-        <span class="na">get</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
             <span class="k">return</span> <span class="nx">value</span><span class="p">;</span>
         <span class="p">},</span>
-        <span class="na">set</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
             <span class="nx">value</span> <span class="o">=</span> <span class="nx">val</span><span class="p">;</span>
-            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"here I can capture changes event"</span><span class="p">);</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;here I can capture changes event&quot;</span><span class="p">);</span>
 
         <span class="p">}</span>
     <span class="p">});</span>
     <span class="k">return</span> <span class="nx">fn</span><span class="p">;</span>
-<span class="p">}</span></code></pre></figure>
+<span class="p">}</span></code></pre></div>
 
-<p><code class="highlighter-rouge">observableArray</code>的实现在<code class="highlighter-rouge">observable</code>的基础上，继承了Array的操作，因为对于<code class="highlighter-rouge">observableArray</code>对象来说，更新元素里面的值的属性并不算它更新了，而只有它的个数活着自身的集合发生变化时才认为是变化了。而在这里我没有直接遍历所有Array的方法是因为Array的方法默认是不可迭代的，所以只能一一列出，甚至，根本不需要这么多方法，完全可以根据实际情况去定制。</p>
+<p><code>observableArray</code>的实现在<code>observable</code>的基础上，继承了Array的操作，因为对于<code>observableArray</code>对象来说，更新元素里面的值的属性并不算它更新了，而只有它的个数活着自身的集合发生变化时才认为是变化了。而在这里我没有直接遍历所有Array的方法是因为Array的方法默认是不可迭代的，所以只能一一列出，甚至，根本不需要这么多方法，完全可以根据实际情况去定制。</p>
 
 <p>在Chrome测试如下：</p>
 
@@ -209,7 +209,7 @@
 
 <p>这一节主要介绍了如何实现双向绑定中的对象监控，实现了这个功能后，可以在事件捕获时再次通知模版引擎去重新渲染UI，这样就形成了双向通信，下一篇将会进行整合。</p>
 
-<p><a href="https://github.com/kkkkkxiaofei/Dig-Knockout"><code class="highlighter-rouge">源码请戳这里</code></a></p>
+<p><a href="https://github.com/kkkkkxiaofei/Dig-Knockout"><code>源码请戳这里</code></a></p>
 
 
 	    </div>

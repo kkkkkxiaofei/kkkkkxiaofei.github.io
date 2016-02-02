@@ -84,23 +84,23 @@
 
 <p>说了这么多，先看一个knockoutjs的Demo:</p>
 
-<p><code class="highlighter-rouge">html</code></p>
+<p><code>html</code></p>
 
-<figure class="highlight"><pre><code class="language-html" data-lang="html">    <span class="c">&lt;!-- This is a *view* - HTML markup that defines the appearance of your UI --&gt;</span>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="c">&lt;!-- This is a *view* - HTML markup that defines the appearance of your UI --&gt;</span>
 
-    <span class="nt">&lt;p&gt;</span>First name: <span class="nt">&lt;strong</span> <span class="na">data-bind=</span><span class="s">"text: firstName"</span><span class="nt">&gt;&lt;/strong&gt;&lt;/p&gt;</span>
-    <span class="nt">&lt;p&gt;</span>Last name: <span class="nt">&lt;strong</span> <span class="na">data-bind=</span><span class="s">"text: lastName"</span><span class="nt">&gt;&lt;/strong&gt;&lt;/p&gt;</span></code></pre></figure>
+    <span class="nt">&lt;p&gt;</span>First name: <span class="nt">&lt;strong</span> <span class="na">data-bind=</span><span class="s">&quot;text: firstName&quot;</span><span class="nt">&gt;&lt;/strong&gt;&lt;/p&gt;</span>
+    <span class="nt">&lt;p&gt;</span>Last name: <span class="nt">&lt;strong</span> <span class="na">data-bind=</span><span class="s">&quot;text: lastName&quot;</span><span class="nt">&gt;&lt;/strong&gt;&lt;/p&gt;</span></code></pre></div>
 
-<p><code class="highlighter-rouge">javascript</code></p>
+<p><code>javascript</code></p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript">    <span class="c1">// This is a simple *viewmodel* - JavaScript that defines the data and behavior of your UI</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// This is a simple *viewmodel* - JavaScript that defines the data and behavior of your UI</span>
     <span class="kd">function</span> <span class="nx">AppViewModel</span><span class="p">()</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">firstName</span> <span class="o">=</span> <span class="s2">"Bert"</span><span class="p">;</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">lastName</span> <span class="o">=</span> <span class="s2">"Bertington"</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">firstName</span> <span class="o">=</span> <span class="s2">&quot;Bert&quot;</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">lastName</span> <span class="o">=</span> <span class="s2">&quot;Bertington&quot;</span><span class="p">;</span>
     <span class="p">}</span>
 
     <span class="c1">// Activates knockout.js</span>
-    <span class="nx">ko</span><span class="p">.</span><span class="nx">applyBindings</span><span class="p">(</span><span class="k">new</span> <span class="nx">AppViewModel</span><span class="p">());</span></code></pre></figure>
+    <span class="nx">ko</span><span class="p">.</span><span class="nx">applyBindings</span><span class="p">(</span><span class="k">new</span> <span class="nx">AppViewModel</span><span class="p">());</span></code></pre></div>
 
 <p>页面效果：</p>
 
