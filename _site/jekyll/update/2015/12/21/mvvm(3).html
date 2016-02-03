@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang＝'zh-CN'>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>打造属于自己的MVVM框架: 3.双向绑定</title>
+    <link rel="icon" type="image/png" href="/../img/link-icon.png" sizes="640x640" />
+    <meta name="description" content="">
+
+	
+	<link rel="stylesheet" href="/css/main.css">
+	
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	
+
+    
+
+    <!-- <link rel="stylesheet" href="/css/main.css"> -->
+    <link rel="canonical" href="https://github.com/kkkkkxiaofei/jekyll/update/2015/12/21/mvvm(3).html">
+</head>
+
+
+  <body class="back">
+
+        <div class="wrapper">
+	<div class="post">
+
+	  <header class="post-header">
+	    <h1 class="post-title">打造属于自己的MVVM框架: 3.双向绑定</h1>
+
+	    <!-- <p class="post-meta pull-right">Dec 21, 2015</p> -->
+	  </header>
+	
+	  <article class="post-content">
+	  	<div class="meta-top">
+	  	  <a href="https://kkkkkxiaofei.github.io">
+	  	  	<div class="avatar">
+	  	  		<img thumbnail="90x90" quality="100" src="/img/author.png" alt="4ee77d0667a3">
+	  	  	</div>
+	  	  	<span style="color:#4094c7;">Pursue</span>
+	  	  	<span>Dec 21, 2015</span>
+	  	  </a>
+	  	</div>
+	  	<div class="clearfix">
+	    <blockquote>
+  <p>MVVM中对Bingding的解析只能算viewModel-&gt;view的单项绑定，但MVVM绝不仅仅只有单向绑定，更重要的是如何监控viewModel变化，将信息实时的反馈给view。</p>
+</blockquote>
+
+<h2 id="object">如何监控Object的变化</h2>
+
+<p>你会可能会遇到一下场景：前端UI已经渲染完成，但并没有数据，因此发送请求向服务器请求数据，AJAX回调完成后，用Callback里的值去更新UI（很可能是暴力的Jquery）；当前端根据渲染的数据再次做了操作后，又得去DOM中取出修改后的值，一来一去十分麻烦，而且一旦UI结构有变化，那简直会被玩死。</p>
+
+<p>而MVVM的最大好处就是避免这种复杂的DOM操作，取而代之的是监控绑定在页面上的observable对象，然后实时的更新DOM，整个过程均为自动化。</p>
+
+<p>那么问题来了，如何监控一个对象的变化呢？</p>
+
+<h3 id="objectobserve">方案1.Object.observe</h3>
+
+<p><code class="highlighter-rouge">Object.observe</code>将会成为ECMAScript的标准，它不需要任何的库就能实现对象的变化的监控。如下：</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Let's say we have a model with data</span>
+<span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="p">{};</span>
+<span class="c1">// Which we then observe</span>
+<span class="nb">Object</span><span class="p">.</span><span class="nx">observe</span><span class="p">(</span><span class="nx">model</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">changes</span><span class="p">){</span>
+
+    <span class="c1">// This asynchronous callback runs</span>
+    <span class="nx">changes</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">change</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="c1">// Letting us know what changed</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">change</span><span class="p">.</span><span class="nx">type</span><span class="p">,</span> <span class="nx">change</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">change</span><span class="p">.</span><span class="nx">oldValue</span><span class="p">);</span>
+    <span class="p">});</span>
+
+<span class="p">});</span></code></pre></figure>
+
+<p>在Chrome调试如下：</p>
+
+<p>model.name = “xiaofei”;</p>
+
+<p>add name undefined</p>
+
+<p>“xiaofei”</p>
+
+<p>可以看到，<code class="highlighter-rouge">Object.observe</code>十分强大，它不但能监控对象的变化，而且连变化的类型都知道，十分的方便。
+然而，狗血的事情来了。正如我上面所说，它只是未来ECMA的标准，因此属于非标准的用法。兼容性如下：
+<img src="/../img/mvvm3/observe.jpg" alt="" />
+###方案2.Object.defineProperty</p>
+
+<p><code class="highlighter-rouge">Object.defineProperty</code>可以在对象上新添一个自定义的属性，属性的所有设置都有自己配置（是否可枚举，是否可读写等），十分灵活。这些并不能实现对象的监控，但它提供了<code class="highlighter-rouge">get</code>和<code class="highlighter-rouge">set</code>的属性器以及事件回调，因此我们可以利用这个<code class="highlighter-rouge">set</code>事件去实现对象的监控。</p>
+
+<p>代码如下：</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ko</span><span class="p">.</span><span class="nx">observable</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">defaultValue</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">defaultValue</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">fn</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">self</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">val</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">self</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+    <span class="nx">fn</span><span class="p">.</span><span class="nx">isObservable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span> 
+    <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="p">{</span>
+        <span class="na">get</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">value</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="na">set</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">value</span> <span class="o">=</span> <span class="nx">val</span><span class="p">;</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"here I can capture changes event"</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+
+    <span class="k">return</span> <span class="nx">fn</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>思路如下：</p>
+
+<p>ko.observable方法会将对象封装为一个observable对象，该对象的值由<code class="highlighter-rouge">Object.defineProperty</code>定义，因此当observable更新值时会触发<code class="highlighter-rouge">Object.defineProperty</code>的set方法，此时可以认为该对象变化了。</p>
+
+<p>在Chrome下测试结果为：</p>
+
+<p>var o = observable(“xiaofei”);</p>
+
+<p>undefined</p>
+
+<p>o();</p>
+
+<p>“xiaofei”</p>
+
+<p>o(“new name”)</p>
+
+<p>here I can capture changes event</p>
+
+<p>undefined</p>
+
+<p>o()</p>
+
+<p>“new name”</p>
+
+<p>看起来似乎不错，可是为了实现foreach，我们还需要另外创建一个observableArray对象，毕竟数组和基本的对象不太一样，参考上面的实现：</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ko</span><span class="p">.</span><span class="nx">observableArray</span><span class="err">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">defaultValue</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">defaultValue</span> <span class="o">&amp;&amp;</span> <span class="nx">defaultValue</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">name</span> <span class="o">!=</span> <span class="s1">'Array'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="s2">"observableArray param must be array."</span>
+    <span class="p">}</span>
+    <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">defaultValue</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">fn</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">self</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">val</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">self</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+    <span class="nx">fn</span><span class="p">.</span><span class="nx">isObservable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span> 
+    <span class="kd">var</span> <span class="nx">keys</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"pop"</span><span class="p">,</span> <span class="s2">"push"</span><span class="p">,</span> <span class="s2">"reverse"</span><span class="p">,</span> <span class="s2">"shift"</span><span class="p">,</span> <span class="s2">"sort"</span><span class="p">,</span> <span class="s2">"splice"</span><span class="p">,</span> <span class="s2">"unshift"</span><span class="p">,</span> <span class="s2">"concat"</span><span class="p">,</span> <span class="s2">"join"</span><span class="p">,</span> <span class="s2">"slice"</span><span class="p">,</span> <span class="s2">"indexOf"</span><span class="p">,</span> <span class="s2">"lastIndexOf"</span><span class="p">,</span> <span class="s2">"forEach"</span><span class="p">,</span> <span class="s2">"every"</span><span class="p">,</span> <span class="s2">"map"</span><span class="p">,</span> <span class="s2">"some"</span><span class="p">,</span> <span class="s2">"reduce"</span><span class="p">,</span> <span class="s2">"reduceRight"</span><span class="p">,</span> <span class="s2">"each"</span><span class="p">,</span> <span class="s2">"clone"</span><span class="p">,</span> <span class="s2">"min"</span><span class="p">,</span> <span class="s2">"max"</span><span class="p">,</span> <span class="s2">"average"</span><span class="p">,</span> <span class="s2">"sum"</span><span class="p">,</span> <span class="s2">"unique"</span><span class="p">,</span> <span class="s2">"shuffle"</span><span class="p">,</span> <span class="s2">"pluck"</span><span class="p">];</span>
+    <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">keys</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">key</span> <span class="o">=</span> <span class="nx">keys</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+        <span class="nx">fn</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">elements</span> <span class="o">=</span> <span class="nx">ko</span><span class="p">.</span><span class="nx">unwrap</span><span class="p">(</span><span class="nx">fn</span><span class="p">);</span>
+                <span class="nx">elements</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="nx">elements</span><span class="p">[</span><span class="nx">key</span><span class="p">].</span><span class="nx">apply</span><span class="p">(</span><span class="nx">elements</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+                <span class="nx">fn</span><span class="p">(</span><span class="nx">elements</span><span class="p">);</span>
+            <span class="p">};</span>
+        <span class="p">})(</span><span class="nx">key</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="p">{</span>
+        <span class="na">get</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">value</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="na">set</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">value</span> <span class="o">=</span> <span class="nx">val</span><span class="p">;</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"here I can capture changes event"</span><span class="p">);</span>
+
+        <span class="p">}</span>
+    <span class="p">});</span>
+    <span class="k">return</span> <span class="nx">fn</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p><code class="highlighter-rouge">observableArray</code>的实现在<code class="highlighter-rouge">observable</code>的基础上，继承了Array的操作，因为对于<code class="highlighter-rouge">observableArray</code>对象来说，更新元素里面的值的属性并不算它更新了，而只有它的个数活着自身的集合发生变化时才认为是变化了。而在这里我没有直接遍历所有Array的方法是因为Array的方法默认是不可迭代的，所以只能一一列出，甚至，根本不需要这么多方法，完全可以根据实际情况去定制。</p>
+
+<p>在Chrome测试如下：</p>
+
+<p>var arr = ko.observableArray([1,2,3]);</p>
+
+<p>undefined</p>
+
+<p>arr.push(4)</p>
+
+<p>here I can capture changes event</p>
+
+<p>undefined</p>
+
+<p>arr()</p>
+
+<p>[1, 2, 3, 4]</p>
+
+<p>arr.pop();</p>
+
+<p>undefined</p>
+
+<p>arr()</p>
+
+<p>[1, 2, 3]</p>
+
+<h2 id="section">5.总结</h2>
+
+<p>这一节主要介绍了如何实现双向绑定中的对象监控，实现了这个功能后，可以在事件捕获时再次通知模版引擎去重新渲染UI，这样就形成了双向通信，下一篇将会进行整合。</p>
+
+<p><a href="https://github.com/kkkkkxiaofei/Dig-Knockout"><code class="highlighter-rouge">源码请戳这里</code></a></p>
+
+
+	    </div>
+	  </article>
+
+	</div>
+</div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+        <div class="row">
+                       
+            <div class="foot-center">
+              
+                <span class="fake-read-time">阅读 9999+</span>
+                
+                <a href="https://github.com/kkkkkxiaofei">
+                  
+                  <span class="icon  icon--github">
+                    <svg viewBox="0 0 16 16">
+                      <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                    </svg>
+                  </span>
+                  <span class="follow-me">Follow Pursue's Github </span>
+                </a>
+                
+            </div>
+        </div>
+
+
+
+
+
+     
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
