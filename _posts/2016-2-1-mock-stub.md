@@ -9,9 +9,9 @@ icon: "java-icon.jpg"
 ---
 #### Abstract
 
-Both mock and stub are mummy objects for unit test in spring.When you have lots of dependencies in unit test, creating fake object to reduce dependency is really recommended. Therefore, we use mock and stub. But there are some differences between mock and stub.
+>Both mock and stub are mummy objects for unit test in spring.When you have lots of dependencies in unit test, creating fake object to reduce dependency is really recommended. Therefore, we use mock and stub. But there are some differences between mock and stub.
 
-####Stub
+#### Stub
 
 Stub is a common way to use without extra dependency in unit test.It trys to describe the behevior of the method, So we just concern about the return value when use stub.
 
@@ -65,7 +65,7 @@ public void shouldPrintInfoOfPurchase() throws Exception {
 
 {% endhighlight %}
 
-####Mock
+#### Mock
 
 Mock is similar with stub, but mock is a real fake object.
 
@@ -89,7 +89,7 @@ public void shouldPrintInfoOfPurchaseWithMockPrinter() throws Exception {
 
 By using the framework of Mockito, we can create a fake object by Class, and the verify assertion can check if the method has been invoked.
 
-####Summary
+#### Summary
 
 According to [Martin Fowler's](http://martinfowler.com/articles/mocksArentStubs.html) article:
 

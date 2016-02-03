@@ -7,13 +7,13 @@ type: 2
 summary: "有30个CSS选择器你必须烂熟于心，它们适应于当今各大主流浏览器。"
 icon: "css3-icon.jpg"
 ---
-####开篇
+#### 开篇
 
 {% highlight sh %}
 有30个CSS选择器你必须烂熟于心，它们适应于当今各大主流浏览器。
 {% endhighlight %}
 
-####1.`*`
+#### 1.`*`
 
 {% highlight css %}
 * {
@@ -36,7 +36,7 @@ icon: "css3-icon.jpg"
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/star.html)
 
-####Compatibility
+#### Compatibility
 * IE6+
 * Firefox
 * Chrome
@@ -44,7 +44,7 @@ icon: "css3-icon.jpg"
 * Opera
 
 
-####2.`#x`
+#### 2.`#x`
 
 {% highlight css %}
 #container {
@@ -57,14 +57,14 @@ id选择器的优先级很高，因此在用之前问问自己：`我仅仅是�
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/id.html)
 
-####Compatibility
+#### Compatibility
 * IE6+
 * Firefox
 * Chrome
 * Safari
 * Opera
 
-####3.`.x`
+####  3.`.x`
 
 {% highlight css %}
 .error {
@@ -76,14 +76,14 @@ class选择器和id选择器不同，首先优先级没有id高，再者id选择
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/class.html)
 
-####Compatibility
+#### Compatibility
 * IE6+
 * Firefox
 * Chrome
 * Safari
 * Opera
 
-####4.`x y`
+#### 4.`x y`
 
 {% highlight css %}
 li a {
@@ -96,14 +96,14 @@ li a {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/descend.html)
 
-####Compatibility
+#### Compatibility
 * IE6+
 * Firefox
 * Chrome
 * Safari
 * Opera
 
-####5.`x`
+#### 5.`x`
 
 {% highlight css %}
 a { color: red; }
@@ -114,7 +114,7 @@ ul { margin-left: 0; }
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/tagName.html)
 
-####Compatibility
+#### Compatibility
 * IE6+
 * Firefox
 * Chrome
@@ -122,7 +122,7 @@ ul { margin-left: 0; }
 * Opera
 
 
-####6.`x:visted and x:link`
+#### 6.`x:visted and x:link`
 
 {% highlight css %}
 a:link { color: red; }
@@ -133,7 +133,7 @@ a:visted { color: purple; }
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/links.html)
 
-####Compatibility
+#### Compatibility
 * IE7+
 * Firefox
 * Chrome
@@ -141,7 +141,7 @@ a:visted { color: purple; }
 * Opera
 
 
-####7.`x + y`
+#### 7.`x + y`
 
 {% highlight css %}
 ul + p {
@@ -153,7 +153,7 @@ ul + p {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/adjacent.html)
 
-####Compatibility
+#### Compatibility
 * IE7+
 * Firefox
 * Chrome
@@ -161,7 +161,7 @@ ul + p {
 * Opera
 
 
-####8.`x > y`
+#### 8.`x > y`
 
 {% highlight css %}
 div#container > ul {
@@ -190,7 +190,7 @@ div#container > ul {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/childcombinator.html)
 
-####Compatibility
+#### Compatibility
 * IE7+
 * Firefox
 * Chrome
@@ -198,7 +198,7 @@ div#container > ul {
 * Opera
 
 
-####9.`x ~ y`
+#### 9.`x ~ y`
 
 {% highlight css %}
 ul ~ p {
@@ -210,7 +210,7 @@ ul ~ p {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/generalcombinator.html)
 
-####Compatibility
+#### Compatibility
 * IE7+
 * Firefox
 * Chrome
@@ -218,7 +218,7 @@ ul ~ p {
 * Opera
 
 
-####10.`x[title]`
+#### 10.`x[title]`
 
 {% highlight css %}
 a[title] {
@@ -230,7 +230,7 @@ a[title] {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes.html)
 
-####Compatibility
+#### Compatibility
 * IE7+
 * Firefox
 * Chrome
@@ -238,7 +238,7 @@ a[title] {
 * Opera
 
 
-####11.`x[href="foo"]`
+#### 11.`x[href="foo"]`
 
 {% highlight css %}
 a[href="http://net.tutsplus.com"] {
@@ -250,7 +250,7 @@ a[href="http://net.tutsplus.com"] {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes2.html)
 
-####Compatibility
+#### Compatibility
 * IE7+
 * Firefox
 * Chrome
@@ -258,7 +258,7 @@ a[href="http://net.tutsplus.com"] {
 * Opera
 
 
-####12.`x[href*="nettuts"]`
+#### 12.`x[href*="nettuts"]`
 
 {% highlight css %}
 a[href*="tuts"] {
@@ -270,7 +270,7 @@ a[href*="tuts"] {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes3.html)
 
-####Compatibility
+#### Compatibility
 * IE7+
 * Firefox
 * Chrome
@@ -278,7 +278,7 @@ a[href*="tuts"] {
 * Opera
 
 
-####13.`x[href^="http"]`
+#### 13.`x[href^="http"]`
 
 {% highlight css %}
 a[href^="http"] {
@@ -291,7 +291,7 @@ a[href^="http"] {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes4.html)
 
-####Compatibility
+#### Compatibility
 * IE7+
 * Firefox
 * Chrome
@@ -299,7 +299,7 @@ a[href^="http"] {
 * Opera
 
 
-####14.`x[href$=".jpg"]`
+#### 14.`x[href$=".jpg"]`
 
 {% highlight css %}
 a[href$=".jpg"] {
@@ -311,7 +311,7 @@ a[href$=".jpg"] {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes5.html)
 
-####Compatibility
+#### Compatibility
 * IE7+
 * Firefox
 * Chrome
@@ -319,7 +319,7 @@ a[href$=".jpg"] {
 * Opera
 
 
-####15.`x[data-*="foo"]`
+#### 15.`x[data-*="foo"]`
 
 {% highlight css %}
 a[data-filetype="image"] {
@@ -354,7 +354,7 @@ a[data-filetype="image"] {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes6.html)
 
-####Compatibility
+#### Compatibility
 * IE7+
 * Firefox
 * Chrome
@@ -362,7 +362,7 @@ a[data-filetype="image"] {
 * Opera
 
 
-####16.`x[foo~="bar"]`
+#### 16.`x[foo~="bar"]`
 
 {% highlight css %}
 a[data-info~="external"] {
@@ -382,7 +382,7 @@ a[data-info~="image"] {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/attributes7.html)
 
-####Compatibility
+#### Compatibility
 * IE7+
 * Firefox
 * Chrome
@@ -390,7 +390,7 @@ a[data-info~="image"] {
 * Opera
 
 
-####17.`x:checked`
+#### 17.`x:checked`
 
 {% highlight css %}
 input[type=radio]:checked {
@@ -402,7 +402,7 @@ input[type=radio]:checked {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/checked.html)
 
-####Compatibility
+#### Compatibility
 * IE9+
 * Firefox
 * Chrome
@@ -410,7 +410,7 @@ input[type=radio]:checked {
 * Opera
 
 
-####18.`x:after`
+#### 18.`x:after`
 
 伪类`before`和`after`已经有了一些新的用法，比如最常见的：
 {% highlight css %}
@@ -431,7 +431,7 @@ input[type=radio]:checked {
 
 没错，这就是默认标准clearfix的实现原理。
 
-####Compatibility
+#### Compatibility
 * IE8+
 * Firefox
 * Chrome
@@ -439,7 +439,7 @@ input[type=radio]:checked {
 * Opera
 
 
-####19.`x:hover`
+#### 19.`x:hover`
 
 {% highlight css %}
 div:hover {
@@ -449,14 +449,14 @@ div:hover {
 
 但是得注意，`:hover`在早期IE中并不适用。
 
-####Compatibility
+#### Compatibility
 * IE6+（In IE6, :hover must be applied to an anchor element）
 * Firefox
 * Chrome
 * Safari
 * Opera
 
-####20.`x:not(selector)`
+#### 20.`x:not(selector)`
 
 {% highlight css %}
 div:not(#container) {
@@ -468,7 +468,7 @@ div:not(#container) {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/not.html)
 
-####Compatibility
+#### Compatibility
 * IE9+
 * Firefox
 * Chrome
@@ -476,7 +476,7 @@ div:not(#container) {
 * Opera
 
 
-####21.`x::pseudoElement`
+#### 21.`x::pseudoElement`
 
 {% highlight css %}
 p::first-line {
@@ -498,7 +498,7 @@ p::first-letter {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/pseudoElements.html)
 
-####Compatibility
+#### Compatibility
 * IE6+
 * Firefox
 * Chrome
@@ -506,7 +506,7 @@ p::first-letter {
 * Opera
 
 
-####22.`x:nth-child(n)`
+#### 22.`x:nth-child(n)`
 
 {% highlight css %}
 li:nth-child(3) {
@@ -518,7 +518,7 @@ li:nth-child(3) {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/nth.html)
 
-####Compatibility
+#### Compatibility
 * IE9+
 * Firefox 3.5+
 * Chrome
@@ -526,7 +526,7 @@ li:nth-child(3) {
 * Opera
 
 
-####23.`x:nth-last-child(n)`
+#### 23.`x:nth-last-child(n)`
 
 {% highlight css %}
 li:nth-last-child(2) {
@@ -538,7 +538,7 @@ li:nth-last-child(2) {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/nthLast.html)
 
-####Compatibility
+#### Compatibility
 * IE9+
 * Firefox 3.5+
 * Chrome
@@ -546,7 +546,7 @@ li:nth-last-child(2) {
 * Opera
 
 
-####24.`x:nth-of-type(n)`
+#### 24.`x:nth-of-type(n)`
 
 {% highlight css %}
 ul:nth-of-type(3) {
@@ -558,7 +558,7 @@ ul:nth-of-type(3) {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/nthOfType.html)
 
-####Compatibility
+#### Compatibility
 * IE9+
 * Firefox 3.5+
 * Chrome
@@ -566,7 +566,7 @@ ul:nth-of-type(3) {
 * Opera
 
 
-####25.`x:nth-last-of-type(n)`
+#### 25.`x:nth-last-of-type(n)`
 
 {% highlight css %}
 ul:nth-last-of-type(3) {
@@ -577,7 +577,7 @@ ul:nth-last-of-type(3) {
 与`ul:nth-of-type`刚好相反。
 
 
-####Compatibility
+#### Compatibility
 * IE9+
 * Firefox 3.5+
 * Chrome
@@ -585,7 +585,7 @@ ul:nth-last-of-type(3) {
 * Opera
 
 
-####26.`x:first-child`
+#### 26.`x:first-child`
 
 {% highlight css %}
 ul li:first-child {
@@ -595,7 +595,7 @@ ul li:first-child {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstChild.html)
 
-####Compatibility
+#### Compatibility
 * IE7+
 * Firefox
 * Chrome
@@ -603,9 +603,9 @@ ul li:first-child {
 * Opera
 
 
-####27.`x:last-child`
+#### 27.`x:last-child`
 
-#####Example
+##### Example
 
 {% highlight html %}
 <ul>
@@ -648,7 +648,7 @@ li:last-child {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstChild.html)
 
-####Compatibility
+#### Compatibility
 * IE9+
 * Firefox
 * Chrome
@@ -656,7 +656,7 @@ li:last-child {
 * Opera
 
 
-####28.`X:only-child`
+#### 28.`X:only-child`
 
 {% highlight css %}
 div p:only-child {
@@ -677,7 +677,7 @@ div p:only-child {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/onlyChild.html)
 
-####Compatibility
+#### Compatibility
 * IE9+
 * Firefox
 * Chrome
@@ -685,7 +685,7 @@ div p:only-child {
 * Opera
 
 
-####29.`X:only-of-type`
+#### 29.`X:only-of-type`
 
 {% highlight css %}
 li:only-of-type {
@@ -704,7 +704,7 @@ ul > li:only-of-type {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/onlyOfType.html)
 
-####Compatibility
+#### Compatibility
 * IE9+
 * Firefox 3.5+
 * Chrome
@@ -712,9 +712,9 @@ ul > li:only-of-type {
 * Opera
 
 
-####30.`x:first-of-type`
+#### 30.`x:first-of-type`
 
-#####Example
+##### Example
 
 {% highlight html %}
 <div>
@@ -733,7 +733,7 @@ ul > li:only-of-type {
 
 如何寻找上面的 "List Item 2"呢？
 
-#####办法1
+##### 办法1
 
 {% highlight html %}
 ul:first-of-type > li:nth-child(2) {
@@ -741,7 +741,7 @@ ul:first-of-type > li:nth-child(2) {
 }
 {% endhighlight %}
 
-#####办法2
+##### 办法2
 
 {% highlight html %}
 p + ul li:last-child {
@@ -749,7 +749,7 @@ p + ul li:last-child {
 }
 {% endhighlight %}
 
-#####办法3
+##### 办法3
 
 {% highlight html %}
 ul:first-of-type li:nth-last-child(1) {
@@ -759,14 +759,14 @@ ul:first-of-type li:nth-last-child(1) {
 
 [view demo](http://cdn.tutsplus.com/net/uploads/legacy/840_cssSelectors/selectors/firstOfType.html)
 
-####Compatibility
+#### Compatibility
 * IE9+
 * Firefox 3.5+
 * Chrome
 * Safari
 * Opera
 
-####总结
+#### 总结
 
 上述选择器在IE6中的使用要尤其小心，但是别因为这而影响你阅读这篇文章。你可以参考一下[浏览器兼容表](http://www.quirksmode.org/css/contents.html)，或者你可以用[ Dean Edward's excellent IE9.js script ](http://code.google.com/p/ie7-js/)为旧版浏览器提供这些选择器的支持。
 

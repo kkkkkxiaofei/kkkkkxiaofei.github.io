@@ -5,15 +5,17 @@
     <description></description>
     <link>https://github.com/kkkkkxiaofei/</link>
     <atom:link href="https://github.com/kkkkkxiaofei/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 03 Feb 2016 23:26:48 +0530</pubDate>
-    <lastBuildDate>Wed, 03 Feb 2016 23:26:48 +0530</lastBuildDate>
+    <pubDate>Wed, 03 Feb 2016 23:36:49 +0530</pubDate>
+    <lastBuildDate>Wed, 03 Feb 2016 23:36:49 +0530</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
     
       <item>
         <title>Mock &amp; Stub</title>
         <description>&lt;h4 id=&quot;abstract&quot;&gt;Abstract&lt;/h4&gt;
 
-&lt;p&gt;Both mock and stub are mummy objects for unit test in spring.When you have lots of dependencies in unit test, creating fake object to reduce dependency is really recommended. Therefore, we use mock and stub. But there are some differences between mock and stub.&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Both mock and stub are mummy objects for unit test in spring.When you have lots of dependencies in unit test, creating fake object to reduce dependency is really recommended. Therefore, we use mock and stub. But there are some differences between mock and stub.&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h4 id=&quot;stub&quot;&gt;Stub&lt;/h4&gt;
 
