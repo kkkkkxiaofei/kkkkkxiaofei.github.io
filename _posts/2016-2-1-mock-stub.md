@@ -7,7 +7,7 @@ type: 2
 summary: "Both mock and stub are mummy objects for unit test in spring.When you have lots of dependencies in unit test, creating fake object to reduce dependency is really recommended. Therefore, we use mock and stub. But there are some differences between mock and stub."
 icon: "java-icon.jpg"
 ---
-####Abstract
+#### Abstract
 
 Both mock and stub are mummy objects for unit test in spring.When you have lots of dependencies in unit test, creating fake object to reduce dependency is really recommended. Therefore, we use mock and stub. But there are some differences between mock and stub.
 
