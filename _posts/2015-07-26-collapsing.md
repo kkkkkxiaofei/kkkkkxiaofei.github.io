@@ -10,9 +10,7 @@ icon: "css3-icon.jpg"
 ---
 #### 开篇
 
-{% highlight sh %}
-块元素的上边距或下边距有时会合并为一个margin，这种情况称之为外边距的合并，即collapsing margins.
-{% endhighlight %}
+>块元素的上边距或下边距有时会合并为一个margin，这种情况称之为外边距的合并，即collapsing margins.
 
 #### 一个常见的css样式的bug
 

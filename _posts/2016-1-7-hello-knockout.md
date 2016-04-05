@@ -9,11 +9,8 @@ icon: "thinking-icon.jpg"
 ---
 ###来源
 
-{% highlight sh %}
+>也许你有过一些使用MVVM框架的经验，并且你熟悉各种主流框架的使用规则（Angular, Knockout），可你是否静下心去读一读其中的源码，思考一下其内部的实现呢？这个deck是根据我对MVVM框架的理解编写而成，其中的demo完全模拟了Knockout.js的接口，希望可以跟大家一起去分享一下如何实现一个简单的MVVM框架。
 
-也许你有过一些使用MVVM框架的经验，并且你熟悉各种主流框架的使用规则（Angular, Knockout），可你是否静下心去读一读其中的源码，思考一下其内部的实现呢？这个deck是根据我对MVVM框架的理解编写而成，其中的demo完全模拟了Knockout.js的接口，希望可以跟大家一起去分享一下如何实现一个简单的MVVM框架。
-
-{% endhighlight %}
 
 >![asd](/../img/Knockout/Knockout.001.jpg)
 

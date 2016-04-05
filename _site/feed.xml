@@ -5,8 +5,8 @@
     <description></description>
     <link>https://github.com/kkkkkxiaofei/</link>
     <atom:link href="https://github.com/kkkkkxiaofei/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 03 Feb 2016 23:36:49 +0530</pubDate>
-    <lastBuildDate>Wed, 03 Feb 2016 23:36:49 +0530</lastBuildDate>
+    <pubDate>Wed, 06 Apr 2016 19:01:03 +0800</pubDate>
+    <lastBuildDate>Wed, 06 Apr 2016 19:01:03 +0800</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
     
       <item>
@@ -98,7 +98,7 @@
   &lt;/li&gt;
 &lt;/ul&gt;
 </description>
-        <pubDate>Mon, 01 Feb 2016 23:09:00 +0530</pubDate>
+        <pubDate>Mon, 01 Feb 2016 23:09:00 +0800</pubDate>
         <link>https://github.com/kkkkkxiaofei/jekyll/update/2016/02/01/mock-stub.html</link>
         <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2016/02/01/mock-stub.html</guid>
         
@@ -113,7 +113,9 @@
         <title>Hello, Knockout</title>
         <description>&lt;h3 id=&quot;section&quot;&gt;来源&lt;/h3&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;也许你有过一些使用MVVM框架的经验，并且你熟悉各种主流框架的使用规则（Angular, Knockout），可你是否静下心去读一读其中的源码，思考一下其内部的实现呢？这个deck是根据我对MVVM框架的理解编写而成，其中的demo完全模拟了Knockout.js的接口，希望可以跟大家一起去分享一下如何实现一个简单的MVVM框架。&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;也许你有过一些使用MVVM框架的经验，并且你熟悉各种主流框架的使用规则（Angular, Knockout），可你是否静下心去读一读其中的源码，思考一下其内部的实现呢？这个deck是根据我对MVVM框架的理解编写而成，其中的demo完全模拟了Knockout.js的接口，希望可以跟大家一起去分享一下如何实现一个简单的MVVM框架。&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;&lt;img src=&quot;/../img/Knockout/Knockout.001.jpg&quot; alt=&quot;asd&quot; /&gt;&lt;/p&gt;
@@ -234,7 +236,7 @@
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;此文真的很赞，绝对的把妹神文，别(求)你妹(大爷)的看完就闪人了(赏个脸)，求转发求扩散～&lt;/code&gt;&lt;/p&gt;
 
 </description>
-        <pubDate>Thu, 07 Jan 2016 10:48:00 +0530</pubDate>
+        <pubDate>Thu, 07 Jan 2016 10:48:00 +0800</pubDate>
         <link>https://github.com/kkkkkxiaofei/jekyll/update/2016/01/07/hello-knockout.html</link>
         <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2016/01/07/hello-knockout.html</guid>
         
@@ -415,7 +417,7 @@
 &lt;p&gt;&lt;a href=&quot;https://github.com/kkkkkxiaofei/Dig-Knockout&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;源码请戳这里&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 
 </description>
-        <pubDate>Mon, 21 Dec 2015 21:44:00 +0530</pubDate>
+        <pubDate>Mon, 21 Dec 2015 21:44:00 +0800</pubDate>
         <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/12/21/mvvm(3).html</link>
         <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/12/21/mvvm(3).html</guid>
         
@@ -522,7 +524,7 @@
 &lt;p&gt;&lt;a href=&quot;https://github.com/kkkkkxiaofei/Dig-Knockout&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;源码请戳这里&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 
 </description>
-        <pubDate>Sun, 20 Dec 2015 11:14:00 +0530</pubDate>
+        <pubDate>Sun, 20 Dec 2015 11:14:00 +0800</pubDate>
         <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/12/20/mvvm(2).html</link>
         <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/12/20/mvvm(2).html</guid>
         
@@ -619,7 +621,7 @@ Last name: Bertington&lt;/p&gt;
 
 &lt;p&gt;基于一段时间使用MVVM的经验，个人觉得在特定场景下它确实很优秀，所以我决心自己尝试着去研究一下MVVM的实现原理，我将会以knockoutjs为基础，打造一套和它的接口相同的MVVM框架（部分主要接口），不求做的多优秀，只想动手实现一下，我将会在后续的博客中介绍如果实现MVVM中的模版引擎和数据绑定（单项，双向）。&lt;/p&gt;
 </description>
-        <pubDate>Mon, 14 Dec 2015 22:54:00 +0530</pubDate>
+        <pubDate>Mon, 14 Dec 2015 22:54:00 +0800</pubDate>
         <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/12/14/mvvm(1).html</link>
         <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/12/14/mvvm(1).html</guid>
         
@@ -705,7 +707,7 @@ Last name: Bertington&lt;/p&gt;
 &lt;p&gt;曾经听过一句话：“程序员就得固执。”我觉得用这个词来形容我实在是恰到好处，而一种谦和的，不伤及他人的，对技术热忱保持不变的固执，依我来看是很必要的。因为，我必须要融入这个技术圈，而在风雨兼程的同时，它至少能让我乐此不疲。&lt;/p&gt;
 
 </description>
-        <pubDate>Sat, 21 Nov 2015 00:40:00 +0530</pubDate>
+        <pubDate>Sat, 21 Nov 2015 00:40:00 +0800</pubDate>
         <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/11/21/how-to-adjust.html</link>
         <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/11/21/how-to-adjust.html</guid>
         
@@ -720,8 +722,10 @@ Last name: Bertington&lt;/p&gt;
         <title>利用IntelliJ IDEA 15建立Spring项目</title>
         <description>&lt;h4 id=&quot;section&quot;&gt;开篇&lt;/h4&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;本文将对如何利用IntelliJ 15搭建一个Hello Wolrd项目进行简单介绍, 不用担心自己没有Spring的基础,主要目的是只是为了让学Spring的新手能够快速写出Spring项目,如果想
-更深入的了解,可以去看Spring的指导手册http://spring.io/guides.&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;本文将对如何利用IntelliJ 15搭建一个Hello Wolrd项目进行简单介绍, 不用担心自己没有Spring的基础,主要目的是只是为了让学Spring的新手能够快速写出Spring项目,如果想
+更深入的了解,可以去看Spring的指导手册http://spring.io/guides.&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h4 id=&quot;section-1&quot;&gt;1.建立新项目&lt;/h4&gt;
 
@@ -877,7 +881,7 @@ Last name: Bertington&lt;/p&gt;
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;注：此文为译文&lt;/code&gt;&lt;a href=&quot;http://patrickgrimard.com/2014/08/14/how-to-build-a-spring-boot-application-using-intellij-idea/&quot;&gt;原文请戳&lt;/a&gt;&lt;/p&gt;
 
 </description>
-        <pubDate>Thu, 12 Nov 2015 22:40:00 +0530</pubDate>
+        <pubDate>Thu, 12 Nov 2015 22:40:00 +0800</pubDate>
         <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/11/12/build-spring.html</link>
         <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/11/12/build-spring.html</guid>
         
@@ -892,7 +896,9 @@ Last name: Bertington&lt;/p&gt;
         <title>你必须记住的30个CSS选择器[译]</title>
         <description>&lt;h4 id=&quot;section&quot;&gt;开篇&lt;/h4&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;有30个CSS选择器你必须烂熟于心，它们适应于当今各大主流浏览器。&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;有30个CSS选择器你必须烂熟于心，它们适应于当今各大主流浏览器。&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h4 id=&quot;section-1&quot;&gt;1.&lt;code class=&quot;highlighter-rouge&quot;&gt;*&lt;/code&gt;&lt;/h4&gt;
 
@@ -1603,7 +1609,7 @@ Last name: Bertington&lt;/p&gt;
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;注：此文为译文&lt;/code&gt;&lt;a href=&quot;http://www.sitepoint.com/understanding-block-formatting-contexts-in-css/&quot;&gt;原文请戳&lt;/a&gt;&lt;/p&gt;
 
 </description>
-        <pubDate>Sun, 23 Aug 2015 20:12:00 +0530</pubDate>
+        <pubDate>Sun, 23 Aug 2015 20:12:00 +0800</pubDate>
         <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/08/23/css-selector.html</link>
         <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/08/23/css-selector.html</guid>
         
@@ -1618,7 +1624,9 @@ Last name: Bertington&lt;/p&gt;
         <title>理解CSS中的BFC(块级可视化上下文)[译]</title>
         <description>&lt;h4 id=&quot;section&quot;&gt;开篇&lt;/h4&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;一些元素，如float元素，如position为absolute,inline-block,table-cell或table-caption的元素，以及overflow属性不为visible的元素，它们将会建立一个新的块级格式化上下文。&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;一些元素，如float元素，如position为absolute,inline-block,table-cell或table-caption的元素，以及overflow属性不为visible的元素，它们将会建立一个新的块级格式化上下文。&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;p&gt;上述定义已经很详细的描述了块级格式化上下文(Block Formatting Context)是如何形成的，为了方便起见，文中均用BFC代替。现在，让我们用一种简单的方式对其进行重新定义:
 BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列条件之一才能形成BFC:&lt;/p&gt;
@@ -1832,7 +1840,7 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;注：此文为译文&lt;/code&gt;&lt;a href=&quot;http://www.sitepoint.com/understanding-block-formatting-contexts-in-css/&quot;&gt;原文请戳&lt;/a&gt;&lt;/p&gt;
 
 </description>
-        <pubDate>Mon, 10 Aug 2015 19:03:00 +0530</pubDate>
+        <pubDate>Mon, 10 Aug 2015 19:03:00 +0800</pubDate>
         <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/08/10/bfc.html</link>
         <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/08/10/bfc.html</guid>
         
@@ -1847,7 +1855,9 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
         <title>shrink-to-fit(自适应宽度)</title>
         <description>&lt;h4 id=&quot;section&quot;&gt;开篇&lt;/h4&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;自适应宽度是指当未明确设定容器的宽度（或外边距设为auto）时，再特定的情况下容器的宽度会根据情况自行设定，而设定的结果往往并不是我们想要的。&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;自适应宽度是指当未明确设定容器的宽度（或外边距设为auto）时，再特定的情况下容器的宽度会根据情况自行设定，而设定的结果往往并不是我们想要的。&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h4 id=&quot;w3cshrink-to-fit&quot;&gt;W3C规范中描述的几种shrink-to-fit的情况&lt;/h4&gt;
 
@@ -1980,7 +1990,7 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 
 &lt;p&gt;总结：&lt;code class=&quot;highlighter-rouge&quot;&gt;对于浮动或者特殊的定位方式，推荐显式的设置容器宽度，避免出现意想不到的结果&lt;/code&gt;&lt;/p&gt;
 </description>
-        <pubDate>Mon, 27 Jul 2015 14:05:00 +0530</pubDate>
+        <pubDate>Mon, 27 Jul 2015 14:05:00 +0800</pubDate>
         <link>https://github.com/kkkkkxiaofei/jekyll/update/2015/07/27/shrink.html</link>
         <guid isPermaLink="true">https://github.com/kkkkkxiaofei/jekyll/update/2015/07/27/shrink.html</guid>
         
