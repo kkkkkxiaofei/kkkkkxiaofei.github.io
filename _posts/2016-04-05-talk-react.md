@@ -10,7 +10,7 @@ icon: "js-icon.jpg"
 
 >初接触React，除了不习惯其组件化的设计原则外，往往它所‘依赖’的众多module也会让初学者感到困惑，使得不知从何学起。此文只是我对React的一些浅析，希望能帮助想要学习React的朋友入门。
 
-###1.React从来就是独立的
+### 1.React从来就是独立的
 
 正如上面我提到的，React'依赖'了很多module，但是这种依赖并不是所谓的耦合依赖，只是为了更好的去实现React。换句话说，React只是一个View层面的框架，它可以和其他module自然的融合（更好的去实现）。
 
@@ -86,7 +86,7 @@ ReactDOM.render(
 
 所以，引用其他module，只是为了实现更复杂的React App，使得其更具有扩展性。
 
-###2.Container
+### 2.Container
 
 那么问题来了，如果我还像要一个类似的Component，但是每次计数的时候不是加1或者减1，而是乘2或除2，那怎么做呢？
 
@@ -168,7 +168,7 @@ ReactDOM.render(
 UI与逻辑分离成功，是不是感觉瞬间清爽许多。
 关于什么时Contianer Component和Presentation Component，推荐[此文](https://medium.com/@learnreact/container-components-c0e67432e005#.w2cmqjegm)。
 
-###3.Use store to help dispatch actions
+### 3.Use store to help dispatch actions
 
 分离了UI后，的确逻辑上清楚了许多，但仔细观察会发现，上面的 ***MyCounterContainer*** 状态的改变只是两个button。而React认为Component的状态变化必定是由一个行为，即action造成的，因此，我们需要将上面的加减法抽象为一个行为驱动的事件，即一个行为对应一种状态结果。而 ***redux*** 就是干这事儿的，它通过createStore去创建一个store，这个store可以管理和知晓这个Component的状态，它通过dispatch分发action然后得到最新的状态结果。
 
@@ -219,7 +219,7 @@ var CounterContainer = React.createClass({
 module.exports = CounterContainer;
 {% endhighlight %}
 
-###4.Use connect to manage the dispatch and reducer
+### 4.Use connect to manage the dispatch and reducer
 
 仔细观察上次重构，不难发现还是有些问题：
 
@@ -269,7 +269,7 @@ var CounterContainer = connect(
 module.exports = CounterContainer;
 {% endhighlight %}
 
-###5.Split actions
+### 5.Split actions
 
 上面的例子已经很接近React的初级App的设计了，但当我们的Component特别复杂时，往往action也会难抽象，像上面的dispatch({type: "PLUS", value: 2});偶合度太高，因为我们根本不知道这个action为什么是这样，就好比我们随便写了一个常量而并未定义任何变量名一样，别人是很难阅读的。因此比较好的做法是把action更小的分离，比如上面的action，我们可以分离成如下：
 
@@ -291,9 +291,9 @@ module.exports.minusAction = function(val) {
 
 这样，在dispatch时，也会显得很简洁。
 
-###6.ES6 refactor
+### 6.ES6 refactor
 ES6部分就不在这里赘述了，大多都是语法问题，建议大家可以参考[阮老师的书ES6入门](http://es6.ruanyifeng.com/#docs/function)
 
-###7.写在最后
+### 7.写在最后
 
 个人认为，学习React十分不推荐一上手就用各种module，或者照猫画虎式的去填空，这样只能是到头来什么也不会。当你从头开始去理解时，才能找到痛点，而当你有痛点时你才需要重构，那么此时可能某个module就是你想要的。你用它只是为了省时，而不是你做不出来才用它。借用我前几天在知乎上回答的问题“用库丢脸不？”，我的观点是：***用库不丢脸，不懂库还非要用库才丢脸***。
