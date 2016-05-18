@@ -1,2 +1,3 @@
 # kkkkkxiaofei.github.io
-This is my blog
+
+[visit my Pursue blog](kkkkkxiaofei.github.io)
