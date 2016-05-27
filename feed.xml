@@ -3,10 +3,10 @@
   <channel>
     <title>Pursue</title>
     <description>This blog is ceated by Pursue</description>
-    <link>http://kkkkkxiaofei.github.io/</link>
-    <atom:link href="http://kkkkkxiaofei.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 27 May 2016 13:46:17 +0800</pubDate>
-    <lastBuildDate>Fri, 27 May 2016 13:46:17 +0800</lastBuildDate>
+    <link>http://kkkkkxiaofei.github.io//</link>
+    <atom:link href="http://kkkkkxiaofei.github.io//feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Fri, 27 May 2016 13:55:12 +0800</pubDate>
+    <lastBuildDate>Fri, 27 May 2016 13:55:12 +0800</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
     
       <item>
@@ -122,8 +122,8 @@
 &lt;/blockquote&gt;
 </description>
         <pubDate>Wed, 18 May 2016 20:52:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2016/05/18/rspec.html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2016/05/18/rspec.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2016/05/18/rspec.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2016/05/18/rspec.html</guid>
         
         
         <category>jekyll</category>
@@ -409,8 +409,8 @@ connect可以把自定义的state和dispatch分发事件绑定到Component上，
 &lt;p&gt;个人认为，学习React十分不推荐一上手就用各种module，或者照猫画虎式的去填空，这样只能是到头来什么也不会。当你从头开始去理解时，才能找到痛点，而当你有痛点时你才需要重构，那么此时可能某个module就是你想要的。你用它只是为了省时，而不是你做不出来才用它。借用我前几天在知乎上回答的问题“用库丢脸不？”，我的观点是：&lt;strong&gt;&lt;em&gt;用库不丢脸，不懂库还非要用库才丢脸&lt;/em&gt;&lt;/strong&gt;。&lt;/p&gt;
 </description>
         <pubDate>Tue, 05 Apr 2016 21:20:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2016/04/05/talk-react.html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2016/04/05/talk-react.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2016/04/05/talk-react.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2016/04/05/talk-react.html</guid>
         
         
         <category>jekyll</category>
@@ -509,8 +509,8 @@ connect可以把自定义的state和dispatch分发事件绑定到Component上，
 &lt;/ul&gt;
 </description>
         <pubDate>Mon, 01 Feb 2016 23:09:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2016/02/01/mock-stub.html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2016/02/01/mock-stub.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2016/02/01/mock-stub.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2016/02/01/mock-stub.html</guid>
         
         
         <category>jekyll</category>
@@ -647,8 +647,8 @@ connect可以把自定义的state和dispatch分发事件绑定到Component上，
 
 </description>
         <pubDate>Thu, 07 Jan 2016 22:48:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2016/01/07/hello-knockout.html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2016/01/07/hello-knockout.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2016/01/07/hello-knockout.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2016/01/07/hello-knockout.html</guid>
         
         
         <category>jekyll</category>
@@ -828,8 +828,8 @@ connect可以把自定义的state和dispatch分发事件绑定到Component上，
 
 </description>
         <pubDate>Mon, 21 Dec 2015 21:44:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2015/12/21/mvvm(3).html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2015/12/21/mvvm(3).html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/12/21/mvvm(3).html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/12/21/mvvm(3).html</guid>
         
         
         <category>jekyll</category>
@@ -935,8 +935,8 @@ connect可以把自定义的state和dispatch分发事件绑定到Component上，
 
 </description>
         <pubDate>Sun, 20 Dec 2015 11:14:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2015/12/20/mvvm(2).html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2015/12/20/mvvm(2).html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/12/20/mvvm(2).html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/12/20/mvvm(2).html</guid>
         
         
         <category>jekyll</category>
@@ -1032,8 +1032,8 @@ Last name: Bertington&lt;/p&gt;
 &lt;p&gt;基于一段时间使用MVVM的经验，个人觉得在特定场景下它确实很优秀，所以我决心自己尝试着去研究一下MVVM的实现原理，我将会以knockoutjs为基础，打造一套和它的接口相同的MVVM框架（部分主要接口），不求做的多优秀，只想动手实现一下，我将会在后续的博客中介绍如果实现MVVM中的模版引擎和数据绑定（单项，双向）。&lt;/p&gt;
 </description>
         <pubDate>Mon, 14 Dec 2015 22:54:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2015/12/14/mvvm(1).html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2015/12/14/mvvm(1).html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/12/14/mvvm(1).html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/12/14/mvvm(1).html</guid>
         
         
         <category>jekyll</category>
@@ -1118,8 +1118,8 @@ Last name: Bertington&lt;/p&gt;
 
 </description>
         <pubDate>Sat, 21 Nov 2015 00:40:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2015/11/21/how-to-adjust.html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2015/11/21/how-to-adjust.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/11/21/how-to-adjust.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/11/21/how-to-adjust.html</guid>
         
         
         <category>jekyll</category>
@@ -1292,8 +1292,8 @@ Last name: Bertington&lt;/p&gt;
 
 </description>
         <pubDate>Thu, 12 Nov 2015 22:40:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2015/11/12/build-spring.html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2015/11/12/build-spring.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/11/12/build-spring.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/11/12/build-spring.html</guid>
         
         
         <category>jekyll</category>
@@ -2020,8 +2020,8 @@ Last name: Bertington&lt;/p&gt;
 
 </description>
         <pubDate>Sun, 23 Aug 2015 20:12:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2015/08/23/css-selector.html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2015/08/23/css-selector.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/08/23/css-selector.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/08/23/css-selector.html</guid>
         
         
         <category>jekyll</category>
@@ -2251,8 +2251,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 
 </description>
         <pubDate>Mon, 10 Aug 2015 19:03:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2015/08/10/bfc.html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2015/08/10/bfc.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/08/10/bfc.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/08/10/bfc.html</guid>
         
         
         <category>jekyll</category>
@@ -2401,8 +2401,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 &lt;p&gt;总结：&lt;code class=&quot;highlighter-rouge&quot;&gt;对于浮动或者特殊的定位方式，推荐显式的设置容器宽度，避免出现意想不到的结果&lt;/code&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 27 Jul 2015 14:05:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2015/07/27/shrink.html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2015/07/27/shrink.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/07/27/shrink.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/07/27/shrink.html</guid>
         
         
         <category>jekyll</category>
@@ -2484,8 +2484,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 
 </description>
         <pubDate>Sun, 26 Jul 2015 22:14:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2015/07/26/collapsing.html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2015/07/26/collapsing.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/07/26/collapsing.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/07/26/collapsing.html</guid>
         
         
         <category>jekyll</category>
@@ -2603,8 +2603,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 
 </description>
         <pubDate>Thu, 11 Jun 2015 22:14:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2015/06/11/lyric.html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2015/06/11/lyric.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/06/11/lyric.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/06/11/lyric.html</guid>
         
         
         <category>jekyll</category>
@@ -2741,8 +2741,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;注：本文与简书同步&lt;/code&gt;&lt;a href=&quot;#http://www.jianshu.com/p/1e402922ee32/&quot;&gt;简书请戳&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 04 Jun 2015 22:47:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2015/06/04/inherit.html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2015/06/04/inherit.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/06/04/inherit.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/06/04/inherit.html</guid>
         
         
         <category>jekyll</category>
@@ -2828,8 +2828,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;注：本文与简书同步&lt;/code&gt;&lt;a href=&quot;#http://www.jianshu.com/p/1e402922ee32/&quot;&gt;简书请戳&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 03 Jun 2015 22:47:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2015/06/03/proto.html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2015/06/03/proto.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/06/03/proto.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/06/03/proto.html</guid>
         
         
         <category>jekyll</category>
@@ -3038,8 +3038,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 
 </description>
         <pubDate>Sat, 30 May 2015 09:34:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2015/05/30/mao-chao-session.html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2015/05/30/mao-chao-session.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/05/30/mao-chao-session.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/05/30/mao-chao-session.html</guid>
         
         
         <category>jekyll</category>
@@ -3151,8 +3151,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;注：本文章转载为简书&lt;/code&gt;&lt;a href=&quot;#http://www.jianshu.com/p/1e402922ee32/&quot;&gt;原文请戳&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 27 May 2015 22:39:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2015/05/27/markdown.html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2015/05/27/markdown.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/05/27/markdown.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/05/27/markdown.html</guid>
         
         
         <category>jekyll</category>
@@ -3199,8 +3199,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 
 </description>
         <pubDate>Fri, 15 May 2015 19:00:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2015/05/15/yeoman.html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2015/05/15/yeoman.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/05/15/yeoman.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/05/15/yeoman.html</guid>
         
         
         <category>jekyll</category>
@@ -3237,8 +3237,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 
 </description>
         <pubDate>Thu, 14 May 2015 23:31:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2015/05/14/js-proto.html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2015/05/14/js-proto.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/05/14/js-proto.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/05/14/js-proto.html</guid>
         
         
         <category>jekyll</category>
@@ -3321,8 +3321,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 
 </description>
         <pubDate>Tue, 12 May 2015 22:10:00 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2015/05/12/js-call-apply.html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2015/05/12/js-call-apply.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/05/12/js-call-apply.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/05/12/js-call-apply.html</guid>
         
         
         <category>jekyll</category>
@@ -3349,8 +3349,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 
 </description>
         <pubDate>Fri, 01 May 2015 21:12:13 +0800</pubDate>
-        <link>http://kkkkkxiaofei.github.io/jekyll/update/2015/05/01/welcome-to-jekyll.html</link>
-        <guid isPermaLink="true">http://kkkkkxiaofei.github.io/jekyll/update/2015/05/01/welcome-to-jekyll.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/05/01/welcome-to-jekyll.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/05/01/welcome-to-jekyll.html</guid>
         
         
         <category>jekyll</category>
