@@ -5,8 +5,8 @@
     <description>This blog is ceated by Pursue</description>
     <link>http://kkkkkxiaofei.github.io//</link>
     <atom:link href="http://kkkkkxiaofei.github.io//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 27 May 2016 13:55:12 +0800</pubDate>
-    <lastBuildDate>Fri, 27 May 2016 13:55:12 +0800</lastBuildDate>
+    <pubDate>Mon, 30 May 2016 13:00:05 +0800</pubDate>
+    <lastBuildDate>Mon, 30 May 2016 13:00:05 +0800</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
     
       <item>
@@ -2770,8 +2770,11 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
     &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
     &lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;say&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//Hello,John&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;上述代码非常简单，Person原型对象定义了公共的say方法，虽然此举在构造实例之后出现，但因为原型方法在调用之前已经声明，因此之后的每个实例将都拥有该方法。从这个简单的例子里，我们可以得出：
-&lt;code class=&quot;highlighter-rouge&quot;&gt;原型对象的用途是为每个实例对象存储共享的方法和属性，它仅仅是一个普通对象而已。并且所有的实例是共享同一个原型对象，因此有别于实例方法或属性，原型对象仅有一份。&lt;/code&gt;所有就会有如下等式成立：&lt;/p&gt;
+&lt;p&gt;上述代码非常简单，Person原型对象定义了公共的say方法，虽然此举在构造实例之后出现，但因为原型方法在调用之前已经声明，因此之后的每个实例将都拥有该方法。从这个简单的例子里，我们可以得出：&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;原型对象的用途是为每个实例对象存储共享的方法和属性，它仅仅是一个普通对象而已。并且所有的实例是共享同一个原型对象，因此有别于实例方法或属性，原型对象仅有一份。&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;所有就会有如下等式成立：&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;                
     &lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;say&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;say&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
@@ -2793,8 +2796,9 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
  当&lt;code class=&quot;highlighter-rouge&quot;&gt;var person = new Person()&lt;/code&gt;时，Person.prototype为：&lt;code class=&quot;highlighter-rouge&quot;&gt;Person {}&lt;/code&gt;(当然了，内部还有constructor属性),即Person.prototype指向一个空的对象{}。而对于实例person而言，其内部有一个原型链指针__proto__,该指针指向了Person.prototype指向的对象，即{}。接下来重置了Person的原型对象，使其指向了另外一个对象,即
  &lt;code class=&quot;highlighter-rouge&quot;&gt;Object {say: function}&lt;/code&gt;，
  这时person.__proto__的指向还是没有变，它指向的{}对象里面是没有say方法的，因为报错。
- 从这个现象我们可以得出：
- &lt;code class=&quot;highlighter-rouge&quot;&gt;在js中，对象在调用一个方法时会首先在自身里寻找是否有该方法，若没有，则去原型链上去寻找，依次层层递进，这里的原型链就是实例对象的__proto__属性&lt;/code&gt;。&lt;/p&gt;
+ 从这个现象我们可以得出：&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;在js中，对象在调用一个方法时会首先在自身里寻找是否有该方法，若没有，则去原型链上去寻找，依次层层递进，这里的原型链就是实例对象的__proto__属性。&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;若想让上述例子成功运行，最简单有效的方法就是交换构造对象和重置原型对象的顺序，即：&lt;/p&gt;
 
@@ -2823,7 +2827,9 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
         &lt;span class=&quot;nx&quot;&gt;some&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;prototype&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;properties&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;总结：&lt;code class=&quot;highlighter-rouge&quot;&gt;函数的原型对象constructor默认指向函数本身，原型对象除了有原型属性外，为了实现继承，还有一个原型链指针__proto__，该指针指向上一层的原型对象，而上一层的原型对象的结构依然类似，这样利用__proto__一直指向Object的原型对象上，而Object的原型对象用Object.__proto__ = null表示原型链的最顶端，如此变形成了javascript的原型链继承，同时也解释了为什么所有的javascript对象都具有Object的基本方法。&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&quot;section-4&quot;&gt;总结：&lt;/h3&gt;
+
+&lt;p&gt;函数的原型对象constructor默认指向函数本身，原型对象除了有原型属性外，为了实现继承，还有一个原型链指针__proto__，该指针指向上一层的原型对象，而上一层的原型对象的结构依然类似，这样利用__proto__一直指向Object的原型对象上，而Object的原型对象用Object.&lt;strong&gt;proto&lt;/strong&gt; = null表示原型链的最顶端，如此变形成了javascript的原型链继承，同时也解释了为什么所有的javascript对象都具有Object的基本方法。&lt;/p&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;注：本文与简书同步&lt;/code&gt;&lt;a href=&quot;#http://www.jianshu.com/p/1e402922ee32/&quot;&gt;简书请戳&lt;/a&gt;&lt;/p&gt;
 </description>
