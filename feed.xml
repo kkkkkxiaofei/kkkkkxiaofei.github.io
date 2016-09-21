@@ -5,9 +5,132 @@
     <description>This blog is ceated by Pursue</description>
     <link>http://kkkkkxiaofei.github.io//</link>
     <atom:link href="http://kkkkkxiaofei.github.io//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 06 Sep 2016 13:58:31 +0800</pubDate>
-    <lastBuildDate>Tue, 06 Sep 2016 13:58:31 +0800</lastBuildDate>
+    <pubDate>Wed, 21 Sep 2016 14:11:10 +0800</pubDate>
+    <lastBuildDate>Wed, 21 Sep 2016 14:11:10 +0800</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
+    
+      <item>
+        <title>Element和Node的区别你造吗？</title>
+        <description>&lt;h3 id=&quot;section&quot;&gt;1.写在前面&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;我们经常使用document.getElementById去获取DOM中的元素，也会使用childNodes来获取子节点。那么Element和Node的区别是什么？而什么又是HTMLCollection,HTMLElement,和NodeList呢？&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;一个简单的页面：&lt;/h4&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;China&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- My comment ...  --&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;China is a popular country with...&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;button&amp;gt;&lt;/span&gt;See details&lt;span class=&quot;nt&quot;&gt;&amp;lt;/button&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;body&lt;/code&gt;里的直系子元素一共有三个：&lt;code class=&quot;highlighter-rouge&quot;&gt;h&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;p&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;div&lt;/code&gt;。我们可以用&lt;code class=&quot;highlighter-rouge&quot;&gt;document.body.childNodes&lt;/code&gt;查看, 结果如下:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/element/nodelist.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;问题来了：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1.这么会有这么多的#text？&lt;/li&gt;
+  &lt;li&gt;2.注释算节点？&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在回答上面两个问题之前，就有必要理解下什么是&lt;code class=&quot;highlighter-rouge&quot;&gt;Node&lt;/code&gt;了。&lt;/p&gt;
+
+&lt;h3 id=&quot;node-vs-elemet&quot;&gt;2.Node vs Elemet&lt;/h3&gt;
+
+&lt;p&gt;以下摘自MDN:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;A Node is an interface from which a number of DOM types inherit, and allows these various types to be treated (or tested) similarly.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The following interfaces all inherit from Node its methods and properties: Document, Element, CharacterData (which Text, Comment, and CDATASection inherit), ProcessingInstruction, DocumentFragment, DocumentType, Notation, Entity, EntityReference.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;简单的说就是&lt;code class=&quot;highlighter-rouge&quot;&gt;Node&lt;/code&gt;是一个基类，DOM中的&lt;code class=&quot;highlighter-rouge&quot;&gt;Element&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;Text&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;Comment&lt;/code&gt;都继承于它。
+换句话说，&lt;code class=&quot;highlighter-rouge&quot;&gt;Element&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;Text&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;Comment&lt;/code&gt;是三种特殊的&lt;code class=&quot;highlighter-rouge&quot;&gt;Node&lt;/code&gt;，它们分别叫做&lt;code class=&quot;highlighter-rouge&quot;&gt;ELEMENT_NODE&lt;/code&gt;,
+&lt;code class=&quot;highlighter-rouge&quot;&gt;TEXT_NODE&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;COMMENT_NODE&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;所以我们平时使用的html上的元素，即Element是类型为&lt;code class=&quot;highlighter-rouge&quot;&gt;ELEMENT_NODE&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;Node&lt;/code&gt;。&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;利用&lt;code class=&quot;highlighter-rouge&quot;&gt;nodeType&lt;/code&gt;可以查看所有类型，如下图：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/element/nodetype.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;到这里，我想我们就可以解释上面两个问题了。&lt;/p&gt;
+
+&lt;p&gt;实际上&lt;code class=&quot;highlighter-rouge&quot;&gt;Node&lt;/code&gt;表示的是DOM树的结构，在html中，节点与节点之间是可以插入文本的，这个插入的空隙就是&lt;code class=&quot;highlighter-rouge&quot;&gt;TEXT_NODE&lt;/code&gt;，即：&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+    we can put text here 1...
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;China&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+    we can put text here 2...
+    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- My comment ...  --&amp;gt;&lt;/span&gt;
+    we can put text here 3...
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;China is a popular country with...&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+    we can put text here 4...
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;button&amp;gt;&lt;/span&gt;See details&lt;span class=&quot;nt&quot;&gt;&amp;lt;/button&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    we can put text here 5 ...
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;这下就顺理成章了，body的直系元素（3）＋ COMMENT_NODE(1) + TEXT_NODE(5) = 9&lt;/p&gt;
+
+&lt;h3 id=&quot;nodelist-vs-htmlcollection&quot;&gt;3.NodeList vs HTMLCollection&lt;/h3&gt;
+
+&lt;p&gt;我们用&lt;code class=&quot;highlighter-rouge&quot;&gt;childNodes&lt;/code&gt;找到了&lt;code class=&quot;highlighter-rouge&quot;&gt;NodeList&lt;/code&gt;，但我们操作DOM时往往不想操作&lt;code class=&quot;highlighter-rouge&quot;&gt;Node&lt;/code&gt;(我只想操作元素Element)，那么如何获取ElementList呢？&lt;/p&gt;
+
+&lt;p&gt;其实我们经常使用的&lt;code class=&quot;highlighter-rouge&quot;&gt;getElementsByXXX&lt;/code&gt;返回的就是一个ElementList，只不过它的真实名字是&lt;code class=&quot;highlighter-rouge&quot;&gt;ElementCollection&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;就像&lt;code class=&quot;highlighter-rouge&quot;&gt;NodeList&lt;/code&gt;是&lt;code class=&quot;highlighter-rouge&quot;&gt;Node&lt;/code&gt;的集合一样，&lt;code class=&quot;highlighter-rouge&quot;&gt;ElementCollection&lt;/code&gt;也是&lt;code class=&quot;highlighter-rouge&quot;&gt;Element&lt;/code&gt;的集合。但需要特别注意的是：&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;NodeList和ElementCollcetion都不是真正的数组&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;如果&lt;code class=&quot;highlighter-rouge&quot;&gt;document.getElementsByTagName(&#39;a&#39;) instanceof Array&lt;/code&gt;，那么必然是&lt;code class=&quot;highlighter-rouge&quot;&gt;false&lt;/code&gt;。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;4.写在最后&lt;/h3&gt;
+
+&lt;p&gt;DOM(Document Object Model)简称文档对象模型，它是html和xml是文档编程的接口，它将文档解析为树结构，这个树的根部就是&lt;code class=&quot;highlighter-rouge&quot;&gt;document&lt;/code&gt;,而&lt;code class=&quot;highlighter-rouge&quot;&gt;document&lt;/code&gt;的第一个子节点(childeNodes[0])就是html，这才有了后面的一系列html元素。&lt;/p&gt;
+
+&lt;p&gt;最后附一张DOM图，此刻再看这张图是不是觉得回味无穷咧。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/element/dom.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;参考资料：&lt;/p&gt;
+
+&lt;p&gt;1.&lt;a href=&quot;.http://stackoverflow.com/questions/9979172/difference-between-node-object-and-element-object&quot;&gt;Node vs Element&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;2.&lt;a href=&quot;https://developer.mozilla.org/zh-CN/docs/Web/API/Document_Object_Model/Introduction&quot;&gt;DOM&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;3.&lt;a href=&quot;https://developer.mozilla.org/zh-CN/docs/Web/API/Node&quot;&gt;Node&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;4.&lt;a href=&quot;https://developer.mozilla.org/zh-CN/docs/Web/API/NodeList&quot;&gt;NodeList&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Wed, 21 Sep 2016 12:28:00 +0800</pubDate>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2016/09/21/node-vs-element.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2016/09/21/node-vs-element.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
     
       <item>
         <title>&quot;Remote Work Via Git&quot;的正确打开方式</title>

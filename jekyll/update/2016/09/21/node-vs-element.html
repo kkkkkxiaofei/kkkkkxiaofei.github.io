@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang＝'zh-CN'>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Element和Node的区别你造吗？</title>
+    <link rel="icon" type="image/png" href="/../img/link-icon.png" sizes="640x640" />
+    <meta name="description" content="This blog is ceated by Pursue">
+
+	
+	<link rel="stylesheet" href="/css/main.css">
+	
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	
+
+    
+
+    <!-- <link rel="stylesheet" href="//css/main.css"> -->
+    <link rel="canonical" href="http://kkkkkxiaofei.github.io//jekyll/update/2016/09/21/node-vs-element.html">
+</head>
+
+
+  <body class="back">
+
+        <div class="wrapper">
+	<div class="post">
+
+	  <header class="post-header">
+	    <h1 class="post-title">Element和Node的区别你造吗？</h1>
+
+	    <!-- <p class="post-meta pull-right">Sep 21, 2016</p> -->
+	  </header>
+	
+	  <article class="post-content">
+	  	<div class="meta-top">
+	  	  <a href="https://kkkkkxiaofei.github.io">
+	  	  	<div class="avatar">
+	  	  		<img thumbnail="90x90" quality="100" src="/img/author.png" alt="4ee77d0667a3">
+	  	  	</div>
+	  	  	<span style="color:#4094c7;">Pursue</span>
+	  	  	<span>Sep 21, 2016</span>
+	  	  </a>
+	  	</div>
+	  	<div class="clearfix">
+	    <h3 id="section">1.写在前面</h3>
+
+<blockquote>
+  <p>我们经常使用document.getElementById去获取DOM中的元素，也会使用childNodes来获取子节点。那么Element和Node的区别是什么？而什么又是HTMLCollection,HTMLElement,和NodeList呢？</p>
+</blockquote>
+
+<h4 id="section-1">一个简单的页面：</h4>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>China<span class="nt">&lt;/h1&gt;</span>
+    <span class="c">&lt;!-- My comment ...  --&gt;</span>
+    <span class="nt">&lt;p&gt;</span>China is a popular country with...<span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;div&gt;</span>
+      <span class="nt">&lt;button&gt;</span>See details<span class="nt">&lt;/button&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span></code></pre></figure>
+
+<p><code class="highlighter-rouge">body</code>里的直系子元素一共有三个：<code class="highlighter-rouge">h</code>,<code class="highlighter-rouge">p</code>,<code class="highlighter-rouge">div</code>。我们可以用<code class="highlighter-rouge">document.body.childNodes</code>查看, 结果如下:</p>
+
+<blockquote>
+  <p><img src="/../img/element/nodelist.png" alt="" /></p>
+</blockquote>
+
+<p>问题来了：</p>
+
+<ul>
+  <li>1.这么会有这么多的#text？</li>
+  <li>2.注释算节点？</li>
+</ul>
+
+<p>在回答上面两个问题之前，就有必要理解下什么是<code class="highlighter-rouge">Node</code>了。</p>
+
+<h3 id="node-vs-elemet">2.Node vs Elemet</h3>
+
+<p>以下摘自MDN:</p>
+
+<blockquote>
+  <p>A Node is an interface from which a number of DOM types inherit, and allows these various types to be treated (or tested) similarly.</p>
+</blockquote>
+
+<blockquote>
+  <p>The following interfaces all inherit from Node its methods and properties: Document, Element, CharacterData (which Text, Comment, and CDATASection inherit), ProcessingInstruction, DocumentFragment, DocumentType, Notation, Entity, EntityReference.</p>
+</blockquote>
+
+<p>简单的说就是<code class="highlighter-rouge">Node</code>是一个基类，DOM中的<code class="highlighter-rouge">Element</code>，<code class="highlighter-rouge">Text</code>和<code class="highlighter-rouge">Comment</code>都继承于它。
+换句话说，<code class="highlighter-rouge">Element</code>，<code class="highlighter-rouge">Text</code>和<code class="highlighter-rouge">Comment</code>是三种特殊的<code class="highlighter-rouge">Node</code>，它们分别叫做<code class="highlighter-rouge">ELEMENT_NODE</code>,
+<code class="highlighter-rouge">TEXT_NODE</code>和<code class="highlighter-rouge">COMMENT_NODE</code>。</p>
+
+<p><strong><em>所以我们平时使用的html上的元素，即Element是类型为<code class="highlighter-rouge">ELEMENT_NODE</code>的<code class="highlighter-rouge">Node</code>。</em></strong></p>
+
+<p>利用<code class="highlighter-rouge">nodeType</code>可以查看所有类型，如下图：</p>
+
+<blockquote>
+  <p><img src="/../img/element/nodetype.png" alt="" /></p>
+</blockquote>
+
+<p>到这里，我想我们就可以解释上面两个问题了。</p>
+
+<p>实际上<code class="highlighter-rouge">Node</code>表示的是DOM树的结构，在html中，节点与节点之间是可以插入文本的，这个插入的空隙就是<code class="highlighter-rouge">TEXT_NODE</code>，即：</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;body&gt;</span>
+    we can put text here 1...
+    <span class="nt">&lt;h1&gt;</span>China<span class="nt">&lt;/h1&gt;</span>
+    we can put text here 2...
+    <span class="c">&lt;!-- My comment ...  --&gt;</span>
+    we can put text here 3...
+    <span class="nt">&lt;p&gt;</span>China is a popular country with...<span class="nt">&lt;/p&gt;</span>
+    we can put text here 4...
+    <span class="nt">&lt;div&gt;</span>
+      <span class="nt">&lt;button&gt;</span>See details<span class="nt">&lt;/button&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    we can put text here 5 ...
+<span class="nt">&lt;/body&gt;</span></code></pre></figure>
+
+<p>这下就顺理成章了，body的直系元素（3）＋ COMMENT_NODE(1) + TEXT_NODE(5) = 9</p>
+
+<h3 id="nodelist-vs-htmlcollection">3.NodeList vs HTMLCollection</h3>
+
+<p>我们用<code class="highlighter-rouge">childNodes</code>找到了<code class="highlighter-rouge">NodeList</code>，但我们操作DOM时往往不想操作<code class="highlighter-rouge">Node</code>(我只想操作元素Element)，那么如何获取ElementList呢？</p>
+
+<p>其实我们经常使用的<code class="highlighter-rouge">getElementsByXXX</code>返回的就是一个ElementList，只不过它的真实名字是<code class="highlighter-rouge">ElementCollection</code>。</p>
+
+<p>就像<code class="highlighter-rouge">NodeList</code>是<code class="highlighter-rouge">Node</code>的集合一样，<code class="highlighter-rouge">ElementCollection</code>也是<code class="highlighter-rouge">Element</code>的集合。但需要特别注意的是：</p>
+
+<p><strong><em>NodeList和ElementCollcetion都不是真正的数组</em></strong></p>
+
+<p>如果<code class="highlighter-rouge">document.getElementsByTagName('a') instanceof Array</code>，那么必然是<code class="highlighter-rouge">false</code>。</p>
+
+<h3 id="section-2">4.写在最后</h3>
+
+<p>DOM(Document Object Model)简称文档对象模型，它是html和xml是文档编程的接口，它将文档解析为树结构，这个树的根部就是<code class="highlighter-rouge">document</code>,而<code class="highlighter-rouge">document</code>的第一个子节点(childeNodes[0])就是html，这才有了后面的一系列html元素。</p>
+
+<p>最后附一张DOM图，此刻再看这张图是不是觉得回味无穷咧。</p>
+
+<blockquote>
+  <p><img src="/../img/element/dom.png" alt="" /></p>
+</blockquote>
+
+<p>参考资料：</p>
+
+<p>1.<a href=".http://stackoverflow.com/questions/9979172/difference-between-node-object-and-element-object">Node vs Element</a></p>
+
+<p>2.<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document_Object_Model/Introduction">DOM</a></p>
+
+<p>3.<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Node">Node</a></p>
+
+<p>4.<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/NodeList">NodeList</a></p>
+
+	    </div>
+	  </article>
+
+	</div>
+</div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+        <div class="row">
+                       
+            <div class="foot-center">
+              
+                <span class="fake-read-time">阅读 9999+</span>
+                
+                <a href="https://github.com/kkkkkxiaofei">
+                  
+                  <span class="icon  icon--github">
+                    <svg viewBox="0 0 16 16">
+                      <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                    </svg>
+                  </span>
+                  <span class="follow-me">Follow Pursue's Github </span>
+                </a>
+                
+            </div>
+        </div>
+
+
+
+
+
+     
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
