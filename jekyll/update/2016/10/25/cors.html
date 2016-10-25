@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang＝'zh-CN'>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>就是要跨域</title>
+    <link rel="icon" type="image/png" href="/../img/link-icon.png" sizes="640x640" />
+    <meta name="description" content="This blog is ceated by Pursue">
+
+	
+	<link rel="stylesheet" href="/css/main.css">
+	
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	
+
+    
+
+    <!-- <link rel="stylesheet" href="//css/main.css"> -->
+    <link rel="canonical" href="http://kkkkkxiaofei.github.io//jekyll/update/2016/10/25/cors.html">
+</head>
+
+
+  <body class="back">
+
+        <div class="wrapper">
+	<div class="post">
+
+	  <header class="post-header">
+	    <h1 class="post-title">就是要跨域</h1>
+
+	    <!-- <p class="post-meta pull-right">Oct 25, 2016</p> -->
+	  </header>
+	
+	  <article class="post-content">
+	  	<div class="meta-top">
+	  	  <a href="https://kkkkkxiaofei.github.io">
+	  	  	<div class="avatar">
+	  	  		<img thumbnail="90x90" quality="100" src="/img/author.png" alt="4ee77d0667a3">
+	  	  	</div>
+	  	  	<span style="color:#4094c7;">Pursue</span>
+	  	  	<span>Oct 25, 2016</span>
+	  	  </a>
+	  	</div>
+	  	<div class="clearfix">
+	    <blockquote>
+  <p>由于CORS(跨域)本身是具有安全隐患的，因此浏览器默认是禁止的。但跨域却在web开发中具有很重要的作用，也是前端dev经常为之头痛的领域。那么，前端到底如何跨这个域呢，且往下看。</p>
+</blockquote>
+
+<p>前端常见的跨域手段如下：</p>
+
+<blockquote>
+  <p><img src="/../img/cors/cors.jpg" alt="" /></p>
+</blockquote>
+
+<h3 id="scriptlinkimg">1.script/link/img加载外部资源</h3>
+
+<p>一个网站常常会加载以下外部资源：</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">“http://www.otherdomain.com/apple.jpg”</span> <span class="nt">/&gt;</span></code></pre></figure>
+
+<p>它们都有一个相似的特点，即js运行时一般很难去获取其加载的资源内容。具体来说，有时候我们经常需要请求类似<code class="highlighter-rouge">http://www.otherdomain.com/data.json</code>的文件，那我们如何能够获取这个文件的内容呢？</p>
+
+<h3 id="ajax">2.发送ajax</h3>
+
+<p>面对上面的问题，大多数人就会说“发送ajax请求啊”，具体实现如下：</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">‘</span><span class="o">/</span><span class="nx">data</span><span class="p">.</span><span class="nx">json</span><span class="err">’</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span><span class="err">…</span><span class="p">});</span></code></pre></figure>
+
+<p>可是不好意思亲，你这是同源的，当然能请求到了。如果你访问的是<code class="highlighter-rouge">http://www.otherdomain.com/data.json</code>,那么一定会报错，提示你不允许跨域。</p>
+
+<p>其实仔细想想也不难理解，别人站点上的资源你可以通过浏览器打开访问，这没问题，因为你是处在当前的站点访问当前的资源；但是如果你在自己的站内去请求别人的资源，还能随随便便请求到的话，是你你愿意不？</p>
+
+<p>所以，如果你利用ajax请求到了外部资源，只有一种情况：<strong><em>被访问的server端允许你跨域</em></strong>，即：</p>
+
+<ul>
+  <li>
+    <p>jsonp（返回script让前端调用）</p>
+  </li>
+  <li>
+    <p>后端在response header中设置了Allow-Control-Allow-Origin: matcher(例如，<code class="highlighter-rouge">*</code>)</p>
+  </li>
+</ul>
+
+<h3 id="iframe">3.利用iframe</h3>
+
+<p>其实很容易想到，iframe本身是一个<code class="highlighter-rouge">html tag</code>，那么它和其他能够加载资源的<code class="highlighter-rouge">tag</code>类似，肯定也能加载外部页面，从这一点来说它算跨域。</p>
+
+<p><strong><em>但有一个很重要的前提：如果加载的iframe是一个外部页面，并且你无法修改这个页面本身（比如某个站点的首页）</em></strong>，那么你只能在iframe里去操作其加载的页面。换言之，如果你想在主页面内访问嵌套的iframe内容，那同样还是有安全问题，是会被禁止的。</p>
+
+<p>对于这种情况的处理，就得说说postMessage了。我们知道，页面内嵌套页面是会形成window链的，即top-&gt;parent-&gt;…，而postMessage可以实现不同window之间的消息传递。</p>
+
+<p>假设A页面和B页面属于不同的domain，A中的iframe加载了B，那么用postMessage通信的方式如下：</p>
+
+<ul>
+  <li>在B中添加消息监听事件</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="err">‘</span><span class="nx">message</span><span class="err">’</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span> <span class="err">…</span> <span class="p">});</span></code></pre></figure>
+
+<ul>
+  <li>在A页面里找到B的window后调用postMessage发送数据</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nb">window</span><span class="p">.</span><span class="nx">frames</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">postMessage</span><span class="p">(</span><span class="err">’</span><span class="nx">some</span> <span class="nx">data</span><span class="err">’</span><span class="p">,</span> <span class="s1">'*'</span><span class="p">);</span></code></pre></figure>
+
+<p>可以看到B其实已经知道自己需要跨域，所以向A暴露了事件作为间接操作dom的接口，进行了自发自收的通信方式。所以只有当我们有权限修改所加载的外部页面时，postMessage才行得通。</p>
+
+<p><strong><em>到此，基本可以得出结论，如果在极端情况（只有前端，无法修改后端，无法修改外部资源，只有一个外部api或者url）下，前端是不能跨域的，这是浏览器的限制。</em></strong></p>
+
+<h3 id="section">任性就是想跨域</h3>
+
+<p>那么也不是没有办法：我们可以修改浏览器的设置，取消浏览器对跨域的限制。</p>
+
+<p>其实chrome extension app就允许你这么干，开发extension时，在<code class="highlighter-rouge">mainfest.json</code>里，如下配置你的app即可让浏览器对跨域没有任何限制：</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="s2">"permissions"</span><span class="err">:</span> <span class="p">[</span>
+  <span class="s2">"http://*/*"</span><span class="p">,</span>
+  <span class="s2">"https://*/*"</span>
+<span class="p">]</span></code></pre></figure>
+
+<p>所以许多chrome的插件也由此诞生，其中votes比较多的<code class="highlighter-rouge">Allow-Control-Allow-Origin</code>就是一个不错的跨域toggle工具。</p>
+
+<p>可是讲真的，你这么任性取消了CORS的限制，那我们还聊什么跨域呢？</p>
+
+	    </div>
+	  </article>
+
+	</div>
+</div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+        <div class="row">
+                       
+            <div class="foot-center">
+              
+                <span class="fake-read-time">阅读 9999+</span>
+                
+                <a href="https://github.com/kkkkkxiaofei">
+                  
+                  <span class="icon  icon--github">
+                    <svg viewBox="0 0 16 16">
+                      <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                    </svg>
+                  </span>
+                  <span class="follow-me">Follow Pursue's Github </span>
+                </a>
+                
+            </div>
+        </div>
+
+
+
+
+
+     
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
