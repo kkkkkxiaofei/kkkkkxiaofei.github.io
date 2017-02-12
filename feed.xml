@@ -5,9 +5,244 @@
     <description>This blog is ceated by Pursue</description>
     <link>http://kkkkkxiaofei.github.io//</link>
     <atom:link href="http://kkkkkxiaofei.github.io//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 15 Dec 2016 22:00:21 +0800</pubDate>
-    <lastBuildDate>Thu, 15 Dec 2016 22:00:21 +0800</lastBuildDate>
+    <pubDate>Sun, 12 Feb 2017 12:59:14 +0800</pubDate>
+    <lastBuildDate>Sun, 12 Feb 2017 12:59:14 +0800</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
+    
+      <item>
+        <title>Java8之函数接口</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;以方法作为参数传递时，Ruby有proc，C#有Delegate，而JavaScript则更不用说，唯独Java在这方面很尴尬。但Java8提供了Lambda表达式和函数接口，这无疑是Javer的福音，也使得Java这门语言更佳的优秀和易用。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;需求&lt;/h3&gt;
+
+&lt;p&gt;C团队是一个敏捷开发团队，它们的产品每天都会进行几十次的小版本发布，如此频繁的持续集成必须有良好的代码作为保证。为此，PM在CI中的构建任务中设定了“门槛”，所有部署必须进行Sonar代码扫描，满足一定的阀值才可以进行正常发布，以此保证产品质量。具体指标如下：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1.工程的测试覆盖率必须大于90%&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;分析&lt;/h3&gt;
+
+&lt;p&gt;获取所有工程，筛选出测试覆盖率大于90%的工程，进行发布，so easy~&lt;/p&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;实现&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getValidProjects&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;projectList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;validProjects&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;projectList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getTestCoverage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.9&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;validProjects&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;validProjects&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;代码很简单，这是java8之前的实现。当然了，我们很还可以将&lt;code class=&quot;highlighter-rouge&quot;&gt;project.getTestCoverage() &amp;gt; 0.9&lt;/code&gt;抽象成&lt;code class=&quot;highlighter-rouge&quot;&gt;project.isValid()&lt;/code&gt;，这下看起来似乎没太大问题了。&lt;/p&gt;
+
+&lt;p&gt;需求2来了，PM的规定的新指标如下：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1.工程的测试覆盖率必须大于90%&lt;/li&gt;
+  &lt;li&gt;2.code smell数不能超过3个&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;同样很easy，你很快速的在&lt;code class=&quot;highlighter-rouge&quot;&gt;Project.java&lt;/code&gt;里抽象出了：&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;isValid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getTestCoverage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.9&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getCodeSmellNum&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;可部署时还时老出现问题，PM再次提高质量门槛，指标如下：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1.工程的测试覆盖率必须大于90%&lt;/li&gt;
+  &lt;li&gt;2.code smell数不能超过3个&lt;/li&gt;
+  &lt;li&gt;3.扫描问题数不超过3个&lt;/li&gt;
+  &lt;li&gt;4.API测试用例数大于10&lt;/li&gt;
+  &lt;li&gt;5.UI测试用例数大于10&lt;/li&gt;
+  &lt;li&gt;…&lt;/li&gt;
+  &lt;li&gt;…&lt;/li&gt;
+  &lt;li&gt;…&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;此时你的是不想把PM弄死，可你别无选择，还是得在此基础上添加了N多判断。&lt;/p&gt;
+
+&lt;p&gt;Java8来啦。。。。&lt;/p&gt;
+
+&lt;h3 id=&quot;predicate&quot;&gt;Predicate&lt;/h3&gt;
+
+&lt;p&gt;仔细分析现在的需求，其实想要实现的方法是“某种行为”的结果来导向校验的集合，也就说上面的方法参数应该类似：&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getValidProjects&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;projectList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Validation&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;validation&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;validProjects&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;projectList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;validation&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;validProjects&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;validProjects&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;将所有的情况都统一抽象成Validation接口，接口中的&lt;code class=&quot;highlighter-rouge&quot;&gt;test&lt;/code&gt;方法表示校验结果。如果这样做，就变成了多态，当然可以实现，不过就得设计的比较复杂：好好的一个筛选，硬要写个接口而后再写N多类去实现，岂不是很槽糕。Java8在此基础上帮我们实现了函数接口，可以将&lt;code class=&quot;highlighter-rouge&quot;&gt;validation&lt;/code&gt;看作是一个还未被执行的方法，对应的，我们可以这么写：&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;  &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getValidProjects&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;projectList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Predicate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;validProjects&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;projectList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;validProjects&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;validProjects&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;  &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;validProjects&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getValidProjects&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;projectList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getTestCoverage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.9&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;将&lt;code class=&quot;highlighter-rouge&quot;&gt;project-&amp;gt; project.getTestCoverage() &amp;gt; 0.9&lt;/code&gt;作为方法参数传递看起来很酷吧，对应的，我们可以聚合上面的多种&lt;code class=&quot;highlighter-rouge&quot;&gt;predicate&lt;/code&gt;:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;    &lt;span class=&quot;n&quot;&gt;Predicate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;testCoveragePredicate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getTestCoverage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.9&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Predicate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;codeSmellPredicate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getCodeSmellNum&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Predicate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;issuePredicate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getIssueCount&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Predicate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;apiPredicate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getApiCount&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Predicate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;uiPredicate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getApiCount&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    
+    &lt;span class=&quot;n&quot;&gt;Predicate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;projectPredicate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;testCoveragePredicate&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;and&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;codeSmellPredicate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;and&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;codeSmellPredicate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;and&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;issuePredicate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;and&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;apiPredicate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;and&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uiPredicate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    
+    &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;validProjects&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getValidProjects&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;projectList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;projectPredicate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;这样的代码，既然漂亮，又表意，而且可维护性还更高，很酷吧。不过不难看出，&lt;code class=&quot;highlighter-rouge&quot;&gt;Predicate&lt;/code&gt;是&lt;code class=&quot;highlighter-rouge&quot;&gt;T-&amp;gt;boolean&lt;/code&gt;的形式，如果需要其他类型怎么办呢？这里简单介绍其他两个函数接口&lt;/p&gt;
+
+&lt;h3 id=&quot;consumer-and-function&quot;&gt;Consumer and Function&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Consumer&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Function&lt;/code&gt;与&lt;code class=&quot;highlighter-rouge&quot;&gt;Predicate&lt;/code&gt; 类似只不过前者是&lt;code class=&quot;highlighter-rouge&quot;&gt;T-&amp;gt;void&lt;/code&gt;的形式，而后者是&lt;code class=&quot;highlighter-rouge&quot;&gt;T-&amp;gt;R&lt;/code&gt;的形式，并且实现的方法略有不同。&lt;/p&gt;
+
+&lt;p&gt;Demo for Consumer:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;  &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;displyAllCodeSmell&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;projectList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Consumer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+       &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;projectList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+           &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;accept&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+       &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;  &lt;span class=&quot;n&quot;&gt;displyAllCodeSmell&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;projectList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getCodeSmellNum&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()));&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Demo for Function:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;  &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;calcAllIssueCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;projectList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Function&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Integer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;projectList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;apply&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;  &lt;span class=&quot;n&quot;&gt;calcAllIssueCount&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;projectList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getIssueCount&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;其他函数接口&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Interface&lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt;Description&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Predicate&lt;t&gt;&lt;/t&gt;&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;T-&amp;gt;boolean&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Consumer&lt;t&gt;&lt;/t&gt;&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;T-&amp;gt;void&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Function&lt;t&gt;&lt;/t&gt;&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;T-&amp;gt;R&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Supplier&lt;t&gt;&lt;/t&gt;&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;()-&amp;gt;T&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;UnaryOperator&lt;t&gt;&lt;/t&gt;&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;T-&amp;gt;T&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;BinaryOperator&lt;t&gt;&lt;/t&gt;&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;(T,T)-&amp;gt;T&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;BiPredicate&amp;lt;L,R&amp;gt;&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;(L,R)-&amp;gt;boolean&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;BiConsumer&amp;lt;T,U&amp;gt;&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;(T,U)-&amp;gt;void&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;BiFunction(T,U,R)&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;(T,U)-&amp;gt;R&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</description>
+        <pubDate>Sun, 12 Feb 2017 11:16:00 +0800</pubDate>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2017/02/12/function-interface.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2017/02/12/function-interface.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
     
       <item>
         <title>ES201X</title>

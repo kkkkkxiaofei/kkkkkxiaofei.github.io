@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang＝'zh-CN'>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>理解CSS中的BFC(块级可视化上下文)[译]</title>
+    <link rel="icon" type="image/png" href="/../img/link-icon.png" sizes="640x640" />
+    <meta name="description" content="This blog is ceated by Pursue">
+
+	
+	<link rel="stylesheet" href="/css/main.css">
+	
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	
+
+    
+
+    <!-- <link rel="stylesheet" href="//css/main.css"> -->
+    <link rel="canonical" href="http://kkkkkxiaofei.github.io//jekyll/update/2015/08/10/bfc.html">
+</head>
+
+
+  <body class="back">
+
+        <div class="wrapper">
+	<div class="post">
+
+	  <header class="post-header">
+	    <h1 class="post-title">理解CSS中的BFC(块级可视化上下文)[译]</h1>
+
+	    <!-- <p class="post-meta pull-right">Aug 10, 2015</p> -->
+	  </header>
+	
+	  <article class="post-content">
+	  	<div class="meta-top">
+	  	  <a href="https://kkkkkxiaofei.github.io">
+	  	  	<div class="avatar">
+	  	  		<img thumbnail="90x90" quality="100" src="/img/author.png" alt="4ee77d0667a3">
+	  	  	</div>
+	  	  	<span style="color:#4094c7;">Pursue</span>
+	  	  	<span>Aug 10, 2015</span>
+	  	  </a>
+	  	</div>
+	  	<div class="clearfix">
+	    <h4 id="section">开篇</h4>
+
+<blockquote>
+  <p>一些元素，如float元素，如position为absolute,inline-block,table-cell或table-caption的元素，以及overflow属性不为visible的元素，它们将会建立一个新的块级格式化上下文。</p>
+</blockquote>
+
+<p>上述定义已经很详细的描述了块级格式化上下文(Block Formatting Context)是如何形成的，为了方便起见，文中均用BFC代替。现在，让我们用一种简单的方式对其进行重新定义:
+BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列条件之一才能形成BFC:</p>
+
+<ul>
+  <li>
+    <p>float属性不为<code class="highlighter-rouge">none.</code></p>
+  </li>
+  <li>
+    <p>position属性不为<code class="highlighter-rouge">static和relative.</code></p>
+  </li>
+  <li>
+    <p>display属性为下列之一:<code class="highlighter-rouge">table-cell,table-caption,inline-block,flex,or inline-flex.</code></p>
+  </li>
+  <li>
+    <p>overflow属性不为<code class="highlighter-rouge">visible.</code></p>
+  </li>
+</ul>
+
+<h4 id="bfc">让我们建立一个BFC</h4>
+
+<p>HTML代码如下：</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
+  Some Content here
+<span class="nt">&lt;/div&gt;</span></code></pre></figure>
+
+<p>我们可以用CSS为container容器附加上述条件,如<code class="highlighter-rouge">overflow: scroll, overflow: hidden, display: flex, float: left, or display: table.</code>尽管这些条件都能形成一个BFC，但是它们各自却有着不一样的表现：</p>
+
+<ul>
+  <li>
+    <p>display: table : <code class="highlighter-rouge">在响应式布局中会有问题</code></p>
+  </li>
+  <li>
+    <p>overflow: scroll : <code class="highlighter-rouge">可能会出现你不想要的滚动条</code></p>
+  </li>
+  <li>
+    <p>float: left: <code class="highlighter-rouge">使元素左浮动，并且其他元素对其环绕</code></p>
+  </li>
+  <li>
+    <p>overflow: hidden: <code class="highlighter-rouge">消除溢出部分</code></p>
+  </li>
+</ul>
+
+<p>这么看来，建立BFC的最好方式莫过于<code class="highlighter-rouge">overflow:hidden</code>了：</p>
+
+<figure class="highlight"><pre><code class="language-css" data-lang="css"><span class="nc">.container</span> <span class="p">{</span>
+  <span class="nl">overflow</span><span class="p">:</span> <span class="nb">hidden</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<h4 id="bfc-1">在BFC中，块级元素又是怎么布局的呢？</h4>
+<p>W3C规范描述如下：</p>
+
+<blockquote>
+  <p>In a block formatting context, each box’s left outer edge touches the left edge of the containing block (for right-to-left formatting, right edges touch). This is true even in the presence of floats (although a box’s line boxes may shrink due to the floats), unless the box establishes a new block formatting context (in which case the box itself may become narrower due to the floats).bfcbfc.jpg</p>
+</blockquote>
+
+<p><img src="/../img/bfc/bfc.jpg" alt="" /></p>
+
+<p>简单的说：上图中所有属于BFC的box都默认左对齐，并且它们的左边距可以触及到容器container的左边。最后一个box，尽管它是浮动的，但它依然遵循这个原则。（BFC中的浮动下面会介绍）</p>
+
+<p><code class="highlighter-rouge">－那么，BFC到底有什么卵用呢？</code></p>
+
+<p><code class="highlighter-rouge">－实际上，真的特别有用</code></p>
+
+<h4 id="bfcmargin-collapse">1.利用BFC可以消除Margin Collapse</h4>
+
+<p>在正常情况下，在一个容器内的所有box将会由上至下依次垂直排列，即我们所说的一个元素占一行，并切垂直相邻的距离(即margin)是由各自的margin决定的，而不是两个margin的叠加。</p>
+
+<p>让我们看一个例子：红色的div包含三个绿色的p元素。</p>
+
+<p>HTML代码：</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;p&gt;</span>Sibling 1<span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;p&gt;</span>Sibling 2<span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;p&gt;</span>Sibling 3<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre></figure>
+
+<p>CSS代码：</p>
+
+<figure class="highlight"><pre><code class="language-css" data-lang="css"><span class="nc">.container</span> <span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="no">red</span><span class="p">;</span>
+  <span class="nl">overflow</span><span class="p">:</span> <span class="nb">hidden</span><span class="p">;</span> <span class="c">/* creates a block formatting context */</span>
+<span class="p">}</span>
+ 
+<span class="nt">p</span> <span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="no">lightgreen</span><span class="p">;</span>
+  <span class="nl">margin</span><span class="p">:</span> <span class="m">10px</span> <span class="m">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>理想情况下，我们会认为p标签之间的margin应该是它们的和(20px),但实际上却是10px.这其实是<a href="http://www.sitepoint.com/web-foundations/collapsing-margins/">collapsing margins</a>。</p>
+
+<p>结果如下：</p>
+
+<p><img src="/../img/bfc/demo1-1.jpg" alt="" /></p>
+
+<p>这似乎让人有点困惑，BFC导致了margin collapse，而现在又要用它来解决margin cllapse.但是始终要记住一点：只有当元素在同一个BFC中时，垂直方向上的margin
+才会clollpase.如果它们属于不同的BFC，则不会有margin collapse.因此我们可以再建立一个BFC去阻止margin collpase的发生。</p>
+
+<p>现在HTML变成：</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;p&gt;</span>Sibling 1<span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;p&gt;</span>Sibling 2<span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"newBFC"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;p&gt;</span>Sibling 3<span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre></figure>
+
+<p>CSS也有改变：</p>
+
+<figure class="highlight"><pre><code class="language-css" data-lang="css"><span class="nc">.container</span> <span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="no">red</span><span class="p">;</span>
+  <span class="nl">overflow</span><span class="p">:</span> <span class="nb">hidden</span><span class="p">;</span> <span class="c">/* creates a block formatting context */</span>
+<span class="p">}</span>
+ 
+<span class="nt">p</span> <span class="p">{</span>
+  <span class="nl">margin</span><span class="p">:</span> <span class="m">10px</span> <span class="m">0</span><span class="p">;</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="no">lightgreen</span><span class="p">;</span>
+<span class="p">}</span>
+ 
+<span class="nc">.newBFC</span> <span class="p">{</span>
+  <span class="nl">overflow</span><span class="p">:</span> <span class="nb">hidden</span><span class="p">;</span>  <span class="c">/* creates new block formatting context */</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>现在的结果为：</p>
+
+<p><img src="/../img/bfc/demo1-2.jpg" alt="" /></p>
+
+<p>由于第二个p元素和第三个p元素属于不同的BFC，因此避免了margin collapse.</p>
+
+<h4 id="bfc-2">2.利用BFC去容纳浮动元素</h4>
+
+<p>我相信大家经常会遇到一个容器里有浮动元素，但是这个容器的高度却是0的场景，如下图：</p>
+
+<p>看下面的例子：</p>
+
+<p>HTML:</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div&gt;</span>Sibling<span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div&gt;</span>Sibling<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>  </code></pre></figure>
+
+<p>CSS:</p>
+
+<figure class="highlight"><pre><code class="language-css" data-lang="css"><span class="nc">.container</span> <span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="no">green</span><span class="p">;</span>
+<span class="p">}</span>
+ 
+<span class="nc">.container</span> <span class="nt">div</span> <span class="p">{</span>
+  <span class="nl">float</span><span class="p">:</span> <span class="nb">left</span><span class="p">;</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="no">lightgreen</span><span class="p">;</span>
+  <span class="nl">margin</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>结果：</p>
+
+<p><img src="/../img/bfc/demo2-2.jpg" alt="" /></p>
+
+<p>在上边的情形中，container是不会有高度的，因为它包含了浮动元素。通常我们解决这个问题的办法是利用一个伪元素去实现<a href="http://www.sitepoint.com/clearing-floats-overview-different-clearfix-methods/">clear fix</a>，但是现在我们有了更好的解决办法，即利用BFC，因为它够容纳浮动元素的。
+我们现在让container形成BFC规则，结果如下：</p>
+
+<figure class="highlight"><pre><code class="language-css" data-lang="css"><span class="nc">.container</span> <span class="p">{</span>
+  <span class="nl">overflow</span><span class="p">:</span> <span class="nb">hidden</span><span class="p">;</span> <span class="c">/* creates block formatting context */</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="no">green</span><span class="p">;</span>
+<span class="p">}</span>
+ 
+<span class="nc">.container</span> <span class="nt">div</span> <span class="p">{</span>
+  <span class="nl">float</span><span class="p">:</span> <span class="nb">left</span><span class="p">;</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="no">lightgreen</span><span class="p">;</span>
+  <span class="nl">margin</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>结果：</p>
+
+<p><img src="/../img/bfc/demo2-3.jpg" alt="" /></p>
+
+<h4 id="bfc-3">3.利用BFC阻止文本换行</h4>
+
+<p>有时候，确切的说大多数情况(若没有特殊设置)，文本将会环绕浮动元素(如Figure 1),
+但有时候这并不是我们期望的，我们想要的是Figure2。</p>
+
+<p><img src="/../img/bfc/demo3-1.jpg" alt="" /></p>
+
+<p>往往可能大家都会选择利用margin－left来强行让p的容器有一个左边距，而距离恰好为Floated div的宽度，但现在我们可以利用BFC更好的解决这个问题。</p>
+
+<p>首先让我们了解一下文本换行的原理吧：</p>
+
+<p><img src="/../img/bfc/demo3-2.jpg" alt="" /></p>
+
+<p>在Figure1中，整个p元素实际上是处于上图中的黑色区域，p元素没有移动是因为它在浮动元素的下方。但实际上p作为行块级别的元素（相对于行内文本）却发生了移动，因为要给float元素’腾’位置，而随着文本的增加，文本高度超过浮动元素的部分则不会在水平方向上收缩内部距离，因此看起来像是环绕。</p>
+
+<p>如图：</p>
+
+<p><img src="/../img/bfc/demo3-3.jpg" alt="" /></p>
+
+<p>在解决这个问题之前，我们先来看一下W3C的规范在这方面的描述：</p>
+
+<blockquote>
+  <p>In a block formatting context, each box’s left outer edge touches the left edge of the containing block (for right-to-left formatting, right edges touch). This is true even in the presence of floats (although a box’s line boxes may shrink due to the floats), unless the box establishes a new block formatting context (in which case the box itself may become narrower due to the floats).</p>
+</blockquote>
+
+<p>W3C为这种情况提供了一个解决方案：<code class="highlighter-rouge">unless the box establishes a new block formatting context</code>，即为p建立BFC。</p>
+
+<p>结果：</p>
+
+<p><img src="/../img/bfc/demo3-4.jpg" alt="" /></p>
+
+<p><code class="highlighter-rouge">注：此文为译文</code><a href="http://www.sitepoint.com/understanding-block-formatting-contexts-in-css/">原文请戳</a></p>
+
+
+	    </div>
+	  </article>
+
+	</div>
+</div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+        <div class="row">
+                       
+            <div class="foot-center">
+              
+                <span class="fake-read-time">阅读 9999+</span>
+                
+                <a href="https://github.com/kkkkkxiaofei">
+                  
+                  <span class="icon  icon--github">
+                    <svg viewBox="0 0 16 16">
+                      <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                    </svg>
+                  </span>
+                  <span class="follow-me">Follow Pursue's Github </span>
+                </a>
+                
+            </div>
+        </div>
+
+
+
+
+
+     
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang＝'zh-CN'>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Java8之函数接口</title>
+    <link rel="icon" type="image/png" href="/../img/link-icon.png" sizes="640x640" />
+    <meta name="description" content="This blog is ceated by Pursue">
+
+	
+	<link rel="stylesheet" href="/css/main.css">
+	
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	
+
+    
+
+    <!-- <link rel="stylesheet" href="//css/main.css"> -->
+    <link rel="canonical" href="http://kkkkkxiaofei.github.io//jekyll/update/2017/02/12/function-interface.html">
+</head>
+
+
+  <body class="back">
+
+        <div class="wrapper">
+	<div class="post">
+
+	  <header class="post-header">
+	    <h1 class="post-title">Java8之函数接口</h1>
+
+	    <!-- <p class="post-meta pull-right">Feb 12, 2017</p> -->
+	  </header>
+	
+	  <article class="post-content">
+	  	<div class="meta-top">
+	  	  <a href="https://kkkkkxiaofei.github.io">
+	  	  	<div class="avatar">
+	  	  		<img thumbnail="90x90" quality="100" src="/img/author.png" alt="4ee77d0667a3">
+	  	  	</div>
+	  	  	<span style="color:#4094c7;">Pursue</span>
+	  	  	<span>Feb 12, 2017</span>
+	  	  </a>
+	  	</div>
+	  	<div class="clearfix">
+	    <blockquote>
+  <p>以方法作为参数传递时，Ruby有proc，C#有Delegate，而JavaScript则更不用说，唯独Java在这方面很尴尬。但Java8提供了Lambda表达式和函数接口，这无疑是Javer的福音，也使得Java这门语言更佳的优秀和易用。</p>
+</blockquote>
+
+<h3 id="section">需求</h3>
+
+<p>C团队是一个敏捷开发团队，它们的产品每天都会进行几十次的小版本发布，如此频繁的持续集成必须有良好的代码作为保证。为此，PM在CI中的构建任务中设定了“门槛”，所有部署必须进行Sonar代码扫描，满足一定的阀值才可以进行正常发布，以此保证产品质量。具体指标如下：</p>
+
+<ul>
+  <li>1.工程的测试覆盖率必须大于90%</li>
+</ul>
+
+<h3 id="section-1">分析</h3>
+
+<p>获取所有工程，筛选出测试覆盖率大于90%的工程，进行发布，so easy~</p>
+
+<h3 id="section-2">实现</h3>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">getValidProjects</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">projectList</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">List</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">validProjects</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+    <span class="k">for</span><span class="o">(</span><span class="n">Project</span> <span class="n">project</span> <span class="o">:</span> <span class="n">projectList</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">project</span><span class="o">.</span><span class="na">getTestCoverage</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mf">0.9</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">validProjects</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">project</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">validProjects</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>代码很简单，这是java8之前的实现。当然了，我们很还可以将<code class="highlighter-rouge">project.getTestCoverage() &gt; 0.9</code>抽象成<code class="highlighter-rouge">project.isValid()</code>，这下看起来似乎没太大问题了。</p>
+
+<p>需求2来了，PM的规定的新指标如下：</p>
+
+<ul>
+  <li>1.工程的测试覆盖率必须大于90%</li>
+  <li>2.code smell数不能超过3个</li>
+</ul>
+
+<p>同样很easy，你很快速的在<code class="highlighter-rouge">Project.java</code>里抽象出了：</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isValid</span><span class="p">(</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">getTestCoverage</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mf">0.9</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="o">.</span><span class="na">getCodeSmellNum</span><span class="o">()</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>可部署时还时老出现问题，PM再次提高质量门槛，指标如下：</p>
+
+<ul>
+  <li>1.工程的测试覆盖率必须大于90%</li>
+  <li>2.code smell数不能超过3个</li>
+  <li>3.扫描问题数不超过3个</li>
+  <li>4.API测试用例数大于10</li>
+  <li>5.UI测试用例数大于10</li>
+  <li>…</li>
+  <li>…</li>
+  <li>…</li>
+</ul>
+
+<p>此时你的是不想把PM弄死，可你别无选择，还是得在此基础上添加了N多判断。</p>
+
+<p>Java8来啦。。。。</p>
+
+<h3 id="predicate">Predicate</h3>
+
+<p>仔细分析现在的需求，其实想要实现的方法是“某种行为”的结果来导向校验的集合，也就说上面的方法参数应该类似：</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">    <span class="kd">private</span> <span class="kd">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">getValidProjects</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">projectList</span><span class="o">,</span> <span class="n">Validation</span> <span class="n">validation</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">validProjects</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">Project</span> <span class="n">project</span> <span class="o">:</span> <span class="n">projectList</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">validation</span><span class="o">.</span><span class="na">test</span><span class="o">())</span> <span class="o">{</span>
+                <span class="n">validProjects</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">project</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">validProjects</span><span class="o">;</span>
+    <span class="o">}</span></code></pre></figure>
+
+<p>将所有的情况都统一抽象成Validation接口，接口中的<code class="highlighter-rouge">test</code>方法表示校验结果。如果这样做，就变成了多态，当然可以实现，不过就得设计的比较复杂：好好的一个筛选，硬要写个接口而后再写N多类去实现，岂不是很槽糕。Java8在此基础上帮我们实现了函数接口，可以将<code class="highlighter-rouge">validation</code>看作是一个还未被执行的方法，对应的，我们可以这么写：</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">  <span class="kd">private</span> <span class="kd">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">getValidProjects</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">projectList</span><span class="o">,</span> <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">validProjects</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">Project</span> <span class="n">project</span> <span class="o">:</span> <span class="n">projectList</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">p</span><span class="o">.</span><span class="na">test</span><span class="o">(</span><span class="n">project</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">validProjects</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">project</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">validProjects</span><span class="o">;</span>
+    <span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">  <span class="n">List</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">validProjects</span> <span class="o">=</span> <span class="n">getValidProjects</span><span class="o">(</span><span class="n">projectList</span><span class="o">,</span> <span class="n">project</span><span class="o">-&gt;</span> <span class="n">project</span><span class="o">.</span><span class="na">getTestCoverage</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mf">0.9</span><span class="o">);</span></code></pre></figure>
+
+<p>将<code class="highlighter-rouge">project-&gt; project.getTestCoverage() &gt; 0.9</code>作为方法参数传递看起来很酷吧，对应的，我们可以聚合上面的多种<code class="highlighter-rouge">predicate</code>:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">    <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">testCoveragePredicate</span> <span class="o">=</span> <span class="n">project</span><span class="o">-&gt;</span> <span class="n">project</span><span class="o">.</span><span class="na">getTestCoverage</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mf">0.9</span><span class="o">;</span>
+    <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">codeSmellPredicate</span> <span class="o">=</span> <span class="n">project</span><span class="o">-&gt;</span> <span class="n">project</span><span class="o">.</span><span class="na">getCodeSmellNum</span><span class="o">()</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">;</span>
+    <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">issuePredicate</span> <span class="o">=</span> <span class="n">project</span><span class="o">-&gt;</span> <span class="n">project</span><span class="o">.</span><span class="na">getIssueCount</span><span class="o">()</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">;</span>
+    <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">apiPredicate</span> <span class="o">=</span> <span class="n">project</span><span class="o">-&gt;</span> <span class="n">project</span><span class="o">.</span><span class="na">getApiCount</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="o">;</span>
+    <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">uiPredicate</span> <span class="o">=</span> <span class="n">project</span><span class="o">-&gt;</span> <span class="n">project</span><span class="o">.</span><span class="na">getApiCount</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="o">;</span>
+    
+    <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">projectPredicate</span> <span class="o">=</span> <span class="n">testCoveragePredicate</span>
+            <span class="o">.</span><span class="na">and</span><span class="o">(</span><span class="n">codeSmellPredicate</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">and</span><span class="o">(</span><span class="n">codeSmellPredicate</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">and</span><span class="o">(</span><span class="n">issuePredicate</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">and</span><span class="o">(</span><span class="n">apiPredicate</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">and</span><span class="o">(</span><span class="n">uiPredicate</span><span class="o">);</span>
+    
+    <span class="n">List</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">validProjects</span> <span class="o">=</span> <span class="n">getValidProjects</span><span class="o">(</span><span class="n">projectList</span><span class="o">,</span> <span class="n">projectPredicate</span><span class="o">);</span></code></pre></figure>
+
+<p>这样的代码，既然漂亮，又表意，而且可维护性还更高，很酷吧。不过不难看出，<code class="highlighter-rouge">Predicate</code>是<code class="highlighter-rouge">T-&gt;boolean</code>的形式，如果需要其他类型怎么办呢？这里简单介绍其他两个函数接口</p>
+
+<h3 id="consumer-and-function">Consumer and Function</h3>
+
+<p><code class="highlighter-rouge">Consumer</code>, <code class="highlighter-rouge">Function</code>与<code class="highlighter-rouge">Predicate</code> 类似只不过前者是<code class="highlighter-rouge">T-&gt;void</code>的形式，而后者是<code class="highlighter-rouge">T-&gt;R</code>的形式，并且实现的方法略有不同。</p>
+
+<p>Demo for Consumer:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">  <span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">displyAllCodeSmell</span><span class="p">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">projectList</span><span class="o">,</span> <span class="n">Consumer</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+       <span class="k">for</span><span class="o">(</span><span class="n">Project</span> <span class="n">project</span> <span class="o">:</span> <span class="n">projectList</span><span class="o">)</span> <span class="o">{</span>
+           <span class="n">c</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">project</span><span class="o">);</span>
+       <span class="o">}</span>
+  <span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">  <span class="n">displyAllCodeSmell</span><span class="o">(</span><span class="n">projectList</span><span class="o">,</span> <span class="n">project</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">project</span><span class="o">.</span><span class="na">getCodeSmellNum</span><span class="o">()));</span></code></pre></figure>
+
+<p>Demo for Function:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">  <span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">calcAllIssueCount</span><span class="p">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">&gt;</span> <span class="n">projectList</span><span class="o">,</span> <span class="n">Function</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">Project</span> <span class="n">project</span> <span class="o">:</span> <span class="n">projectList</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">sum</span> <span class="o">+=</span> <span class="n">f</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">project</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">sum</span><span class="o">;</span>
+  <span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">  <span class="n">calcAllIssueCount</span><span class="o">(</span><span class="n">projectList</span><span class="o">,</span> <span class="n">project</span> <span class="o">-&gt;</span> <span class="n">project</span><span class="o">.</span><span class="na">getIssueCount</span><span class="o">());</span></code></pre></figure>
+
+<h3 id="section-3">其他函数接口</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Interface</th>
+      <th> </th>
+      <th> </th>
+      <th> </th>
+      <th> </th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Predicate<t></t></td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td>T-&gt;boolean</td>
+    </tr>
+    <tr>
+      <td>Consumer<t></t></td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td>T-&gt;void</td>
+    </tr>
+    <tr>
+      <td>Function<t></t></td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td>T-&gt;R</td>
+    </tr>
+    <tr>
+      <td>Supplier<t></t></td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td>()-&gt;T</td>
+    </tr>
+    <tr>
+      <td>UnaryOperator<t></t></td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td>T-&gt;T</td>
+    </tr>
+    <tr>
+      <td>BinaryOperator<t></t></td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td>(T,T)-&gt;T</td>
+    </tr>
+    <tr>
+      <td>BiPredicate&lt;L,R&gt;</td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td>(L,R)-&gt;boolean</td>
+    </tr>
+    <tr>
+      <td>BiConsumer&lt;T,U&gt;</td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td>(T,U)-&gt;void</td>
+    </tr>
+    <tr>
+      <td>BiFunction(T,U,R)</td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td>(T,U)-&gt;R</td>
+    </tr>
+  </tbody>
+</table>
+
+	    </div>
+	  </article>
+
+	</div>
+</div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+        <div class="row">
+                       
+            <div class="foot-center">
+              
+                <span class="fake-read-time">阅读 9999+</span>
+                
+                <a href="https://github.com/kkkkkxiaofei">
+                  
+                  <span class="icon  icon--github">
+                    <svg viewBox="0 0 16 16">
+                      <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                    </svg>
+                  </span>
+                  <span class="follow-me">Follow Pursue's Github </span>
+                </a>
+                
+            </div>
+        </div>
+
+
+
+
+
+     
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
