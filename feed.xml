@@ -5,9 +5,1305 @@
     <description>This blog is ceated by Pursue</description>
     <link>http://kkkkkxiaofei.github.io//</link>
     <atom:link href="http://kkkkkxiaofei.github.io//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 12 Feb 2017 12:59:14 +0800</pubDate>
-    <lastBuildDate>Sun, 12 Feb 2017 12:59:14 +0800</lastBuildDate>
+    <pubDate>Tue, 14 Mar 2017 22:01:38 +0800</pubDate>
+    <lastBuildDate>Tue, 14 Mar 2017 22:01:38 +0800</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
+    
+      <item>
+        <title>浅析DDD(领域驱动设计)</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;最近在做一些微服务相关的设计，内容包括服务的划分，Restful API的设计等。其中比较棘手的就是Service的职责划分：如何抽象具有统一业务范畴的Model，使其模块化，又如何高度提炼并组合多模块，使得业务可独立服务化。在这其中为了找寻答案，看了不少书籍和博客，其中在DDD中找到了一些思路，个人觉得受益匪浅，或许也可以受用于大家，特分享于此。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;ddd&quot;&gt;什么是DDD&lt;/h3&gt;
+
+&lt;p&gt;软件开发不是一蹴而就的事情，我们不可能在不了解产品（或行业领域）的前提下进行软件开发，在开发前，通常需要进行大量的业务知识梳理，而后到达软件设计的层面，最后才是开发。而在业务知识梳理的过程，我们必然会形成某个领域知识，根据领域知识来一步步驱动软件设计，就是领域驱动设计的基本概念。&lt;/p&gt;
+
+&lt;p&gt;听起来这和传统意义的软件开发没啥区别，只是换了点新鲜的名词而已，其实不然。&lt;/p&gt;
+
+&lt;h4 id=&quot;vs-ddd&quot;&gt;软件开发 VS DDD&lt;/h4&gt;
+
+&lt;p&gt;一般软件设计或者说软件开发分两种：&lt;code class=&quot;highlighter-rouge&quot;&gt;瀑布式&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;敏捷式&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;前者一般是项目经理经过大量的业务分析后，会基于现有需求整理出一个基本模型，再将结果传递给开发人员，这就是开发人员的需求文档，他们只需要照此开发便是。这种模式下，是很难频繁的从用户那里得到反馈，因此在前期分析时就已经默认了这个业务模型是正确的，那么结果可想而之，数月甚至数年后交付的时候，必然和客户的预期差距较大。&lt;/p&gt;
+
+&lt;p&gt;后者在此基础上进行了改进，它也需要大量的分析，范围会设计到更精细的业务模块，它是小步迭代，周期性交付，那么获取客户的反馈也就比较频繁和及时。可敏捷也不能够将业务中的方方面面都考虑到，并且敏捷是拥抱变化的，大量的需求或者业务模型变更必将带来不小的维护成本，同时，对人（Developer）的要求也必然会更高。&lt;/p&gt;
+
+&lt;p&gt;DDD则不同：它像是更小粒度的迭代设计，它的最小单元是&lt;code class=&quot;highlighter-rouge&quot;&gt;领域模型(Domain Model)&lt;/code&gt;，所谓领域模型就是能够精确反映领域中某一知识元素的载体，这种知识的获取需要通过与&lt;code class=&quot;highlighter-rouge&quot;&gt;领域专家(Domain Expert)&lt;/code&gt;进行频繁的沟通才能将专业知识转化为领域模型。领域模型无关技术，具有高度的业务抽象性，它能够精确的描述领域中的知识体系；同时它也是独立的，我们还需要学会如何让它具有表达性，让模型彼此之间建立关系，形成完整的领域架构。通常我们可以用象形图或一种&lt;code class=&quot;highlighter-rouge&quot;&gt;通用的语言(Ubiquitous Language)&lt;/code&gt;去描述它们之间的关系。在此之上，我们就可以进行&lt;code class=&quot;highlighter-rouge&quot;&gt;领域中的代码设计(Domain Code Design)&lt;/code&gt;。如果将软件设计比做是造一座房子，那么领域代码设计就好比是贴壁纸。前者已经房子的蓝图框架规划好，而后者只是一个小部分的设计：如果墙纸贴错了，我们可以重来，可如果房子结构设计错了，那可就悲剧了。&lt;/p&gt;
+
+&lt;h3 id=&quot;build-domain-model&quot;&gt;建立领域知识(Build Domain Model)&lt;/h3&gt;
+
+&lt;p&gt;说了这么多领域模型的概念，到底什么是领域模型呢？以飞机航行为例子：&lt;/p&gt;
+
+&lt;p&gt;现要为航空公司开发一款能够为飞机提供导航，保证无路线冲突的飞机的监控软件。那我们应该从哪里开始下手呢？当然根据DDD的思路，我们第一步是&lt;code class=&quot;highlighter-rouge&quot;&gt;建立领域知识&lt;/code&gt;：作为平时管理和维护机场飞行秩序的工作人员来说，他们自然就是这个领域的专家，我们第一个目标就是与机场工作人员沟通，也许我们并不能从中获取所有你想要的知识，但至少可以筛选出主要的内容和元素。你可能会听到诸如起飞，着陆，飞行冲突，延误等领域名词，让们从一个简单的例子开始（就算是错误的也没关系）：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;起点－&amp;gt;飞机－&amp;gt;终点&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这个模型很直接，但有点过于简单，因为我们无法看出飞机在空中做了什么，也无法得知飞机怎么从起点到的终点，刚才我们似乎提到无路线冲突，那么如此似乎会好些：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;飞机－&amp;gt;路线－&amp;gt;起点/终点&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;既然点构成线，那何不：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;飞机－&amp;gt;路线－&amp;gt;points（含起点，终点）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这个过程，是我们不断建立领域知识的过程，其中的重点就是寻找领域专家频繁沟通，从中提炼必要领域元素。&lt;/p&gt;
+
+&lt;p&gt;尽管看起来还是很简单，但我们已经开始一步步的在建立领域对象和领域模型了。&lt;/p&gt;
+
+&lt;h3 id=&quot;ubiquitous-language&quot;&gt;通用语言(Ubiquitous Language)&lt;/h3&gt;
+
+&lt;p&gt;上面的例子的确看起来简单，但过程并非容易：我们（开发人员）和领域专家在沟通的过程中是存在天然屏障的：我们满脑子都是类，方法，设计模式，算法，继承，封装，多态，如何面向对象等等；这些领域专家是不懂的，他们只知道飞机故障，经纬度，航班路线等专业术语。&lt;/p&gt;
+
+&lt;p&gt;所以，在建立领域知识的时候，我们（开发人员和领域专家）必须要交换知识，知识的范围范围涉及领域模型的各个元素，如果一方对模型的描述令对方感到困惑，那么应该立刻换一种描述方式，直到双方都能够接受并且理解为止。在这一过程中，就需要建立一种通用语言，作为开发人员和领域专家的沟通桥梁。&lt;/p&gt;
+
+&lt;p&gt;可如何形成这种通用语言呢？其实答案并不唯一，确切的说也没有什么标准答案。&lt;/p&gt;
+
+&lt;p&gt;a)UML
+利用UML可以清晰的表现类，并且展示他们之间的关系。但是一旦聚合关系复杂，UML叶子节点将会变的十分庞大，可能就没有那么直观易懂了。最重要的是，它无法精确的描述类的行为。为了弥补这种缺陷，可以为具体的行为部分补充必要说明（可以是标签或者文档），但这往往又很耗时，而且更新维护起来十分不便。
+b)伪代码
+极限编程是推荐这么做的，这个办法对程序猿来说固然好，可立刻就要将现有模型映射到代码层面，这对人的要求也是不低，并不容易实现。&lt;/p&gt;
+
+&lt;h3 id=&quot;domain-driven-design&quot;&gt;模型驱动设计(Domain Driven Design)&lt;/h3&gt;
+
+&lt;h4 id=&quot;model-driven-design&quot;&gt;模型关系图(Model-Driven Design)&lt;/h4&gt;
+
+&lt;p&gt;领域驱动设计中的模型关系图如下：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/ddd/p28.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;layered-architecture&quot;&gt;层结构(Layered Architecture)&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/ddd/p29.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;User Interface&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;负责向用户展现信息，并且会解析用户行为，即常说的展现层。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Application Layer&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;应用层没有任何的业务逻辑代码，它很简单，它主要为程序提供任何处理。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Domain Layer&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这一层包含有关领域的信息，是业务的核心，领域模型的状态都直接或间接（持久化至数据库）存储在这一层。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Infrastructure Layer&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;为其他层提供底层依赖操作，&lt;/p&gt;
+
+&lt;p&gt;层结构的划分是很有必要的，只有清晰的结构，那么最终的领域设计才宜用，比如用户要预定航班，向Application Layer的service发起请求，而后Domain Layler从Infrastructure Layer获取领域对象，校验通过后会更新用户状态，最后再次通过Infratructure Layer持久化到数据库中。&lt;/p&gt;
+
+&lt;h4 id=&quot;entity--value-object&quot;&gt;实体(Entity) &amp;amp; 值对象(Value Object)&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;实体&lt;/code&gt;与面向对象中的概念类似，在这里再次提出是因为他是领域模型的基本元素。在领域模型中，实体应该具有唯一的标识符，从设计的一开始就应该考虑实体，决定是否建立一个实体也是十分重要的。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;值对象&lt;/code&gt;和我们说的编程中数值类型的变量是不同的，它仅仅是没有唯一标识符的实体，比如有两个收获地址的信息完全一样，那它就是值对象，并不是实体。&lt;code class=&quot;highlighter-rouge&quot;&gt;值对象&lt;/code&gt;在领域模型中是可以被共享的，他们应该是“不可变的”（只读的），当有其他地方需要用到&lt;code class=&quot;highlighter-rouge&quot;&gt;值对象&lt;/code&gt;时，可以将它的副本作为参数传递。&lt;/p&gt;
+
+&lt;h4 id=&quot;services&quot;&gt;服务(Services)&lt;/h4&gt;
+
+&lt;p&gt;当我们在分析某一领域时，一直在尝试如何将信息转化为领域模型，但并非所有的点我们都能用&lt;code class=&quot;highlighter-rouge&quot;&gt;Model&lt;/code&gt;来涵盖。对象应当有属性，状态和行为，但有时领域中有一些行为是无法映射到具体的对象中的，我们也不能强行将其放入在某一个模型对象中，而将其单独作为一个方法又没有地方，此时就需要&lt;code class=&quot;highlighter-rouge&quot;&gt;服务&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;服务是无状态的，对象是有状态的。所谓状态，就是对象的基本属性：高矮胖瘦，年轻漂亮。服务本身也是对象，但它却没有属性，因此说是无状态的。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;PS:这与我们常说的服务器的状态是两个概念:无状态的服务器是指，对服务器来说每次接收到的HTTP请求都像是客户端第一次发送的一样；而有状态的服务器就会存储客户端的状态，常见的就是Cookie&amp;amp;Session&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;服务存在的目的就是为领域提供简单的方法。为了提供大量便捷的方法，自然要关联许多领域模型，所以说，行为(Action)天生就应该存在于服务中。&lt;/p&gt;
+
+&lt;p&gt;服务具有以下特点：&lt;/p&gt;
+
+&lt;p&gt;a)服务中体现的行为一定是不属于任何实体和值对象的，但它属于领域模型的范围内；
+b)服务的行为一定设计其他多个对象
+c)服务的操作是无状态的&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;PS:不要随意放置服务,如果该行为是属于应用层的，那就应该放在那；如果它为领域模型服务，那它就应该存储在领域层中，要避免业务的服务直接操作数据库，最好通过DAO。&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;moudles&quot;&gt;模块(Moudles)&lt;/h4&gt;
+
+&lt;p&gt;对于一个复杂的应用来说，领域模型将会变的越来越大，以至于很难去描述和理解，更别提模型之间的关系了。模块的出现，就是为了组织统一的模型概念来达到减少复杂性的目的的。而另一个原因则是模块可以提高代码质量和可维护性，比如我们常说的&lt;code class=&quot;highlighter-rouge&quot;&gt;高内聚，低耦合&lt;/code&gt;就是要提倡将相关的类内聚在一起实现模块化。&lt;/p&gt;
+
+&lt;p&gt;模块应当有对外的统一接口供其他模块调用，比如有三个对象在模块a中，那么模块b不应该直接操作这三个对象，而是操作暴露的接口。模块的命名也很有讲究，最好能够深层次反映领域模型。&lt;/p&gt;
+
+&lt;h4 id=&quot;aggregates&quot;&gt;聚合(Aggregates)&lt;/h4&gt;
+
+&lt;p&gt;聚合被看作是多个模型单元间的组合，它定义了模型的关系和边界。每个聚合都有一个根，根是一个实体，并且是唯一可被外访问的。正是如此，聚合可以保证多个模型单元的不变性，因为其他模型都参考聚合的根。所以要想改变其他对象，只能通过聚合的根去操作。根如果没有了，那么聚合中的其他对象也将不存在。
+一个简单的例子如下：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/ddd/p46.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;customer是该聚合的根，其他的都是内部对象，如果外部需要用户地址，拷贝一份传递出去即可。显而易见，用户如果不存在，其他信息均无意义。&lt;/p&gt;
+
+&lt;h4 id=&quot;factories&quot;&gt;工厂(Factories)&lt;/h4&gt;
+
+&lt;p&gt;在大型系统中，实体和聚合通常是很复杂的，这就导致了很难去通过构造器来创建对象。&lt;code class=&quot;highlighter-rouge&quot;&gt;工厂&lt;/code&gt;就决解了这个问题，它把创建对象的细节封装起来，巧妙的实现了依赖反转。当然对聚合也适用（当建立了聚合根时，其他对象可以自动创建）。工厂最早被大家熟知可能还是在设计模式中，的确，在这里提到的工厂也是这个概念。&lt;/p&gt;
+
+&lt;p&gt;但是不要盲目的去应用工厂，以下场景不需要工厂：
+a)构造器很简单
+b)构造对象时不依赖于其他对象的创建
+c)用策略模式就可以解决&lt;/p&gt;
+
+&lt;h4 id=&quot;repository&quot;&gt;仓库(Repository)&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;仓库&lt;/code&gt;封装了获取对象的逻辑，领域对象无须和底层数据库交互，它只需要从仓库中获取对象即可。仓库可以存储对象的引用，当一个对象被创建后，它可能会被存储到仓库中，那么下次就可以从仓库取。如果用户请求的数据没在仓库中，则会从数据库里取，这就减少了底层交互的次数。当然，仓库获取对象也是有策略的，如下：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;img src=&quot;/../img/ddd/p53.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;PS:仓库看起来有些像Infrastructure Layer的东西，但其实不然，仓库更像是本地缓存，需要时才会访问数据库&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;结束语&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CQRS&lt;/code&gt;本身也是一种架构模式，但更多的是它被应用在&lt;code class=&quot;highlighter-rouge&quot;&gt;DDD&lt;/code&gt;中。因为DDD中有&lt;code class=&quot;highlighter-rouge&quot;&gt;工厂&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;仓库&lt;/code&gt;来管理&lt;code class=&quot;highlighter-rouge&quot;&gt;领域模型&lt;/code&gt;，前者主要用于创建，而后者则用于存储。这就表明在DDD中是默认将读写分离的，DDD似乎就天生和CQRS有着无缝的链接。&lt;/p&gt;
+
+&lt;p&gt;CQRS往往要求数据库进行读写分离，具体来说，所有的更新操作均无返回值(void)，而读操作才返回对应的值。在实现CQRS时，又和&lt;code class=&quot;highlighter-rouge&quot;&gt;事件源(Event Source)&lt;/code&gt;相结合，以下是一个简单的交互过程：&lt;/p&gt;
+
+&lt;p&gt;客户端发起一个请求，服务端将其映射为一个命令，该命令会从仓库中读取一个相关的聚合，对该聚合进行操作，将会生成一个事件源，将该事件发送出去，接收方收到消息后（并不是立刻）将会更新领域对象，完成一次更新操作。&lt;/p&gt;
+
+&lt;p&gt;在此基础上，还有称之为&lt;code class=&quot;highlighter-rouge&quot;&gt;六边形&lt;/code&gt;的架构风格，它将DDD的领域模型包裹在内，外围含有多种是适配器来是配各种通信方式，总体来说，我觉得无论是DDD,CQRS还是六边形，都是一种架构的设计思路，没有绝对的优势，同时也有各自的复杂度，并不容易理解，但有时在软件设计时，不妨多学习一下其中的小细节和思路，必然能够有所收获。&lt;/p&gt;
+
+&lt;p&gt;至于&lt;code class=&quot;highlighter-rouge&quot;&gt;能否应用？如何应用？&lt;/code&gt;，笔者只能说不能生搬硬套，需要有一定的实践经验才能去尝试，一般情况下，结合项目特点，能适当的灵活采用其中的设计思路即可。&lt;/p&gt;
+
+&lt;p&gt;参考资料：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.infoq.com/minibooks/domain-driven-design-quickly/&quot;&gt;Domain Driven Design Quickly&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.cnblogs.com/Leo_wl/p/3866629.html&quot;&gt;领域驱动设计(DDD)实现之路&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.cnblogs.com/netfocus/archive/2011/10/10/2204949.html&quot;&gt;DDD领域驱动设计基本理论知识总结&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.cnblogs.com/yangecnu/p/Introduction-CQRS.html&quot;&gt;浅谈命令查询职责分离(CQRS)模式&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.jdon.com/46117&quot;&gt;你应该知道的四种优秀架构&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sun, 12 Mar 2017 12:35:00 +0800</pubDate>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2017/03/12/ddd.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2017/03/12/ddd.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
+    
+      <item>
+        <title>Ddd</title>
+        <description>&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;date&quot; content=&quot;2017-03-12 12:35PM&quot;&gt;
+&lt;meta name=&quot;summary&quot; content=&quot;最近在做一些微服务相关的设计，涉及服务的划分，Restful API的设计等工作。其中比较棘手的就是Service的职责和请求信息的关联，如何抽象具有统一业务范畴的Model，使其模块化，又如何高度提炼并组合多模块，使得业务可独立服务化。在这其中为了找寻答案，看了不少书籍和博客，其中在DDD中找到了一些答案，个人觉得受益匪浅，或许也可以受用于大家。&amp;quot;&quot;&gt;
+&lt;meta name=&quot;layout&quot; content=&quot;post_layout&quot;&gt;
+&lt;meta name=&quot;type&quot; content=&quot;2&quot;&gt;
+&lt;meta name=&quot;categories&quot; content=&quot;jekyll update&quot;&gt;
+&lt;meta name=&quot;icon&quot; content=&quot;&amp;quot;thinking-icon.jpg&amp;quot;&quot;&gt;&lt;style&gt;body {
+  width: 45em;
+  border: 1px solid #ddd;
+  outline: 1300px solid #fff;
+  margin: 16px auto;
+}
+
+body .markdown-body
+{
+  padding: 30px;
+}
+
+@font-face {
+  font-family: fontawesome-mini;
+  src: url(data:font/woff;charset=utf-8;base64,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) format(&#39;woff&#39;);
+}
+
+@font-face {
+  font-family: octicons-anchor;
+  src: url(data:font/woff;charset=utf-8;base64,d09GRgABAAAAAAYcAA0AAAAACjQAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAABMAAAABwAAAAca8vGTk9TLzIAAAFMAAAARAAAAFZG1VHVY21hcAAAAZAAAAA+AAABQgAP9AdjdnQgAAAB0AAAAAQAAAAEACICiGdhc3AAAAHUAAAACAAAAAj//wADZ2x5ZgAAAdwAAADRAAABEKyikaNoZWFkAAACsAAAAC0AAAA2AtXoA2hoZWEAAALgAAAAHAAAACQHngNFaG10eAAAAvwAAAAQAAAAEAwAACJsb2NhAAADDAAAAAoAAAAKALIAVG1heHAAAAMYAAAAHwAAACABEAB2bmFtZQAAAzgAAALBAAAFu3I9x/Nwb3N0AAAF/AAAAB0AAAAvaoFvbwAAAAEAAAAAzBdyYwAAAADP2IQvAAAAAM/bz7t4nGNgZGFgnMDAysDB1Ml0hoGBoR9CM75mMGLkYGBgYmBlZsAKAtJcUxgcPsR8iGF2+O/AEMPsznAYKMwIkgMA5REMOXicY2BgYGaAYBkGRgYQsAHyGMF8FgYFIM0ChED+h5j//yEk/3KoSgZGNgYYk4GRCUgwMaACRoZhDwCs7QgGAAAAIgKIAAAAAf//AAJ4nHWMMQrCQBBF/0zWrCCIKUQsTDCL2EXMohYGSSmorScInsRGL2DOYJe0Ntp7BK+gJ1BxF1stZvjz/v8DRghQzEc4kIgKwiAppcA9LtzKLSkdNhKFY3HF4lK69ExKslx7Xa+vPRVS43G98vG1DnkDMIBUgFN0MDXflU8tbaZOUkXUH0+U27RoRpOIyCKjbMCVejwypzJJG4jIwb43rfl6wbwanocrJm9XFYfskuVC5K/TPyczNU7b84CXcbxks1Un6H6tLH9vf2LRnn8Ax7A5WQAAAHicY2BkYGAA4teL1+yI57f5ysDNwgAC529f0kOmWRiYVgEpDgYmEA8AUzEKsQAAAHicY2BkYGB2+O/AEMPCAAJAkpEBFbAAADgKAe0EAAAiAAAAAAQAAAAEAAAAAAAAKgAqACoAiAAAeJxjYGRgYGBhsGFgYgABEMkFhAwM/xn0QAIAD6YBhwB4nI1Ty07cMBS9QwKlQapQW3VXySvEqDCZGbGaHULiIQ1FKgjWMxknMfLEke2A+IJu+wntrt/QbVf9gG75jK577Lg8K1qQPCfnnnt8fX1NRC/pmjrk/zprC+8D7tBy9DHgBXoWfQ44Av8t4Bj4Z8CLtBL9CniJluPXASf0Lm4CXqFX8Q84dOLnMB17N4c7tBo1AS/Qi+hTwBH4rwHHwN8DXqQ30XXAS7QaLwSc0Gn8NuAVWou/gFmnjLrEaEh9GmDdDGgL3B4JsrRPDU2hTOiMSuJUIdKQQayiAth69r6akSSFqIJuA19TrzCIaY8sIoxyrNIrL//pw7A2iMygkX5vDj+G+kuoLdX4GlGK/8Lnlz6/h9MpmoO9rafrz7ILXEHHaAx95s9lsI7AHNMBWEZHULnfAXwG9/ZqdzLI08iuwRloXE8kfhXYAvE23+23DU3t626rbs8/8adv+9DWknsHp3E17oCf+Z48rvEQNZ78paYM38qfk3v/u3l3u3GXN2Dmvmvpf1Srwk3pB/VSsp512bA/GG5i2WJ7wu430yQ5K3nFGiOqgtmSB5pJVSizwaacmUZzZhXLlZTq8qGGFY2YcSkqbth6aW1tRmlaCFs2016m5qn36SbJrqosG4uMV4aP2PHBmB3tjtmgN2izkGQyLWprekbIntJFing32a5rKWCN/SdSoga45EJykyQ7asZvHQ8PTm6cslIpwyeyjbVltNikc2HTR7YKh9LBl9DADC0U/jLcBZDKrMhUBfQBvXRzLtFtjU9eNHKin0x5InTqb8lNpfKv1s1xHzTXRqgKzek/mb7nB8RZTCDhGEX3kK/8Q75AmUM/eLkfA+0Hi908Kx4eNsMgudg5GLdRD7a84npi+YxNr5i5KIbW5izXas7cHXIMAau1OueZhfj+cOcP3P8MNIWLyYOBuxL6DRylJ4cAAAB4nGNgYoAALjDJyIAOWMCiTIxMLDmZedkABtIBygAAAA==) format(&#39;woff&#39;);
+}
+
+.markdown-body {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  color: #333333;
+  overflow: hidden;
+  font-family: &quot;Helvetica Neue&quot;, Helvetica, &quot;Segoe UI&quot;, Arial, freesans, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+.markdown-body a {
+  background: transparent;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+  outline: 0;
+}
+
+.markdown-body b,
+.markdown-body strong {
+  font-weight: bold;
+}
+
+.markdown-body mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body sub,
+.markdown-body sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+.markdown-body sup {
+  top: -0.5em;
+}
+.markdown-body sub {
+  bottom: -0.25em;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+.markdown-body img {
+  border: 0;
+}
+
+.markdown-body hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+.markdown-body pre {
+  overflow: auto;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+.markdown-body input {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+.markdown-body html input[disabled] {
+  cursor: default;
+}
+
+.markdown-body input {
+  line-height: normal;
+}
+
+.markdown-body input[type=&quot;checkbox&quot;] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body .codehilitetable {
+  border: 0;
+  border-spacing: 0;
+}
+
+.markdown-body .codehilitetable tr {
+  border: 0;
+}
+
+.markdown-body .codehilitetable pre,
+.markdown-body .codehilitetable div.codehilite {
+  margin: 0;
+}
+
+.markdown-body .linenos,
+.markdown-body .code,
+.markdown-body .codehilitetable td {
+  border: 0;
+  padding: 0;
+}
+
+.markdown-body td:not(.linenos) .linenodiv {
+  padding: 0 !important;
+}
+
+.markdown-body .code {
+  width: 100%;
+}
+
+.markdown-body .linenos div pre,
+.markdown-body .linenodiv pre,
+.markdown-body .linenodiv {
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.markdown-body .code div pre,
+.markdown-body .code div {
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-top-right-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -moz-border-radius-topright: 3px;
+  -moz-border-radius-bottomright: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.markdown-body * {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.markdown-body input {
+  font: 13px Helvetica, arial, freesans, clean, sans-serif, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;;
+  line-height: 1.4;
+}
+
+.markdown-body a {
+  color: #4183c4;
+  text-decoration: none;
+}
+
+.markdown-body a:hover,
+.markdown-body a:focus,
+.markdown-body a:active {
+  text-decoration: underline;
+}
+
+.markdown-body hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.markdown-body hr:before,
+.markdown-body hr:after {
+  display: table;
+  content: &quot; &quot;;
+}
+
+.markdown-body hr:after {
+  clear: both;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  line-height: 1.1;
+}
+
+.markdown-body h1 {
+  font-size: 30px;
+}
+
+.markdown-body h2 {
+  font-size: 21px;
+}
+
+.markdown-body h3 {
+  font-size: 16px;
+}
+
+.markdown-body h4 {
+  font-size: 14px;
+}
+
+.markdown-body h5 {
+  font-size: 12px;
+}
+
+.markdown-body h6 {
+  font-size: 11px;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ul ul ol,
+.markdown-body ul ol ol,
+.markdown-body ol ul ol,
+.markdown-body ol ol ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+  margin-left: 0;
+}
+
+.markdown-body code,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace;
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body kbd {
+  background-color: #e7e7e7;
+  background-image: -moz-linear-gradient(#fefefe, #e7e7e7);
+  background-image: -webkit-linear-gradient(#fefefe, #e7e7e7);
+  background-image: linear-gradient(#fefefe, #e7e7e7);
+  background-repeat: repeat-x;
+  border-radius: 2px;
+  border: 1px solid #cfcfcf;
+  color: #000;
+  padding: 3px 5px;
+  line-height: 10px;
+  font: 11px Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace;
+  display: inline-block;
+}
+
+.markdown-body&gt;*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body&gt;*:last-child {
+  margin-bottom: 0 !important;
+}
+
+.markdown-body .headeranchor-link {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  padding-right: 6px;
+  padding-left: 30px;
+  margin-left: -30px;
+}
+
+.markdown-body .headeranchor-link:focus {
+  outline: none;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 16px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.markdown-body h1 .headeranchor,
+.markdown-body h2 .headeranchor,
+.markdown-body h3 .headeranchor,
+.markdown-body h4 .headeranchor,
+.markdown-body h5 .headeranchor,
+.markdown-body h6 .headeranchor {
+  display: none;
+  color: #000;
+  vertical-align: middle;
+}
+
+.markdown-body h1:hover .headeranchor-link,
+.markdown-body h2:hover .headeranchor-link,
+.markdown-body h3:hover .headeranchor-link,
+.markdown-body h4:hover .headeranchor-link,
+.markdown-body h5:hover .headeranchor-link,
+.markdown-body h6:hover .headeranchor-link {
+  height: 1em;
+  padding-left: 8px;
+  margin-left: -30px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.markdown-body h1:hover .headeranchor-link .headeranchor,
+.markdown-body h2:hover .headeranchor-link .headeranchor,
+.markdown-body h3:hover .headeranchor-link .headeranchor,
+.markdown-body h4:hover .headeranchor-link .headeranchor,
+.markdown-body h5:hover .headeranchor-link .headeranchor,
+.markdown-body h6:hover .headeranchor-link .headeranchor {
+  display: inline-block;
+}
+
+.markdown-body h1 {
+  padding-bottom: 0.3em;
+  font-size: 2.25em;
+  line-height: 1.2;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h2 {
+  padding-bottom: 0.3em;
+  font-size: 1.75em;
+  line-height: 1.225;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h3 {
+  font-size: 1.5em;
+  line-height: 1.43;
+}
+
+.markdown-body h4 {
+  font-size: 1.25em;
+}
+
+.markdown-body h5 {
+  font-size: 1em;
+}
+
+.markdown-body h6 {
+  font-size: 1em;
+  color: #777;
+}
+
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body dl,
+.markdown-body table,
+.markdown-body pre,
+.markdown-body .admonition {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body hr {
+  height: 4px;
+  padding: 0;
+  margin: 16px 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 2em;
+}
+
+.markdown-body ul ul,
+.markdown-body ul ol,
+.markdown-body ol ol,
+.markdown-body ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body li&gt;p {
+  margin-top: 16px;
+}
+
+.markdown-body dl {
+  padding: 0;
+}
+
+.markdown-body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.markdown-body blockquote {
+  padding: 0 15px;
+  color: #777;
+  border-left: 4px solid #ddd;
+}
+
+.markdown-body blockquote&gt;:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote&gt;:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  word-break: normal;
+  word-break: keep-all;
+}
+
+.markdown-body table th {
+  font-weight: bold;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
+}
+
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.markdown-body code,
+.markdown-body samp {
+  padding: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(0,0,0,0.04);
+  border-radius: 3px;
+}
+
+.markdown-body code:before,
+.markdown-body code:after {
+  letter-spacing: -0.2em;
+  content: &quot;\00a0&quot;;
+}
+
+.markdown-body pre&gt;code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.markdown-body .codehilite {
+  margin-bottom: 16px;
+}
+
+.markdown-body .codehilite pre,
+.markdown-body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f7f7f7;
+  border-radius: 3px;
+}
+
+.markdown-body .codehilite pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.markdown-body pre {
+  word-wrap: normal;
+}
+
+.markdown-body pre code {
+  display: inline;
+  max-width: initial;
+  padding: 0;
+  margin: 0;
+  overflow: initial;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+
+.markdown-body pre code:before,
+.markdown-body pre code:after {
+  content: normal;
+}
+
+/* Admonition */
+.markdown-body .admonition {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  position: relative;
+  border-radius: 3px;
+  border: 1px solid #e0e0e0;
+  border-left: 6px solid #333;
+  padding: 10px 10px 10px 30px;
+}
+
+.markdown-body .admonition table {
+  color: #333;
+}
+
+.markdown-body .admonition p {
+  padding: 0;
+}
+
+.markdown-body .admonition-title {
+  font-weight: bold;
+  margin: 0;
+}
+
+.markdown-body .admonition&gt;.admonition-title {
+  color: #333;
+}
+
+.markdown-body .attention&gt;.admonition-title {
+  color: #a6d796;
+}
+
+.markdown-body .caution&gt;.admonition-title {
+  color: #d7a796;
+}
+
+.markdown-body .hint&gt;.admonition-title {
+  color: #96c6d7;
+}
+
+.markdown-body .danger&gt;.admonition-title {
+  color: #c25f77;
+}
+
+.markdown-body .question&gt;.admonition-title {
+  color: #96a6d7;
+}
+
+.markdown-body .note&gt;.admonition-title {
+  color: #d7c896;
+}
+
+.markdown-body .admonition:before,
+.markdown-body .attention:before,
+.markdown-body .caution:before,
+.markdown-body .hint:before,
+.markdown-body .danger:before,
+.markdown-body .question:before,
+.markdown-body .note:before {
+  font: normal normal 16px fontawesome-mini;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  line-height: 1.5;
+  color: #333;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.markdown-body .admonition:before {
+  content: &quot;\f056\00a0&quot;;
+  color: 333;
+}
+
+.markdown-body .attention:before {
+  content: &quot;\f058\00a0&quot;;
+  color: #a6d796;
+}
+
+.markdown-body .caution:before {
+  content: &quot;\f06a\00a0&quot;;
+  color: #d7a796;
+}
+
+.markdown-body .hint:before {
+  content: &quot;\f05a\00a0&quot;;
+  color: #96c6d7;
+}
+
+.markdown-body .danger:before {
+  content: &quot;\f057\00a0&quot;;
+  color: #c25f77;
+}
+
+.markdown-body .question:before {
+  content: &quot;\f059\00a0&quot;;
+  color: #96a6d7;
+}
+
+.markdown-body .note:before {
+  content: &quot;\f040\00a0&quot;;
+  color: #d7c896;
+}
+
+.markdown-body .admonition::after {
+  content: normal;
+}
+
+.markdown-body .attention {
+  border-left: 6px solid #a6d796;
+}
+
+.markdown-body .caution {
+  border-left: 6px solid #d7a796;
+}
+
+.markdown-body .hint {
+  border-left: 6px solid #96c6d7;
+}
+
+.markdown-body .danger {
+  border-left: 6px solid #c25f77;
+}
+
+.markdown-body .question {
+  border-left: 6px solid #96a6d7;
+}
+
+.markdown-body .note {
+  border-left: 6px solid #d7c896;
+}
+
+.markdown-body .admonition&gt;*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body .admonition&gt;*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* progress bar*/
+.markdown-body .progress {
+  display: block;
+  width: 300px;
+  margin: 10px 0;
+  height: 24px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #ededed;
+  position: relative;
+  box-shadow: inset -1px 1px 3px rgba(0, 0, 0, .1);
+}
+
+.markdown-body .progress-label {
+  position: absolute;
+  text-align: center;
+  font-weight: bold;
+  width: 100%; margin: 0;
+  line-height: 24px;
+  color: #333;
+  text-shadow: 1px 1px 0 #fefefe, -1px -1px 0 #fefefe, -1px 1px 0 #fefefe, 1px -1px 0 #fefefe, 0 1px 0 #fefefe, 0 -1px 0 #fefefe, 1px 0 0 #fefefe, -1px 0 0 #fefefe, 1px 1px 2px #000;
+  -webkit-font-smoothing: antialiased !important;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.markdown-body .progress-bar {
+  height: 24px;
+  float: left;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #96c6d7;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), inset 0 -1px 0 rgba(0, 0, 0, .1);
+  background-size: 30px 30px;
+  background-image: -webkit-linear-gradient(
+    135deg, rgba(255, 255, 255, .4) 27%,
+    transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%,
+    transparent 77%, transparent
+  );
+  background-image: -moz-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: -ms-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: -o-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+}
+
+.markdown-body .progress-100plus .progress-bar {
+  background-color: #a6d796;
+}
+
+.markdown-body .progress-80plus .progress-bar {
+  background-color: #c6d796;
+}
+
+.markdown-body .progress-60plus .progress-bar {
+  background-color: #d7c896;
+}
+
+.markdown-body .progress-40plus .progress-bar {
+  background-color: #d7a796;
+}
+
+.markdown-body .progress-20plus .progress-bar {
+  background-color: #d796a6;
+}
+
+.markdown-body .progress-0plus .progress-bar {
+  background-color: #c25f77;
+}
+
+.markdown-body .candystripe-animate .progress-bar{
+  -webkit-animation: animate-stripes 3s linear infinite;
+  -moz-animation: animate-stripes 3s linear infinite;
+  animation: animate-stripes 3s linear infinite;
+}
+
+@-webkit-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@-moz-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+.markdown-body .gloss .progress-bar {
+  box-shadow:
+    inset 0 4px 12px rgba(255, 255, 255, .7),
+    inset 0 -12px 0 rgba(0, 0, 0, .05);
+}
+
+/* Multimarkdown Critic Blocks */
+.markdown-body .critic_mark {
+  background: #ff0;
+}
+
+.markdown-body .critic_delete {
+  color: #c82829;
+  text-decoration: line-through;
+}
+
+.markdown-body .critic_insert {
+  color: #718c00 ;
+  text-decoration: underline;
+}
+
+.markdown-body .critic_comment {
+  color: #8e908c;
+  font-style: italic;
+}
+
+.markdown-body .headeranchor {
+  font: normal normal 16px octicons-anchor;
+  line-height: 1;
+  display: inline-block;
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.headeranchor:before {
+  content: &#39;\f05c&#39;;
+}
+
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+  margin-top: 3px;
+}
+
+.markdown-body .task-list-item input {
+  margin: 0 4px 0.25em -20px;
+  vertical-align: middle;
+}
+
+/* Media */
+@media only screen and (min-width: 480px) {
+  .markdown-body {
+    font-size:14px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .markdown-body {
+    font-size:16px;
+  }
+}
+
+@media print {
+  .markdown-body * {
+    background: transparent !important;
+    color: black !important;
+    filter:none !important;
+    -ms-filter: none !important;
+  }
+
+  .markdown-body {
+    font-size:12pt;
+    max-width:100%;
+    outline:none;
+    border: 0;
+  }
+
+  .markdown-body a,
+  .markdown-body a:visited {
+    text-decoration: underline;
+  }
+
+  .markdown-body .headeranchor-link {
+    display: none;
+  }
+
+  .markdown-body a[href]:after {
+    content: &quot; (&quot; attr(href) &quot;)&quot;;
+  }
+
+  .markdown-body abbr[title]:after {
+    content: &quot; (&quot; attr(title) &quot;)&quot;;
+  }
+
+  .markdown-body .ir a:after,
+  .markdown-body a[href^=&quot;javascript:&quot;]:after,
+  .markdown-body a[href^=&quot;#&quot;]:after {
+    content: &quot;&quot;;
+  }
+
+  .markdown-body pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .markdown-body pre,
+  .markdown-body blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  .markdown-body .progress,
+  .markdown-body .progress-bar {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .markdown-body .progress {
+    border: 1px solid #ddd;
+  }
+
+  .markdown-body .progress-bar {
+    height: 22px;
+    border-right: 1px solid #ddd;
+  }
+
+  .markdown-body tr,
+  .markdown-body img {
+    page-break-inside: avoid;
+  }
+
+  .markdown-body img {
+    max-width: 100% !important;
+  }
+
+  .markdown-body p,
+  .markdown-body h2,
+  .markdown-body h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  .markdown-body h2,
+  .markdown-body h3 {
+    page-break-after: avoid;
+  }
+}
+&lt;/style&gt;&lt;title&gt;&quot;浅析DDD(领域驱动设计)之思想&quot;&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;article class=&quot;markdown-body&quot;&gt;&lt;blockquote&gt;
+&lt;p&gt;最近在做一些微服务相关的设计，涉及服务的划分，Restful API的设计等工作。其中比较棘手的就是Service的职责和请求信息的关联，如何抽象具有统一业务范畴的Model，使其模块化，又如何高度提炼并组合多模块，使得业务可独立服务化。在这其中为了找寻答案，看了不少书籍和博客，其中在DDD中找到了一些答案，个人觉得受益匪浅，或许也可以受用于大家。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;ddd&quot;&gt;&lt;a name=&quot;user-content-ddd&quot; href=&quot;#ddd&quot; class=&quot;headeranchor-link&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;headeranchor&quot;&gt;&lt;/span&gt;&lt;/a&gt;什么是DDD&lt;/h3&gt;
+&lt;p&gt;软件开发不是一蹴而就的事情，我们不可能在不了解产品（或行业领域）的前提下进行软件开发，在开发前，通常需要大量的业务知识梳理，而后到达软件设计的层面，最后才是开发。业务知识梳理的过程，我们必然会形成某个领域知识，根据领域知识来一步步驱动软件设计，就是领域驱动设计的基本概念。&lt;/p&gt;
+&lt;p&gt;听起来这和传统意义的软件开发没啥区别，只是换了点新鲜的名词而已，其实不然。&lt;/p&gt;
+&lt;h4 id=&quot;vs-ddd&quot;&gt;&lt;a name=&quot;user-content-vs-ddd&quot; href=&quot;#vs-ddd&quot; class=&quot;headeranchor-link&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;headeranchor&quot;&gt;&lt;/span&gt;&lt;/a&gt;软件开发 VS DDD&lt;/h4&gt;
+&lt;p&gt;一般软件设计或者说软件开发分两种：瀑布式，敏捷式。&lt;/p&gt;
+&lt;p&gt;前者则经过BA大量的业务分析后，会基于现有需求整理出一个基本模型，再将结果传递给开发人员，这就是开发人员的需求文档，他们只需要照此开发便是。这种模式下，是很难频繁的从领域专家那里得到反馈，因此在BA前期分析时就已经默认了这个模型是正确的，那么结果可想而之，数月甚至数年后交付的时候，必然和客户的预期差距较大。&lt;/p&gt;
+&lt;p&gt;后者在此基础上进行了改进，它也需要大量的分析，范围会设计到任意一领域模型，只是它是小步迭代，周期性交付，那么获取客户及领域专家的反馈也就比较频繁和及时。可敏捷也不能够将领域中的方方面面都考虑到，并且敏捷是拥抱变化的，大量的需求或者模型变更必将代码成本和维护成本。&lt;/p&gt;
+&lt;p&gt;DDD则不同：它像是更小粒度的迭代设计，它的最小单元是领域模型，所以领域模型就是能够精确反映领域中某一知识元素的载体，这种知识的获取需要通过与领域专家进行频繁的沟通才能将专业知识转化为领域模型。它无关技术，具有高度的业务抽象性，从而准备的描述了领域中的知识体系。但它们是独立的，我们还需要学会如何让它具有表达性，让模型彼此之间通信，形成完整的领域架构，通常我们可以用象形图或一种通用的语言去描述它们之间的关系。在此之上，我们就可以进行领域中的代码设计。如果将软件设计比做是造一座房子，那么代码设计就好比是涂一面墙。前者已经房子的蓝图框架规划好，而后者只是一个小部分的设计，如果墙涂错了，我们可以重涂，可如果房子结构设计错了，那就悲剧了，所以我才说DDD中的设计像是更小粒度的敏捷迭代。&lt;/p&gt;
+&lt;h3 id=&quot;_1&quot;&gt;&lt;a name=&quot;user-content-_1&quot; href=&quot;#_1&quot; class=&quot;headeranchor-link&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;headeranchor&quot;&gt;&lt;/span&gt;&lt;/a&gt;建立领域知识&lt;/h3&gt;
+&lt;p&gt;说了这么多领域模型，到底什么是领域模型呢？以飞机航行为例子：&lt;/p&gt;
+&lt;p&gt;现要为航空公司开发一款能够为飞机提供起飞点和目标点，保证无路线冲突的飞机的监控软件。那我们应该从哪里开始下手呢？当然是熟悉领域知识开始，作为平时管理和维护机场飞行秩序的工作人员来说，他们自然就是这个领域的专家，我们第一个目标就是与机场工作人员沟通，不过别把期望他们能够给你所有你想要的知识，你得从中去筛选出主要的内容和元素。你可能会听到诸如起飞，着陆，飞行冲突，延误等领域名词，让们从一个简单的点开始（就算是错误的也没关系）：&lt;/p&gt;
+&lt;p&gt;a)起点－》飞机－》终点&lt;/p&gt;
+&lt;p&gt;这个模型有点过于简单，我们无法看出飞机在空中做了什么，也无法得知飞机怎么从起点到的终点，刚才我们似乎提到了一个词，线路，那么如此似乎会好些：&lt;/p&gt;
+&lt;p&gt;b)飞机－》路线－》起点／终点&lt;/p&gt;
+&lt;p&gt;既然点构成线，那何不：&lt;/p&gt;
+&lt;p&gt;c)飞机－》路线－》points（含起点，终点）&lt;/p&gt;
+&lt;p&gt;这个过程，是我们不断建立领域知识的过程，其中的重点就是寻找领域专家频繁沟通，从中提炼必要领域元素。&lt;/p&gt;
+&lt;h3 id=&quot;_2&quot;&gt;&lt;a name=&quot;user-content-_2&quot; href=&quot;#_2&quot; class=&quot;headeranchor-link&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;headeranchor&quot;&gt;&lt;/span&gt;&lt;/a&gt;通用语言&lt;/h3&gt;
+&lt;p&gt;上面的例子看起来简单，但过程并非容易：我们（开发人员）和领域专家在沟通的过程中是存在天然屏障的，我们满脑子都是类，方法，设计模式，算法，继承，封装，多态，如何面向对象等等；这些领域专家是不懂的，他们只知道飞机故障，经纬度，航班路线等专业术语。&lt;/p&gt;
+&lt;p&gt;所以，在建立领域知识的时候，我们（开发人员和领域专家）必须要交换知识，知识的范围设计领域模型的各个元素，如果一方对模型的描述令对方感到困惑，那么应该立刻换一种描述方式，直到双方都能够接受并且理解为止。在这一过程中，就需要建立一种通用语言，作为开发人员和领域专家的沟通桥梁。 &lt;/p&gt;
+&lt;p&gt;可如何形成这种通用语言呢？其实答案并不唯一，确切的说也没有什么标准答案。&lt;/p&gt;
+&lt;p&gt;a)UML&lt;br /&gt;
+利用UML可以清晰的表现类，并且展示他们之间的关系。但是一旦聚合关系复杂，UML叶子节点将会变的十分庞大，在图形，可能就没有那么直观易懂了。最终要的是，它无法精确的描述类的行为，为了弥补这种缺陷，可以为具体的行为部分记录标签或者文档（可以是手画的），但这有时的确又很耗时，而且更新维护起来十分不便。&lt;br /&gt;
+b)伪代码&lt;br /&gt;
+极限编程是推荐这么做的，这个办法对程序猿来说固然好，可立刻就要将现有模型映射到代码层面，这对人的要求也是不低，并不容易实现。&lt;/p&gt;
+&lt;h3 id=&quot;_3&quot;&gt;&lt;a name=&quot;user-content-_3&quot; href=&quot;#_3&quot; class=&quot;headeranchor-link&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;headeranchor&quot;&gt;&lt;/span&gt;&lt;/a&gt;模型驱动设计&lt;/h3&gt;
+&lt;h4 id=&quot;_4&quot;&gt;&lt;a name=&quot;user-content-_4&quot; href=&quot;#_4&quot; class=&quot;headeranchor-link&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;headeranchor&quot;&gt;&lt;/span&gt;&lt;/a&gt;模型关系图&lt;/h4&gt;
+&lt;p&gt;领域驱动设计中的模型关系图如下：&lt;br /&gt;
+p28&lt;/p&gt;
+&lt;h4 id=&quot;layered-architecture&quot;&gt;&lt;a name=&quot;user-content-layered-architecture&quot; href=&quot;#layered-architecture&quot; class=&quot;headeranchor-link&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;headeranchor&quot;&gt;&lt;/span&gt;&lt;/a&gt;Layered Architecture&lt;/h4&gt;
+&lt;p&gt;p29&lt;/p&gt;
+&lt;p&gt;通常情况下，领域驱动设计分为下面四层：&lt;br /&gt;
+a)User Interface&lt;br /&gt;
+负责向用户展现信息，并且会解析用户行为，即常说的展现层。&lt;br /&gt;
+b)Application Layer&lt;br /&gt;
+应用层没有任何的业务逻辑代码，它很简单，它主要为程序提供任何处理。&lt;br /&gt;
+c)Domain Layer&lt;br /&gt;
+这一层包含有关领域的信息，是业务的核心，领域模型的状态都直接或间接（持久化至数据库）存储在这一层。&lt;br /&gt;
+d)Infrastructure Layer&lt;br /&gt;
+为其他层提供底层依赖操作，&lt;/p&gt;
+&lt;p&gt;层结构的划分是很有必要的，只有清晰的结构，那么最终的领域设计才宜用，比如用户要预定航班，向Application layer的service发起请求，而后Domain Layler从Infrastructure Layer获取领域对象，校验通过后会更新用户状态，最后再次通过Infratructure Layer持久化到数据库。&lt;/p&gt;
+&lt;h4 id=&quot;entity-value-object&quot;&gt;&lt;a name=&quot;user-content-entity-value-object&quot; href=&quot;#entity-value-object&quot; class=&quot;headeranchor-link&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;headeranchor&quot;&gt;&lt;/span&gt;&lt;/a&gt;Entity &amp;amp; Value Object&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;实体&lt;/code&gt;与面向对象中的概念类似，在这里再次提出是因为他是领域模型的基本元素。在领域模型中，实体应该具有唯一的标识符，从设计的一开始就应该考虑实体，决定是否建立一个实体也是十分重要的。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;值对象&lt;/code&gt;和我们说的编程中数值类型的变量是不同的，它仅仅是没有唯一标识符的实体，比如有两个收获地址的信息完全一样，那它就是值对象，并不是实体。&lt;code&gt;值对象&lt;/code&gt;在领域模型中是可以被共享的，他们应该是“不可变的”（只读的），当有其他地方需要用到&lt;code&gt;值对象&lt;/code&gt;时，可以将它的副本作为参数传递。&lt;/p&gt;
+&lt;p&gt;p36&lt;/p&gt;
+&lt;h4 id=&quot;services&quot;&gt;&lt;a name=&quot;user-content-services&quot; href=&quot;#services&quot; class=&quot;headeranchor-link&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;headeranchor&quot;&gt;&lt;/span&gt;&lt;/a&gt;Services&lt;/h4&gt;
+&lt;p&gt;当我们在分析某一领域时，一直在尝试如何将信息转化为领域对象，但并非所有的点我们都能用对象来涵盖。对象应当有属性，状态和行为，但有时领域中有一些行为是无法映射到具体的对象中的，我们也不能强行将其放入在某一个模型对象中，而将其单独作为一个方法又没有地方，此时就需要&lt;code&gt;Service&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Service&lt;/code&gt;是无状态的，对象是有状态的。所谓状态，就是对象的基本属性：高矮胖瘦，年轻漂亮。&lt;code&gt;Service&lt;/code&gt;本身也是对象，但它却没有属性，因此说是无状态的，这与我们常说的服务器的状态是两个概念。无状态的服务器是指，对服务器来说每接受到HTTP请求都像是客户端第一次发送的一样；而有状态的服务器就会存储客户端的状态，常见的就是Cookie&amp;amp;Session.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Service&lt;/code&gt;存在的目的就是为领域提供简单的方法。为了提供大量便捷的方法，自然要链接许多对象或领域模型，所以说，行为天生就应该存在于&lt;code&gt;Service&lt;/code&gt;中。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Service&lt;/code&gt;具有以下特点：&lt;br /&gt;
+a)&lt;code&gt;Service&lt;/code&gt;中体现的行为一定是不属于任何实体和值对象的，但它属于领域模型的范围内；&lt;br /&gt;
+b)&lt;code&gt;Service&lt;/code&gt;的行为一定设计其他多个对象&lt;br /&gt;
+c)&lt;code&gt;Service&lt;/code&gt;的操作是无状态的&lt;/p&gt;
+&lt;p&gt;但需要注意，不要随意放置&lt;code&gt;Service&lt;/code&gt;：如果改行为是属于应用层的，那就应该放在那；如果它为领域模型服务，那它就应该存储在领域层中。&lt;/p&gt;
+&lt;h4 id=&quot;moudles&quot;&gt;&lt;a name=&quot;user-content-moudles&quot; href=&quot;#moudles&quot; class=&quot;headeranchor-link&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;headeranchor&quot;&gt;&lt;/span&gt;&lt;/a&gt;Moudles&lt;/h4&gt;
+&lt;p&gt;对于一个复杂的应用来说，模型将会变的越来越大，以至于很难去描述和理解，更别提模型之间的关系了。&lt;code&gt;Moudle&lt;/code&gt;的出现，就是为了组织统一的模型概念来达到减少复杂性的目的的。而另一个原因则是模块可以提高代码质量和可维护性，比如我们常说的“高内聚，低耦合”就是要提倡将相关的类内聚在一起实现模块化。&lt;/p&gt;
+&lt;p&gt;模块应当有对外的统一接口供其他模块调用，比如有三个对象在模块a中，那么模块b不应该直接操作这三个对象，而是操作暴露的接口。模块的命名也很有讲究，最好能够深层次反映领域模型。&lt;/p&gt;
+&lt;h4 id=&quot;aggregates&quot;&gt;&lt;a name=&quot;user-content-aggregates&quot; href=&quot;#aggregates&quot; class=&quot;headeranchor-link&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;headeranchor&quot;&gt;&lt;/span&gt;&lt;/a&gt;Aggregates&lt;/h4&gt;
+&lt;p&gt;聚合被看作是多个对象单元间的组合，它定义了对象的关系和边界。每个聚合都有一个根，根是一个实体，并且是唯一可被外访问的。正是如此，聚合可以保证多个对象单元的不变性，因为其他对象都参考聚合的根。所以要想改变其他对象，只能通过聚合的根去操作。根如果没有了，那么聚合中的其他对象也将不存在。&lt;br /&gt;
+一个简单的例子如下：&lt;br /&gt;
+p46&lt;/p&gt;
+&lt;p&gt;customer是该聚合的根，其他的都是内部对象，如果外部需要用户地址，拷贝一份传递出去即可。显而易见，用户如果不存在，其他信息均无意义。&lt;/p&gt;
+&lt;p&gt;聚合和moudle的区别？&lt;/p&gt;
+&lt;h4 id=&quot;factories&quot;&gt;&lt;a name=&quot;user-content-factories&quot; href=&quot;#factories&quot; class=&quot;headeranchor-link&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;headeranchor&quot;&gt;&lt;/span&gt;&lt;/a&gt;Factories&lt;/h4&gt;
+&lt;h4 id=&quot;repository&quot;&gt;&lt;a name=&quot;user-content-repository&quot; href=&quot;#repository&quot; class=&quot;headeranchor-link&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;headeranchor&quot;&gt;&lt;/span&gt;&lt;/a&gt;Repository&lt;/h4&gt;&lt;/article&gt;&lt;/body&gt;&lt;/html&gt;</description>
+        <pubDate>Sun, 12 Mar 2017 00:00:00 +0800</pubDate>
+        <link>http://kkkkkxiaofei.github.io//2017/03/12/ddd.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//2017/03/12/ddd.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Java8之函数接口</title>
