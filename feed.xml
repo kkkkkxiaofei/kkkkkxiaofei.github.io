@@ -5,14 +5,14 @@
     <description>This blog is ceated by Pursue</description>
     <link>http://kkkkkxiaofei.github.io//</link>
     <atom:link href="http://kkkkkxiaofei.github.io//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 15 Mar 2017 00:00:19 +0800</pubDate>
-    <lastBuildDate>Wed, 15 Mar 2017 00:00:19 +0800</lastBuildDate>
+    <pubDate>Wed, 15 Mar 2017 00:04:32 +0800</pubDate>
+    <lastBuildDate>Wed, 15 Mar 2017 00:04:32 +0800</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
     
       <item>
         <title>浅析DDD(领域驱动设计)</title>
         <description>&lt;blockquote&gt;
-  &lt;p&gt;最近在做一些微服务相关的设计，内容包括服务的划分，Restful API的设计等。其中比较棘手的就是Service的职责划分：如何抽象具有统一业务范畴的Model，使其模块化，又如何高度提炼并组合多模块，使得业务可独立服务化。在这其中为了找寻答案，看了不少书籍和博客，其中在DDD中找到了一些思路，个人觉得受益匪浅，或许也可以受用于大家，特分享于此。&lt;/p&gt;
+  &lt;p&gt;最近在做一些微服务相关的设计，内容包括服务的划分，Restful API的设计等。其中比较棘手的就是Service的职责划分：如何抽象具有统一业务范畴的Model，使其模块化，又如何高度提炼并组合多模块，使得业务可独立服务化。为了找寻答案，看了不少书籍和博客，在DDD中找到了一些思路，个人觉得受益匪浅，或许也可以受用于大家，特分享于此。&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;h3 id=&quot;ddd&quot;&gt;什么是DDD&lt;/h3&gt;
