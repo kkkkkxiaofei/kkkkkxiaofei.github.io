@@ -110,13 +110,13 @@ b)伪代码
 <p>领域驱动设计中的模型关系图如下：</p>
 
 <blockquote>
-  <p><img src="/../img/ddd/p28.png" alt="" /></p>
+  <p><img src="https://kkkkkxiaofei.github.io/img/ddd/p28.png" alt="" /></p>
 </blockquote>
 
 <h4 id="layered-architecture">层结构(Layered Architecture)</h4>
 
 <blockquote>
-  <p><img src="/../img/ddd/p29.png" alt="" /></p>
+  <p><img src="https://kkkkkxiaofei.github.io/img/ddd/p29.png" alt="" /></p>
 </blockquote>
 
 <ul>
@@ -181,7 +181,7 @@ c)服务的操作是无状态的</p>
 一个简单的例子如下：</p>
 
 <blockquote>
-  <p><img src="/../img/ddd/p46.png" alt="" /></p>
+  <p><img src="https://kkkkkxiaofei.github.io/img/ddd/p46.png" alt="" /></p>
 </blockquote>
 
 <p>customer是该聚合的根，其他的都是内部对象，如果外部需要用户地址，拷贝一份传递出去即可。显而易见，用户如果不存在，其他信息均无意义。</p>
@@ -200,7 +200,7 @@ c)用策略模式就可以解决</p>
 <p><code class="highlighter-rouge">仓库</code>封装了获取对象的逻辑，领域对象无须和底层数据库交互，它只需要从仓库中获取对象即可。仓库可以存储对象的引用，当一个对象被创建后，它可能会被存储到仓库中，那么下次就可以从仓库取。如果用户请求的数据没在仓库中，则会从数据库里取，这就减少了底层交互的次数。当然，仓库获取对象也是有策略的，如下：</p>
 
 <blockquote>
-  <p><img src="/../img/ddd/p53.png" alt="" /></p>
+  <p><img src="https://kkkkkxiaofei.github.io/img/ddd/p53.png" alt="" /></p>
 </blockquote>
 
 <p><strong><em>PS:仓库看起来有些像Infrastructure Layer的东西，但其实不然，仓库更像是本地缓存，需要时才会访问数据库</em></strong></p>
