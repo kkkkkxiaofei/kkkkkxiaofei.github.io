@@ -45,26 +45,30 @@
 	  	</div>
 	  	<div class="clearfix">
 	    <blockquote>
-  <p>一个标准的前端项目，必定始于yarn start，这一流程必定经历babel编译，webpack构建，server启动，然后由浏览器加载页面。这是很Dev的开发方式，可生产环境我们却往往不这么做。</p>
+  <p>一个标准的前端项目，必定始于yarn start，它将会经历babel编译，webpack构建，server启动等流程，然后由浏览器加载页面。这是很Dev的开发方式，可生产环境我们却往往不这么做。</p>
 </blockquote>
 
 <h3 id="section">1.何为前端？</h3>
 
 <p>如果按照以前的看法，前后端最本质的区别当然是运行环境了，一个是浏览器中<code class="highlighter-rouge">所写即所见</code>的UI界面，另一个则是<code class="highlighter-rouge">藏在背后</code>的服务。</p>
 
-<p>在这种简单的区分下，前端往往会被定义为<code class="highlighter-rouge">HTML/CSS/Javascript</code>。没错，前端就是这些东西，可也不能只有这些东西：前端有时也需要自己的后端<code class="highlighter-rouge">server</code>来充当API的中间层，也需要<code class="highlighter-rouge">'database'(如localStorage, sessionStorage, indexedDB...)</code>，甚至JS也快支持多线程了。所以现今，绝对不能用语言(别给我说JS只在浏览器内运行)或者某项技术（ESX已经在草案了）来去定义前端。</p>
+<p>在这种简单的区分下，前端往往会被定义为<code class="highlighter-rouge">HTML/CSS/Javascript</code>。没错，前端就是这些东西，这就是浏览器所需要呈现的；可也不能只有这些东西：前端有时也需要自己的后端<code class="highlighter-rouge">server</code>来充当API的中间层，也需要<code class="highlighter-rouge">数据存储(如localStorage, sessionStorage, indexedDB...)</code>，甚至JS也快支持多线程了。所以现今，绝对不能用语言运行时(别给我说JS只在浏览器内运行)或者某项技术（ESX已经在草案了）来去定义前端。</p>
 
-<p>个人认为，最简单的区别方法就是用API的来源来划分：API的处理者如果在<code class="highlighter-rouge">Node.js</code>端，那么这个JS项目绝对就是后端（Node端如果只作为中间层转发则不算数）；否则，如果只是作为数据的获取方，并且有UI展现，就算是前端了。</p>
+<p>个人认为，最简单的区别方法就是用API来划分：API的处理方如果在<code class="highlighter-rouge">Node.js</code>端，那么这个JS项目绝对就是后端（Node端如果只作为中间层转发则不算数）；否则，如果只是作为API数据的请求方，并且有UI展现，就算是前端了。</p>
 
 <h3 id="server">2.有无server?</h3>
 
-<p>为什么要浪费篇幅去讲前端的定义，就是因为只有明确定义好前端之后，才能解决一个问题：<code class="highlighter-rouge">前端到底要不要server?</code></p>
+<p>为什么要浪费篇幅去讲前端的定义，就是因为只有明确定义好前端之后，才能解决一个问题：<code class="highlighter-rouge">前端到底要不要server?</code>，因为它很大程度上决定了如何部署。</p>
 
-<p>一般的前端项目都会有<code class="highlighter-rouge">dist</code>产出，通常是由一个<code class="highlighter-rouge">index.html</code>, 多个<code class="highlighter-rouge">vendor.js</code>和其他类似图片字体等资源构成。那么这个产出物是如何被render出来的呢？</p>
+<p>一般的前端项目都会有<code class="highlighter-rouge">dist</code>产出，通常是由一个<code class="highlighter-rouge">index.html</code>, 多个<code class="highlighter-rouge">vendor.js</code>和其他类似图片字体等资源构成。</p>
 
-<p>Case1: webpack server</p>
+<p><code class="highlighter-rouge">那么这个产出物是如何被render出来的呢？</code></p>
 
-<p>利用以下webpack配置片段，启用webpack server:</p>
+<ul>
+  <li>Case1: 利用webpack server</li>
+</ul>
+
+<p>以下为webpack配置启用webpack server的片段:</p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'path'</span><span class="p">);</span>
 <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
@@ -76,24 +80,28 @@
   <span class="na">devServer</span><span class="p">:</span> <span class="p">{</span>
     <span class="na">contentBase</span><span class="p">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="s2">"dist"</span><span class="p">),</span>
     <span class="na">compress</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="na">port</span><span class="p">:</span> <span class="mi">9000</span><span class="p">,</span>
+    <span class="na">port</span><span class="p">:</span> <span class="mi">3000</span><span class="p">,</span>
     <span class="na">watchOptions</span><span class="p">:</span> <span class="p">{</span>
       <span class="na">poll</span><span class="p">:</span> <span class="kc">true</span>
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">};</span></code></pre></figure>
 
-<p>这种case显然只是render静态的html和资源，因此webpack server只是作为开发，生产则根本不需要。</p>
+<p>这种case显然只是render静态的html和资源，因此webpack server只在开发使用，生产则根本不需要。</p>
 
-<p>Case2: 静态服务器</p>
+<ul>
+  <li>Case2: 利用静态服务器</li>
+</ul>
 
 <p>其实和case1类似，如果只是render静态html，那么利用类似<code class="highlighter-rouge">Python</code>:</p>
 
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="gp">$ </span>python -m SimpleHTTPServer 9999</code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="gp">$ </span>python -m SimpleHTTPServer 3000</code></pre></figure>
 
 <p>或者<code class="highlighter-rouge">Nginx</code>做代理都是很方便实现的。</p>
 
-<p>Case3: 不必要的Node服务</p>
+<ul>
+  <li>Case3: 不必要的Node服务</li>
+</ul>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"express"</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'path'</span><span class="p">);</span>
@@ -109,9 +117,11 @@
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Listening on port %d!"</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">address</span><span class="p">().</span><span class="nx">port</span><span class="p">);</span>
 <span class="p">});</span></code></pre></figure>
 
-<p>如上，只是借用Node服务去render产出物，其实和case2,3没有本质区别。</p>
+<p>如上，只是借用Node服务去render产出物，并未做其他任何请求处理，其实和case2,3没有本质区别。</p>
 
-<p>Case4: API中间层</p>
+<ul>
+  <li>Case4: 将Node服务作为API中间层</li>
+</ul>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">router</span><span class="p">.</span><span class="nx">route</span><span class="p">(</span><span class="s1">'/articles/send'</span><span class="p">)</span>
   <span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">async</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -121,19 +131,35 @@
     <span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mi">200</span><span class="p">).</span><span class="nx">send</span><span class="p">(</span><span class="nx">response</span><span class="p">).</span><span class="nx">end</span><span class="p">();</span>
   <span class="p">});</span></code></pre></figure>
 
-<p>这种情况下，Node服务就必须存在，因为很有可能需要用这一层去做身份验证或者有避免随意跨域等安全防护。</p>
+<p>这种情况下，Node服务就必须存在，因为很有可能真正的API处理方不支持跨域，或者有身份验证，那么就得在这里去处理，生产环境自然也得有。</p>
+
+<ul>
+  <li>Case5: Node端有完善的RESTful API</li>
+</ul>
+
+<p>这种情况下，已经可以定义为一个前后端项目了，只是恰好前后端的语言一样，并且可以共用大部分模块。</p>
+
+<p><strong><em>参考如上，你的项目，属于哪种情况呢？</em></strong></p>
 
 <h3 id="section-1">3.如何部署？</h3>
 
-<p>终于到了正题，其实部署无非就是运行环境（server）＋资源（包），因此才需要搞清楚<code class="highlighter-rouge">你的项目到底需不需要server？</code>，更确切的说是<code class="highlighter-rouge">你的项目的生产环境到底需不需要server？</code></p>
+<p>终于到了正题，其实部署无非就是运行环境（server）＋资源（包），因此才需要搞清楚<code class="highlighter-rouge">你的项目到底需不需要server？</code>，更确切的说是<code class="highlighter-rouge">你的项目的生产环境到底需不需要server？</code>，从而决定如何部署。</p>
 
-<p>对于case1,2,3:</p>
+<ul>
+  <li>对于case1,2,3:</li>
+</ul>
 
-<p>可以选择任意静态服务器，运行在生产环境，每次部署只需拉去最新的代码或生成最新的包。如果需要大量部署，则推荐docker的node或nginx镜像,并将最新的源码打包在内即可。</p>
+<p>可以选择任意静态服务器，运行在生产环境，每次部署只需拉取最新的代码或生成最新的包。如果需要多机部署，则推荐docker的node或nginx镜像，server只作一层简单的router和render，并将最新的源码打包在内即可。</p>
 
-<p>对于case4:</p>
+<p>体总来说这种情况是最简单的case，一个静态服务器就可以，想练手的可以利用<a href="https://pages.github.com/">Github Page</a>去玩玩。</p>
 
-<p>单机环境建议有部署脚本（如ansible），多机部署则考虑node镜像。BTW，对于case4，如果部署时就是多机的情况，倒不如一劳永逸，开发也是docker。但开发和生产还有点区别，推荐开发时不要把源码打进镜像，毕竟代码总是在变，可以将代码作为<code class="highlighter-rouge">VOLUMN</code>每次加载上去，然后手动启动，如下片段：</p>
+<ul>
+  <li>对于case4,5:</li>
+</ul>
+
+<p>单机环境建议有部署脚本（如ansible，去初始化各种环境依赖）；多机部署则考虑node镜像，每次部署时都把代码打进镜像，并且设置启动命令，最后的部署方式就是<code class="highlighter-rouge">一键部署</code>。</p>
+
+<p>BTW，对于这种case，如果部署时就是多机的情况，倒不如一劳永逸，开发环境直接用docker。但开发和生产还有点区别：建议开发时不要把源码打进镜像，毕竟代码总是在变，可以将代码作为<code class="highlighter-rouge">VOLUMN</code>每次加载上去，然后手动启动，如下片段：</p>
 
 <p>Dockerfile:</p>
 
@@ -147,11 +173,13 @@ WORKDIR /app
 
 VOLUME /app</code></pre></figure>
 
+<p>只依赖Node服务和yarn。</p>
+
 <p>Run docker:</p>
 
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell">docker run --rm -v /webpack-demo:/app -ti -p 3000:3000  react-redux-dev:1.0 /bin/bash</code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">docker run --rm -v <span class="o">[</span>your path]:/app -ti -p 3000:3000  image:version /bin/bash</code></pre></figure>
 
-<p>而开发时的Dockerfile则需要打包代码并且设置默认启动命令。</p>
+<p>只需将代码挂载上去即可，完全的环境代码分离模式。</p>
 
 <h3 id="section-2">4.写在最后</h3>
 
