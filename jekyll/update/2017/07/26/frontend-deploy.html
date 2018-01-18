@@ -18,7 +18,7 @@
     
 
     <!-- <link rel="stylesheet" href="//css/main.css"> -->
-    <link rel="canonical" href="http://kkkkkxiaofei.github.io//jekyll/update/2017/07/26/frontend-deploy.html">
+    <link rel="canonical" href="http://localhost:4000//jekyll/update/2017/07/26/frontend-deploy.html">
 </head>
 
 
@@ -48,7 +48,7 @@
   <p>一个标准的前端项目，必定始于yarn start，它将会经历babel编译，webpack构建，server启动等流程，然后由浏览器加载页面。这是很Dev的开发方式，可生产环境我们却往往不这么做。</p>
 </blockquote>
 
-<h3 id="section">1.何为前端？</h3>
+<h3 id="1何为前端">1.何为前端？</h3>
 
 <p>如果按照以前的看法，前后端最本质的区别当然是运行环境了，一个是浏览器中<code class="highlighter-rouge">所写即所见</code>的UI界面，另一个则是<code class="highlighter-rouge">藏在背后</code>的服务。</p>
 
@@ -56,7 +56,7 @@
 
 <p>个人认为，最简单的区别方法就是用API来划分：API的处理方如果在<code class="highlighter-rouge">Node.js</code>端，那么这个JS项目绝对就是后端（Node端如果只作为中间层转发则不算数）；否则，如果只是作为API数据的请求方，并且有UI展现，就算是前端了。</p>
 
-<h3 id="server">2.有无server?</h3>
+<h3 id="2有无server">2.有无server?</h3>
 
 <p>为什么要浪费篇幅去讲前端的定义，就是因为只有明确定义好前端之后，才能解决一个问题：<code class="highlighter-rouge">前端到底要不要server?</code>，因为它很大程度上决定了如何部署。</p>
 
@@ -95,7 +95,7 @@
 
 <p>其实和case1类似，如果只是render静态html，那么利用类似<code class="highlighter-rouge">Python</code>:</p>
 
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="gp">$ </span>python -m SimpleHTTPServer 3000</code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>python <span class="nt">-m</span> SimpleHTTPServer 3000</code></pre></figure>
 
 <p>或者<code class="highlighter-rouge">Nginx</code>做代理都是很方便实现的。</p>
 
@@ -107,9 +107,9 @@
 <span class="kd">var</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'path'</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">project</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'../project.config'</span><span class="p">);</span>
 
-<span class="kr">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">();</span>
+<span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">();</span>
 <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'*'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kr">const</span> <span class="nx">file</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">project</span><span class="p">.</span><span class="nx">basePath</span><span class="p">,</span> <span class="nx">project</span><span class="p">.</span><span class="nx">outDir</span><span class="p">,</span> <span class="s1">'index.html'</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">file</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">project</span><span class="p">.</span><span class="nx">basePath</span><span class="p">,</span> <span class="nx">project</span><span class="p">.</span><span class="nx">outDir</span><span class="p">,</span> <span class="s1">'index.html'</span><span class="p">);</span>
 	<span class="nx">res</span><span class="p">.</span><span class="nx">sendFile</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span>
 <span class="p">});</span>
 
@@ -124,10 +124,10 @@
 </ul>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">router</span><span class="p">.</span><span class="nx">route</span><span class="p">(</span><span class="s1">'/articles/send'</span><span class="p">)</span>
-  <span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">async</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="p">{</span><span class="nx">params</span><span class="p">}</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">;</span>
-    <span class="kr">const</span> <span class="nx">requestUrl</span> <span class="o">=</span> <span class="s1">'/x/x/x/x'</span><span class="p">;</span>
-    <span class="kr">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">requestArticle</span><span class="p">(</span><span class="nx">requestUrl</span><span class="p">,</span> <span class="nx">params</span><span class="p">);</span>
+  <span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="k">async</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="p">{</span><span class="nx">params</span><span class="p">}</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">requestUrl</span> <span class="o">=</span> <span class="s1">'/x/x/x/x'</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="kr">await</span> <span class="nx">requestArticle</span><span class="p">(</span><span class="nx">requestUrl</span><span class="p">,</span> <span class="nx">params</span><span class="p">);</span>
     <span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mi">200</span><span class="p">).</span><span class="nx">send</span><span class="p">(</span><span class="nx">response</span><span class="p">).</span><span class="nx">end</span><span class="p">();</span>
   <span class="p">});</span></code></pre></figure>
 
@@ -141,7 +141,7 @@
 
 <p><strong><em>参考如上，你的项目，属于哪种情况呢？</em></strong></p>
 
-<h3 id="section-1">3.如何部署？</h3>
+<h3 id="3如何部署">3.如何部署？</h3>
 
 <p>终于到了正题，其实部署无非就是运行环境（server）＋资源（包），因此才需要搞清楚<code class="highlighter-rouge">你的项目到底需不需要server？</code>，更确切的说是<code class="highlighter-rouge">你的项目的生产环境到底需不需要server？</code>，从而决定如何部署。</p>
 
@@ -165,9 +165,9 @@
 
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell">FROM node:7.2
 
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN <span class="nb">echo</span> <span class="s2">"deb http://dl.yarnpkg.com/debian/ stable main"</span> &gt; /etc/apt/sources.list.d/yarn.list
-RUN apt-get update <span class="o">&amp;&amp;</span> apt-get install yarn
+RUN curl <span class="nt">-sS</span> https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN <span class="nb">echo</span> <span class="s2">"deb http://dl.yarnpkg.com/debian/ stable main"</span> <span class="o">&gt;</span> /etc/apt/sources.list.d/yarn.list
+RUN apt-get update <span class="o">&amp;&amp;</span> apt-get <span class="nb">install </span>yarn
 
 WORKDIR /app
 
@@ -177,11 +177,11 @@ VOLUME /app</code></pre></figure>
 
 <p>Run docker:</p>
 
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell">docker run --rm -v <span class="o">[</span>your path]:/app -ti -p 3000:3000  image:version /bin/bash</code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">docker run <span class="nt">--rm</span> <span class="nt">-v</span> <span class="o">[</span>your path]:/app <span class="nt">-ti</span> <span class="nt">-p</span> 3000:3000  image:version /bin/bash</code></pre></figure>
 
 <p>只需将代码挂载上去即可，完全的环境代码分离模式。</p>
 
-<h3 id="section-2">4.写在最后</h3>
+<h3 id="4写在最后">4.写在最后</h3>
 
 <p>说了这么多，给想实践的朋友推荐以下资源：</p>
 

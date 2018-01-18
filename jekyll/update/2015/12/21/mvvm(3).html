@@ -18,7 +18,7 @@
     
 
     <!-- <link rel="stylesheet" href="//css/main.css"> -->
-    <link rel="canonical" href="http://kkkkkxiaofei.github.io//jekyll/update/2015/12/21/mvvm(3).html">
+    <link rel="canonical" href="http://localhost:4000//jekyll/update/2015/12/21/mvvm(3).html">
 </head>
 
 
@@ -48,7 +48,7 @@
   <p>MVVM中对Bingding的解析只能算viewModel-&gt;view的单项绑定，但MVVM绝不仅仅只有单向绑定，更重要的是如何监控viewModel变化，将信息实时的反馈给view。</p>
 </blockquote>
 
-<h2 id="object">如何监控Object的变化</h2>
+<h2 id="如何监控object的变化">如何监控Object的变化</h2>
 
 <p>你会可能会遇到一下场景：前端UI已经渲染完成，但并没有数据，因此发送请求向服务器请求数据，AJAX回调完成后，用Callback里的值去更新UI（很可能是暴力的Jquery）；当前端根据渲染的数据再次做了操作后，又得去DOM中取出修改后的值，一来一去十分麻烦，而且一旦UI结构有变化，那简直会被玩死。</p>
 
@@ -56,7 +56,7 @@
 
 <p>那么问题来了，如何监控一个对象的变化呢？</p>
 
-<h3 id="objectobserve">方案1.Object.observe</h3>
+<h3 id="方案1objectobserve">方案1.Object.observe</h3>
 
 <p><code class="highlighter-rouge">Object.observe</code>将会成为ECMAScript的标准，它不需要任何的库就能实现对象的变化的监控。如下：</p>
 
@@ -92,17 +92,17 @@
 <p>代码如下：</p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ko</span><span class="p">.</span><span class="nx">observable</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">defaultValue</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="kd">var</span> <span class="nb">self</span> <span class="o">=</span> <span class="p">{};</span>
     <span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">defaultValue</span><span class="p">;</span>
     <span class="kd">var</span> <span class="nx">fn</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">self</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">val</span><span class="p">;</span>
+            <span class="nb">self</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">val</span><span class="p">;</span>
         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="nx">self</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+            <span class="k">return</span> <span class="nb">self</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
         <span class="p">}</span>
     <span class="p">};</span>
     <span class="nx">fn</span><span class="p">.</span><span class="nx">isObservable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span> 
-    <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="p">{</span>
         <span class="na">get</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
             <span class="k">return</span> <span class="nx">value</span><span class="p">;</span>
         <span class="p">},</span>
@@ -141,17 +141,17 @@
 
 <p>看起来似乎不错，可是为了实现foreach，我们还需要另外创建一个observableArray对象，毕竟数组和基本的对象不太一样，参考上面的实现：</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ko</span><span class="p">.</span><span class="nx">observableArray</span><span class="err">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">defaultValue</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span><span class="p">(</span><span class="nx">defaultValue</span> <span class="o">&amp;&amp;</span> <span class="nx">defaultValue</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">name</span> <span class="o">!=</span> <span class="s1">'Array'</span><span class="p">)</span> <span class="p">{</span>
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ko</span><span class="p">.</span><span class="nx">observableArray</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">defaultValue</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">defaultValue</span> <span class="o">&amp;&amp;</span> <span class="nx">defaultValue</span><span class="p">.</span><span class="kd">constructor</span><span class="p">.</span><span class="nx">name</span> <span class="o">!=</span> <span class="s1">'Array'</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">throw</span> <span class="s2">"observableArray param must be array."</span>
     <span class="p">}</span>
-    <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="kd">var</span> <span class="nb">self</span> <span class="o">=</span> <span class="p">{};</span>
     <span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">defaultValue</span><span class="p">;</span>
     <span class="kd">var</span> <span class="nx">fn</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">self</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">val</span><span class="p">;</span>
+            <span class="nb">self</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">val</span><span class="p">;</span>
         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="nx">self</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+            <span class="k">return</span> <span class="nb">self</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
         <span class="p">}</span>
     <span class="p">};</span>
     <span class="nx">fn</span><span class="p">.</span><span class="nx">isObservable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span> 
@@ -161,12 +161,12 @@
         <span class="nx">fn</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
                 <span class="kd">var</span> <span class="nx">elements</span> <span class="o">=</span> <span class="nx">ko</span><span class="p">.</span><span class="nx">unwrap</span><span class="p">(</span><span class="nx">fn</span><span class="p">);</span>
-                <span class="nx">elements</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="nx">elements</span><span class="p">[</span><span class="nx">key</span><span class="p">].</span><span class="nx">apply</span><span class="p">(</span><span class="nx">elements</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+                <span class="nx">elements</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="nx">elements</span><span class="p">[</span><span class="nx">key</span><span class="p">].</span><span class="nx">apply</span><span class="p">(</span><span class="nx">elements</span><span class="p">,</span> <span class="kr">arguments</span><span class="p">);</span>
                 <span class="nx">fn</span><span class="p">(</span><span class="nx">elements</span><span class="p">);</span>
             <span class="p">};</span>
         <span class="p">})(</span><span class="nx">key</span><span class="p">);</span>
     <span class="p">}</span>
-    <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="p">{</span>
         <span class="na">get</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
             <span class="k">return</span> <span class="nx">value</span><span class="p">;</span>
         <span class="p">},</span>
@@ -205,7 +205,7 @@
 
 <p>[1, 2, 3]</p>
 
-<h2 id="section">5.总结</h2>
+<h2 id="5总结">5.总结</h2>
 
 <p>这一节主要介绍了如何实现双向绑定中的对象监控，实现了这个功能后，可以在事件捕获时再次通知模版引擎去重新渲染UI，这样就形成了双向通信，下一篇将会进行整合。</p>
 

@@ -18,7 +18,7 @@
     
 
     <!-- <link rel="stylesheet" href="//css/main.css"> -->
-    <link rel="canonical" href="http://kkkkkxiaofei.github.io//jekyll/update/2015/08/10/bfc.html">
+    <link rel="canonical" href="http://localhost:4000//jekyll/update/2015/08/10/bfc.html">
 </head>
 
 
@@ -44,7 +44,7 @@
 	  	  </a>
 	  	</div>
 	  	<div class="clearfix">
-	    <h4 id="section">开篇</h4>
+	    <h4 id="开篇">开篇</h4>
 
 <blockquote>
   <p>一些元素，如float元素，如position为absolute,inline-block,table-cell或table-caption的元素，以及overflow属性不为visible的元素，它们将会建立一个新的块级格式化上下文。</p>
@@ -68,7 +68,7 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
   </li>
 </ul>
 
-<h4 id="bfc">让我们建立一个BFC</h4>
+<h4 id="让我们建立一个bfc">让我们建立一个BFC</h4>
 
 <p>HTML代码如下：</p>
 
@@ -99,7 +99,7 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
   <span class="nl">overflow</span><span class="p">:</span> <span class="nb">hidden</span><span class="p">;</span>
 <span class="p">}</span></code></pre></figure>
 
-<h4 id="bfc-1">在BFC中，块级元素又是怎么布局的呢？</h4>
+<h4 id="在bfc中块级元素又是怎么布局的呢">在BFC中，块级元素又是怎么布局的呢？</h4>
 <p>W3C规范描述如下：</p>
 
 <blockquote>
@@ -114,7 +114,7 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 
 <p><code class="highlighter-rouge">－实际上，真的特别有用</code></p>
 
-<h4 id="bfcmargin-collapse">1.利用BFC可以消除Margin Collapse</h4>
+<h4 id="1利用bfc可以消除margin-collapse">1.利用BFC可以消除Margin Collapse</h4>
 
 <p>在正常情况下，在一个容器内的所有box将会由上至下依次垂直排列，即我们所说的一个元素占一行，并切垂直相邻的距离(即margin)是由各自的margin决定的，而不是两个margin的叠加。</p>
 
@@ -181,7 +181,7 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 
 <p>由于第二个p元素和第三个p元素属于不同的BFC，因此避免了margin collapse.</p>
 
-<h4 id="bfc-2">2.利用BFC去容纳浮动元素</h4>
+<p>####2.利用BFC去容纳浮动元素</p>
 
 <p>我相信大家经常会遇到一个容器里有浮动元素，但是这个容器的高度却是0的场景，如下图：</p>
 
@@ -228,7 +228,7 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 
 <p><img src="/../img/bfc/demo2-3.jpg" alt="" /></p>
 
-<h4 id="bfc-3">3.利用BFC阻止文本换行</h4>
+<h4 id="3利用bfc阻止文本换行">3.利用BFC阻止文本换行</h4>
 
 <p>有时候，确切的说大多数情况(若没有特殊设置)，文本将会环绕浮动元素(如Figure 1),
 但有时候这并不是我们期望的，我们想要的是Figure2。</p>

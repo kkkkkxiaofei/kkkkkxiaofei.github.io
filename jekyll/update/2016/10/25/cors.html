@@ -18,7 +18,7 @@
     
 
     <!-- <link rel="stylesheet" href="//css/main.css"> -->
-    <link rel="canonical" href="http://kkkkkxiaofei.github.io//jekyll/update/2016/10/25/cors.html">
+    <link rel="canonical" href="http://localhost:4000//jekyll/update/2016/10/25/cors.html">
 </head>
 
 
@@ -54,7 +54,7 @@
   <p><img src="/../img/cors/cors.jpg" alt="" /></p>
 </blockquote>
 
-<h3 id="scriptlinkimg">1.script/link/img加载外部资源</h3>
+<h3 id="1scriptlinkimg加载外部资源">1.script/link/img加载外部资源</h3>
 
 <p>一个网站常常会加载以下外部资源：</p>
 
@@ -66,11 +66,11 @@
 
 <p>它们都有一个相似的特点，即js运行时一般很难去获取其加载的资源内容。具体来说，有时候我们经常需要请求类似<code class="highlighter-rouge">http://www.otherdomain.com/data.json</code>的文件，那我们如何能够获取这个文件的内容呢？</p>
 
-<h3 id="ajax">2.发送ajax</h3>
+<h3 id="2发送ajax">2.发送ajax</h3>
 
 <p>面对上面的问题，大多数人就会说“发送ajax请求啊”，具体实现如下：</p>
 
-<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">‘</span><span class="o">/</span><span class="nx">data</span><span class="p">.</span><span class="nx">json</span><span class="err">’</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span><span class="err">…</span><span class="p">});</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="err">‘</span><span class="o">/</span><span class="nx">data</span><span class="p">.</span><span class="nx">json</span><span class="err">’</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span><span class="err">…</span><span class="p">});</span></code></pre></figure>
 
 <p>可是不好意思亲，你这是同源的，当然能请求到了。如果你访问的是<code class="highlighter-rouge">http://www.otherdomain.com/data.json</code>,那么一定会报错，提示你不允许跨域。</p>
 
@@ -87,7 +87,7 @@
   </li>
 </ul>
 
-<h3 id="iframe">3.利用iframe</h3>
+<h3 id="3利用iframe">3.利用iframe</h3>
 
 <p>其实很容易想到，iframe本身是一个<code class="highlighter-rouge">html tag</code>，那么它和其他能够加载资源的<code class="highlighter-rouge">tag</code>类似，肯定也能加载外部页面，从这一点来说它算跨域。</p>
 
@@ -113,13 +113,13 @@
 
 <p><strong><em>到此，基本可以得出结论，如果在极端情况（只有前端，无法修改后端，无法修改外部资源，只有一个外部api或者url）下，前端是不能跨域的，这是浏览器的限制。</em></strong></p>
 
-<h3 id="section">任性就是想跨域</h3>
+<h3 id="任性就是想跨域">任性就是想跨域</h3>
 
 <p>那么也不是没有办法：我们可以修改浏览器的设置，取消浏览器对跨域的限制。</p>
 
 <p>其实chrome extension app就允许你这么干，开发extension时，在<code class="highlighter-rouge">mainfest.json</code>里，如下配置你的app即可让浏览器对跨域没有任何限制：</p>
 
-<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="s2">"permissions"</span><span class="err">:</span> <span class="p">[</span>
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="s2">"permissions"</span><span class="p">:</span> <span class="p">[</span>
   <span class="s2">"http://*/*"</span><span class="p">,</span>
   <span class="s2">"https://*/*"</span>
 <span class="p">]</span></code></pre></figure>

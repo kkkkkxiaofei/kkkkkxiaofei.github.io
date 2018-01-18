@@ -18,7 +18,7 @@
     
 
     <!-- <link rel="stylesheet" href="//css/main.css"> -->
-    <link rel="canonical" href="http://kkkkkxiaofei.github.io//jekyll/update/2017/03/12/ddd.html">
+    <link rel="canonical" href="http://localhost:4000//jekyll/update/2017/03/12/ddd.html">
 </head>
 
 
@@ -48,13 +48,13 @@
   <p>最近在做一些微服务相关的设计，内容包括服务的划分，Restful API的设计等。其中比较棘手的就是Service的职责划分：如何抽象具有统一业务范畴的Model，使其模块化，又如何高度提炼并组合多模块，使得业务可独立服务化。为了找寻答案，看了不少书籍和博客，在DDD中找到了一些思路，个人觉得受益匪浅，或许也可以受用于大家，特分享于此。</p>
 </blockquote>
 
-<h3 id="ddd">什么是DDD</h3>
+<h3 id="什么是ddd">什么是DDD</h3>
 
 <p>软件开发不是一蹴而就的事情，我们不可能在不了解产品（或行业领域）的前提下进行软件开发，在开发前，通常需要进行大量的业务知识梳理，而后到达软件设计的层面，最后才是开发。而在业务知识梳理的过程中，我们必然会形成某个领域知识，根据领域知识来一步步驱动软件设计，就是领域驱动设计的基本概念。</p>
 
 <p>听起来这和传统意义的软件开发没啥区别，只是换了点新鲜的名词而已，其实不然。</p>
 
-<h4 id="vs-ddd">软件开发 VS DDD</h4>
+<h4 id="软件开发-vs-ddd">软件开发 VS DDD</h4>
 
 <p>一般软件设计或者说软件开发分两种：<code class="highlighter-rouge">瀑布式</code>，<code class="highlighter-rouge">敏捷式</code>。</p>
 
@@ -64,7 +64,7 @@
 
 <p>DDD则不同：它像是更小粒度的迭代设计，它的最小单元是<code class="highlighter-rouge">领域模型(Domain Model)</code>，所谓领域模型就是能够精确反映领域中某一知识元素的载体，这种知识的获取需要通过与<code class="highlighter-rouge">领域专家(Domain Expert)</code>进行频繁的沟通才能将专业知识转化为领域模型。领域模型无关技术，具有高度的业务抽象性，它能够精确的描述领域中的知识体系；同时它也是独立的，我们还需要学会如何让它具有表达性，让模型彼此之间建立关系，形成完整的领域架构。通常我们可以用象形图或一种<code class="highlighter-rouge">通用的语言(Ubiquitous Language)</code>去描述它们之间的关系。在此之上，我们就可以进行<code class="highlighter-rouge">领域中的代码设计(Domain Code Design)</code>。如果将软件设计比做是造一座房子，那么领域代码设计就好比是贴壁纸。前者已经将房子的蓝图框架规划好，而后者只是一个小部分的设计：如果墙纸贴错了，我们可以重来，可如果房子结构设计错了，那可就悲剧了。</p>
 
-<h3 id="build-domain-model">建立领域知识(Build Domain Model)</h3>
+<h3 id="建立领域知识build-domain-model">建立领域知识(Build Domain Model)</h3>
 
 <p>说了这么多领域模型的概念，到底什么是领域模型呢？以飞机航行为例子：</p>
 
@@ -90,7 +90,7 @@
 
 <p>尽管看起来还是很简单，但我们已经开始一步步的在建立领域对象和领域模型了。</p>
 
-<h3 id="ubiquitous-language">通用语言(Ubiquitous Language)</h3>
+<h3 id="通用语言ubiquitous-language">通用语言(Ubiquitous Language)</h3>
 
 <p>上面的例子的确看起来简单，但过程并非容易：我们（开发人员）和领域专家在沟通的过程中是存在天然屏障的：我们满脑子都是类，方法，设计模式，算法，继承，封装，多态，如何面向对象等等；这些领域专家是不懂的，他们只知道飞机故障，经纬度，航班路线等专业术语。</p>
 
@@ -103,9 +103,9 @@
 b)伪代码
 极限编程是推荐这么做的，这个办法对程序猿来说固然好，可立刻就要将现有模型映射到代码层面，这对人的要求也是不低，并不容易实现。</p>
 
-<h3 id="domain-driven-design">模型驱动设计(Domain Driven Design)</h3>
+<h3 id="模型驱动设计domain-driven-design">模型驱动设计(Domain Driven Design)</h3>
 
-<h4 id="model-driven-design">模型关系图(Model-Driven Design)</h4>
+<h4 id="模型关系图model-driven-design">模型关系图(Model-Driven Design)</h4>
 
 <p>领域驱动设计中的模型关系图如下：</p>
 
@@ -113,7 +113,7 @@ b)伪代码
   <p><img src="https://kkkkkxiaofei.github.io/img/ddd/p28.png" alt="" /></p>
 </blockquote>
 
-<h4 id="layered-architecture">层结构(Layered Architecture)</h4>
+<h4 id="层结构layered-architecture">层结构(Layered Architecture)</h4>
 
 <blockquote>
   <p><img src="https://kkkkkxiaofei.github.io/img/ddd/p29.png" alt="" /></p>
@@ -145,13 +145,13 @@ b)伪代码
 
 <p>层结构的划分是很有必要的，只有清晰的结构，那么最终的领域设计才宜用，比如用户要预定航班，向Application Layer的service发起请求，而后Domain Layler从Infrastructure Layer获取领域对象，校验通过后会更新用户状态，最后再次通过Infratructure Layer持久化到数据库中。</p>
 
-<h4 id="entity--value-object">实体(Entity) &amp; 值对象(Value Object)</h4>
+<h4 id="实体entity--值对象value-object">实体(Entity) &amp; 值对象(Value Object)</h4>
 
 <p><code class="highlighter-rouge">实体</code>与面向对象中的概念类似，在这里再次提出是因为它是领域模型的基本元素。在领域模型中，实体应该具有唯一的标识符，从设计的一开始就应该考虑实体，决定是否建立一个实体也是十分重要的。</p>
 
 <p><code class="highlighter-rouge">值对象</code>和我们说的编程中数值类型的变量是不同的，它仅仅是没有唯一标识符的实体，比如有两个收获地址的信息完全一样，那它就是值对象，并不是实体。值对象在领域模型中是可以被共享的，他们应该是“不可变的”（只读的），当有其他地方需要用到值对象时，可以将它的副本作为参数传递。</p>
 
-<h4 id="services">服务(Services)</h4>
+<h4 id="服务services">服务(Services)</h4>
 
 <p>当我们在分析某一领域时，一直在尝试如何将信息转化为领域模型，但并非所有的点我们都能用<code class="highlighter-rouge">Model</code>来涵盖。对象应当有属性，状态和行为，但有时领域中有一些行为是无法映射到具体的对象中的，我们也不能强行将其放入在某一个模型对象中，而将其单独作为一个方法又没有地方，此时就需要<code class="highlighter-rouge">服务</code>.</p>
 
@@ -169,13 +169,13 @@ c)服务的操作是无状态的</p>
 
 <p><strong><em>PS:不要随意放置服务,如果该行为是属于应用层的，那就应该放在那；如果它为领域模型服务，那它就应该存储在领域层中，要避免业务的服务直接操作数据库，最好通过DAO。</em></strong></p>
 
-<h4 id="moudles">模块(Moudles)</h4>
+<h4 id="模块moudles">模块(Moudles)</h4>
 
 <p>对于一个复杂的应用来说，领域模型将会变的越来越大，以至于很难去描述和理解，更别提模型之间的关系了。模块的出现，就是为了组织统一的模型概念来达到减少复杂性的目的的。而另一个原因则是模块可以提高代码质量和可维护性，比如我们常说的<code class="highlighter-rouge">高内聚，低耦合</code>就是要提倡将相关的类内聚在一起实现模块化。</p>
 
 <p>模块应当有对外的统一接口供其他模块调用，比如有三个对象在模块a中，那么模块b不应该直接操作这三个对象，而是操作暴露的接口。模块的命名也很有讲究，最好能够深层次反映领域模型。</p>
 
-<h4 id="aggregates">聚合(Aggregates)</h4>
+<h4 id="聚合aggregates">聚合(Aggregates)</h4>
 
 <p>聚合被看作是多个模型单元间的组合，它定义了模型的关系和边界。每个聚合都有一个根，根是一个实体，并且是唯一可被外访问的。正是如此，聚合可以保证多个模型单元的不变性，因为其他模型都参考聚合的根。所以要想改变其他对象，只能通过聚合的根去操作。根如果没有了，那么聚合中的其他对象也将不存在。
 一个简单的例子如下：</p>
@@ -186,7 +186,7 @@ c)服务的操作是无状态的</p>
 
 <p>customer是该聚合的根，其他的都是内部对象，如果外部需要用户地址，拷贝一份传递出去即可。显而易见，用户如果不存在，其他信息均无意义。</p>
 
-<h4 id="factories">工厂(Factories)</h4>
+<h4 id="工厂factories">工厂(Factories)</h4>
 
 <p>在大型系统中，实体和聚合通常是很复杂的，这就导致了很难去通过构造器来创建对象。<code class="highlighter-rouge">工厂</code>就决解了这个问题，它把创建对象的细节封装起来，巧妙的实现了依赖反转。当然对聚合也适用（当建立了聚合根时，其他对象可以自动创建）。工厂最早被大家熟知可能还是在设计模式中，的确，在这里提到的工厂也是这个概念。</p>
 
@@ -195,7 +195,7 @@ a)构造器很简单
 b)构造对象时不依赖于其他对象的创建
 c)用策略模式就可以解决</p>
 
-<h4 id="repository">仓库(Repository)</h4>
+<h4 id="仓库repository">仓库(Repository)</h4>
 
 <p><code class="highlighter-rouge">仓库</code>封装了获取对象的逻辑，领域对象无须和底层数据库交互，它只需要从仓库中获取对象即可。仓库可以存储对象的引用，当一个对象被创建后，它可能会被存储到仓库中，那么下次就可以从仓库取。如果用户请求的数据没在仓库中，则会从数据库里取，这就减少了底层交互的次数。当然，仓库获取对象也是有策略的，如下：</p>
 
@@ -205,7 +205,7 @@ c)用策略模式就可以解决</p>
 
 <p><strong><em>PS:仓库看起来有些像Infrastructure Layer的东西，但其实不然，仓库更像是本地缓存，需要时才会访问数据库</em></strong></p>
 
-<h3 id="section">结束语</h3>
+<h3 id="结束语">结束语</h3>
 
 <p><code class="highlighter-rouge">CQRS</code>本身也是一种架构模式，但更多的是它被应用在<code class="highlighter-rouge">DDD</code>中。因为DDD中有<code class="highlighter-rouge">工厂</code>和<code class="highlighter-rouge">仓库</code>来管理<code class="highlighter-rouge">领域模型</code>，前者主要用于创建，而后者则用于存储。这就表明在DDD中是默认将读写分离的，DDD似乎就天生和CQRS有着无缝的链接。</p>
 

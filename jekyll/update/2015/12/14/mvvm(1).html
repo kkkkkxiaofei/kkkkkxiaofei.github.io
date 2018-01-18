@@ -18,7 +18,7 @@
     
 
     <!-- <link rel="stylesheet" href="//css/main.css"> -->
-    <link rel="canonical" href="http://kkkkkxiaofei.github.io//jekyll/update/2015/12/14/mvvm(1).html">
+    <link rel="canonical" href="http://localhost:4000//jekyll/update/2015/12/14/mvvm(1).html">
 </head>
 
 
@@ -48,11 +48,11 @@
   <p>MVVM(Model View ViewModel)是一种基于MVC的设计，开发人员在HTML上写一些Bindings,利用一些指令绑定，就能在Model和ViewModel保持不变的情况下，很方便的将UI设计与业务逻辑分离，从而大大的减少繁琐的DOM操作。</p>
 </blockquote>
 
-<h2 id="section">起源</h2>
+<h2 id="起源">起源</h2>
 
 <p>MVVM这个概念最是在2005年，由微软的工程师John Grossman在其博客中提出，最初这个概念是用在微软的WPF上的。直到最近几年，MVVM这种设计才被Javascript所实现，并产生了许多框架，如 KnockoutJS, Kendo MVVM 和 Knockback.js,而这些框架的社区都非常的活跃。</p>
 
-<h2 id="mvvm">什么是MVVM</h2>
+<h2 id="什么是mvvm">什么是MVVM</h2>
 
 <ul>
   <li>
@@ -109,14 +109,14 @@ Last name: Bertington</p>
 
 <p>ViewModel在View上绑定了text指令，告诉对应的tag可以利用ViewModel中的数据渲染DOM。这只是ViewModel对View的单项绑定，双向绑定需要observable对象，后续会有解释。</p>
 
-<h2 id="section-1">优点</h2>
+<h2 id="优点">优点</h2>
 
 <ul>
   <li>1.UI与逻辑的分离。</li>
   <li>2.写unit测试比较方便，毕竟测ViewModel要比测个种Event方便多了。</li>
 </ul>
 
-<h2 id="section-2">缺点</h2>
+<h2 id="缺点">缺点</h2>
 
 <ul>
   <li>1.如果你在Bindings里写了自定义的方法，而这个方法恰好需要调试时可能有些不便。</li>
