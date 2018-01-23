@@ -3,11 +3,379 @@
   <channel>
     <title>Pursue</title>
     <description>This blog is ceated by Pursue</description>
-    <link>http://localhost:4000//</link>
-    <atom:link href="http://localhost:4000//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 18 Jan 2018 14:55:48 +0800</pubDate>
-    <lastBuildDate>Thu, 18 Jan 2018 14:55:48 +0800</lastBuildDate>
+    <link>http://kkkkkxiaofei.github.io//</link>
+    <atom:link href="http://kkkkkxiaofei.github.io//feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Tue, 23 Jan 2018 21:58:37 +0800</pubDate>
+    <lastBuildDate>Tue, 23 Jan 2018 21:58:37 +0800</lastBuildDate>
     <generator>Jekyll v3.7.0</generator>
+    
+      <item>
+        <title>关于Promise的一些</title>
+        <description>&lt;h3 id=&quot;1定义&quot;&gt;1.定义&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The Promise object represents the eventual completion (or failure) of an asynchronous operation, and its resulting value.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;为什么要重新从定义回顾，是因为我觉得就是因为定义太过于简单，所以细节容易被忽略。&lt;/p&gt;
+
+&lt;p&gt;比如怎么才算最终的状态？怎么更好的处理异常？如何兼容多个浏览器？&lt;/p&gt;
+
+&lt;p&gt;希望下面的介绍可以让你有所收获！&lt;/p&gt;
+
+&lt;h3 id=&quot;2基础用法&quot;&gt;2.基础用法&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;timeDefer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;milliseconds&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;setTimeout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+       &lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; 
+    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;milliseconds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;这是一个简单的用法，可以用来模拟异步请求。&lt;/p&gt;
+
+&lt;p&gt;假设用在类似React的组件中，异步请求回来后需要render部分UI，我们经常会在回调里写类似&lt;code class=&quot;highlighter-rouge&quot;&gt;this.renderTable(response)&lt;/code&gt;处理逻辑。&lt;/p&gt;
+
+&lt;p&gt;那么让我们检测下吧。&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;timeDefer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;milliseconds&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;setTimeout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; 
+    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;milliseconds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;timeDefer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'success'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//undefined&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//success&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;糟糕，在scope内拿不到this。&lt;/p&gt;
+
+&lt;p&gt;你也许会说你由于箭头函数的问题，好，我们换为ES5。&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;hanlder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;method&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;milliseconds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;setTimeout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; 
+      &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;milliseconds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;timeDefer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;milliseconds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;    
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hanlder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;method&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;milliseconds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; 
+
+&lt;span class=&quot;nx&quot;&gt;timeDefer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'success'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//undefined&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//success&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;依然没有获取到，所以，这必须和箭头函数无关。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;注意：我的运行环境为webpack编译后的runtime上下文内。&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;再换一种思路试试吧。&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;timeDefer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;milliseconds&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;setTimeout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; 
+    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;milliseconds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;timeDefer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'success'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/script&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//window&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//success&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;如上，我直接写在了页面里，结果是你想的吗？&lt;/p&gt;
+
+&lt;p&gt;很惊奇吧！没错，Promise回调内的this是和上下文有关系的，不一定具体是什么，但应该是&lt;code class=&quot;highlighter-rouge&quot;&gt;global&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;3简单请求fetch&quot;&gt;3.简单请求：fetch&lt;/h3&gt;
+
+&lt;p&gt;我们经常会用一些fetch的库，如&lt;code class=&quot;highlighter-rouge&quot;&gt;whatwg-fetch&lt;/code&gt;，其实fetch就是基于Promise的一种实现，而许多浏览器也支持原生的fetch，如Chrome;同样的，像IE这种非主流当然肯定是不支持的，所以这些库往往会帮我们去做polyfill。&lt;/p&gt;
+
+&lt;p&gt;fetch请求资源的用法如下：&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;fetch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+
+
+&lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'/data.json'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;json&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'success1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'failed0'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;这里唯一需要注意的一点就是&lt;code class=&quot;highlighter-rouge&quot;&gt;response.json()&lt;/code&gt;，它返回的是一个Promise对象，请切记这一点。&lt;/p&gt;
+
+&lt;p&gt;对于Promise后面跟的链式thenable函数，一般有两种写法，上述等同于&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'/data.json'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;c1&quot;&gt;//do something&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;第一首较第二种来说更加直观清晰，所以大多数情况下都比较推荐第一种。&lt;/p&gt;
+
+&lt;p&gt;但第一种的写法有一些规则需要注意：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1.如果then后面接then，不管有多少个，只要请求是成功的，都会依次进入&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'/data.json'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;json&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'success1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;json&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'success1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'failed0'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//success1&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//success1&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;2.如果catch放在then后面并且请求失败了，那么then还是会进去&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'/data.json'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'failed0'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;json&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'success1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//failed0&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//success, undefined&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;这种情况最容易犯错，而且还不易排查，确保你的异常处理作为链式收尾。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;3.服务器返回404&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;对于这个case，希望你可以先自己猜猜，在看输出。&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;fetch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'success0'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+          &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;json&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'success1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'failed0'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+
+
+&lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'/data1.json'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//无效url,404&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//success: 0&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//failed0&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;你没有看错，对于fetch（尤其是使用原生）来说，404是‘成功‘的请求，并不会直接进catch。&lt;/p&gt;
+
+&lt;p&gt;类似的问题许多库的issue里都提到：&lt;code class=&quot;highlighter-rouge&quot;&gt;Why both of then and catch are invoked when reponse status is 404&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;因此正确的处理应该是：&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;fetch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;status&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'success0'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+          &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;json&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'success1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'failed0'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;4高级用法链式&quot;&gt;4.高级用法：链式&lt;/h3&gt;
+
+&lt;p&gt;Promise最大的作用就是解决了地狱回掉，并且给异步方法提供了优美的语法糖。&lt;/p&gt;
+
+&lt;p&gt;链式基本写法：&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;success&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}})&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;failed&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;reject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}})&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;success&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;success&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Promise.resolve&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;Promise.reject&lt;/code&gt;分别返回一个已经成功/失败的promise对象，我在此用来模拟成功/失败的请求。&lt;/p&gt;
+
+&lt;p&gt;基于上面的回顾，几个小demo可以用来检测下自己对链式的掌握：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Demo1:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;success&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'success0'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//success&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//undefined&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//undefined&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//undefined&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;这个应该很好理解，我在上面已经提到了then的传递性&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Demo2:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;success&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'0'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'failed'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;failed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'recovery'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;success&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// failed 0&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// undefined, undefined&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;这个结果是不让你懵逼了，如果是，那么先看下个例子。&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;success&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'0'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'failed'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;failed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'recovery'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;success&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// failed 0&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// recovery 0&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 0 undefined&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;没错，差别就在于一个return，也许你一个小的手误就会导致一个大bug。&lt;/p&gt;
+
+&lt;p&gt;所以切记：如果在Promise的回掉逻辑里依然是是Promise，且希望有链式的后续处理，记得一定要返回该实例。&lt;/p&gt;
+
+&lt;p&gt;有了上面的基本知识，我们用最后一个Demo来结束本文：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Demo3:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;fetch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//.json() will return a promise&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;假设&lt;code class=&quot;highlighter-rouge&quot;&gt;getJSON('/data.json')&lt;/code&gt;会返回一个形如：&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;urls&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;s1&quot;&gt;'file1.md'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s1&quot;&gt;'file2.md'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s1&quot;&gt;'file3.md'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+        &lt;span class=&quot;s1&quot;&gt;'file12.md'&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;的json对象，包含接下来需要请求的资源。&lt;/p&gt;
+
+&lt;p&gt;我们在回调里的实现方式如下：&lt;/p&gt;
+
+&lt;p&gt;1.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'/data.json'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;urls&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;forEach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;2.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'/data.json'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thenableRequest&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;urls&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;forEach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;thenableRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;3.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'/data.json'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thenableRequest&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;urls&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;forEach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;thenableRequest&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thenableRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+
+&lt;span class=&quot;err&quot;&gt;等同于&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'/data.json'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;urls&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;reduce&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;thenable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thenable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)),&lt;/span&gt;
+       &lt;span class=&quot;nb&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;如果你能一口气说出其中的区别，或者告诉我Network中资源请求的顺序，那么请忽略本文。&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;第一种：&lt;/p&gt;
+
+&lt;p&gt;并行请求 ，但不能保证顺序，所以结果不可预期，如果这不是请求资源，而是数个有依赖顺序的API，那结果肯定不能满足你。&lt;/p&gt;
+
+&lt;p&gt;第二种：&lt;/p&gt;
+
+&lt;p&gt;其实和第一种没有太大区别，只是稍微用链式重构了下，但实质并没有变。&lt;/p&gt;
+
+&lt;p&gt;第三种：&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;getJSON&lt;/code&gt;每次都会返回一个新的Promise对象，你可以将其看作是&lt;code class=&quot;highlighter-rouge&quot;&gt;reduce&lt;/code&gt;的结果，这种链式最终的结果是串行请求所有资源，即先file1.md, file2.md, … file12.md，如果用Network去查看，可以发现它是依次请求的，保证的顺序。&lt;/p&gt;
+
+&lt;p&gt;这三种方法其实就在解决一个问题，而也就是为什么有&lt;code class=&quot;highlighter-rouge&quot;&gt;Promise.all&lt;/code&gt;的原因了。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Promise.all&lt;/code&gt;既做保证了顺序也做了异常处理：所有的请求都成功了才能拿到最终结果，否者则会reject。&lt;/p&gt;
+
+&lt;p&gt;利用&lt;code class=&quot;highlighter-rouge&quot;&gt;Promise.all&lt;/code&gt;改写如下：&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'/data.json'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;urls&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))))&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;responseArray&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'responseArray'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;responseArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+</description>
+        <pubDate>Mon, 22 Jan 2018 22:22:00 +0800</pubDate>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2018/01/22/promise.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2018/01/22/promise.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
     
       <item>
         <title>前端项目应该如何部署</title>
@@ -162,8 +530,8 @@ VOLUME /app&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 &lt;/ul&gt;
 </description>
         <pubDate>Wed, 26 Jul 2017 18:03:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2017/07/26/frontend-deploy.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2017/07/26/frontend-deploy.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2017/07/26/frontend-deploy.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2017/07/26/frontend-deploy.html</guid>
         
         
         <category>jekyll</category>
@@ -360,8 +728,8 @@ c)用策略模式就可以解决&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;http://www.jdon.com/46117&quot;&gt;你应该知道的四种优秀架构&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Sun, 12 Mar 2017 12:35:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2017/03/12/ddd.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2017/03/12/ddd.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2017/03/12/ddd.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2017/03/12/ddd.html</guid>
         
         
         <category>jekyll</category>
@@ -595,8 +963,8 @@ c)用策略模式就可以解决&lt;/p&gt;
 &lt;/table&gt;
 </description>
         <pubDate>Sun, 12 Feb 2017 11:16:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2017/02/12/function-interface.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2017/02/12/function-interface.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2017/02/12/function-interface.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2017/02/12/function-interface.html</guid>
         
         
         <category>jekyll</category>
@@ -730,8 +1098,8 @@ c)用策略模式就可以解决&lt;/p&gt;
 
 </description>
         <pubDate>Thu, 15 Dec 2016 14:00:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2016/12/15/es201x.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2016/12/15/es201x.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2016/12/15/es201x.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2016/12/15/es201x.html</guid>
         
         
         <category>jekyll</category>
@@ -827,8 +1195,8 @@ c)用策略模式就可以解决&lt;/p&gt;
 &lt;p&gt;可是讲真的，你这么任性取消了CORS的限制，那我们还聊什么跨域呢？&lt;/p&gt;
 </description>
         <pubDate>Tue, 25 Oct 2016 20:58:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2016/10/25/cors.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2016/10/25/cors.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2016/10/25/cors.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2016/10/25/cors.html</guid>
         
         
         <category>jekyll</category>
@@ -862,8 +1230,8 @@ c)用策略模式就可以解决&lt;/p&gt;
 
 </description>
         <pubDate>Tue, 27 Sep 2016 21:38:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2016/09/27/weixin-app.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2016/09/27/weixin-app.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2016/09/27/weixin-app.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2016/09/27/weixin-app.html</guid>
         
         
         <category>jekyll</category>
@@ -985,8 +1353,8 @@ c)用策略模式就可以解决&lt;/p&gt;
 &lt;p&gt;4.&lt;a href=&quot;https://developer.mozilla.org/zh-CN/docs/Web/API/NodeList&quot;&gt;NodeList&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 21 Sep 2016 12:28:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2016/09/21/node-vs-element.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2016/09/21/node-vs-element.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2016/09/21/node-vs-element.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2016/09/21/node-vs-element.html</guid>
         
         
         <category>jekyll</category>
@@ -1059,8 +1427,8 @@ c)用策略模式就可以解决&lt;/p&gt;
 &lt;p&gt;其实，本文主要讲了两个常用的Git操作：在无法连接国外&lt;code class=&quot;highlighter-rouge&quot;&gt;Git Server&lt;/code&gt;的时候如何pull别人的代码和push自己的代码，相信大家看完本教程一定能有所收获。&lt;/p&gt;
 </description>
         <pubDate>Tue, 16 Aug 2016 19:09:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2016/08/16/remote-work.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2016/08/16/remote-work.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2016/08/16/remote-work.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2016/08/16/remote-work.html</guid>
         
         
         <category>jekyll</category>
@@ -1120,8 +1488,8 @@ c)用策略模式就可以解决&lt;/p&gt;
 &lt;p&gt;我能想到的场景可能是这样的：在一个冬季的午后，一位老人缓慢的行走在老城的小巷，旁边搀着的是他的老伴，老人虽然步履蹒跚，但仍是一脸笑容，看起来是如此的幸福。尽管是冬季，可阳光依旧很暖，毫不吝啬的洒在老人的身上，可老人的影子却是那么的孤单。&lt;/p&gt;
 </description>
         <pubDate>Tue, 26 Jul 2016 18:10:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2016/07/26/vr.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2016/07/26/vr.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2016/07/26/vr.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2016/07/26/vr.html</guid>
         
         
         <category>jekyll</category>
@@ -1179,8 +1547,8 @@ c)用策略模式就可以解决&lt;/p&gt;
 &lt;p&gt;受“精益软件开发”所启发，个人觉得所谓的精益思想，XP（极限编程思想），Agile（敏捷思想）都只是一种方法论，甚至可以说由它们衍生出的所谓的最佳实践也都是方法论。毕竟，具体到每一公司，每一个项目，每一个团队，这些准则都不可能完全匹配和适用，但若以此作为思想参考，就会不仅在工作中，而且在生活中感受到它的导向价值作用，从而事半功倍。&lt;/p&gt;
 </description>
         <pubDate>Mon, 20 Jun 2016 20:08:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2016/06/20/lean-life.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2016/06/20/lean-life.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2016/06/20/lean-life.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2016/06/20/lean-life.html</guid>
         
         
         <category>jekyll</category>
@@ -1302,8 +1670,8 @@ c)用策略模式就可以解决&lt;/p&gt;
 &lt;/blockquote&gt;
 </description>
         <pubDate>Wed, 18 May 2016 20:52:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2016/05/18/rspec.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2016/05/18/rspec.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2016/05/18/rspec.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2016/05/18/rspec.html</guid>
         
         
         <category>jekyll</category>
@@ -1589,8 +1957,8 @@ connect可以把自定义的state和dispatch分发事件绑定到Component上，
 &lt;p&gt;个人认为，学习React十分不推荐一上手就用各种module，或者照猫画虎式的去填空，这样只能是到头来什么也不会。当你从头开始去理解时，才能找到痛点，而当你有痛点时你才需要重构，那么此时可能某个module就是你想要的。你用它只是为了省时，而不是你做不出来才用它。借用我前几天在知乎上回答的问题“用库丢脸不？”，我的观点是：&lt;strong&gt;&lt;em&gt;用库不丢脸，不懂库还非要用库才丢脸&lt;/em&gt;&lt;/strong&gt;。&lt;/p&gt;
 </description>
         <pubDate>Tue, 05 Apr 2016 21:20:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2016/04/05/talk-react.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2016/04/05/talk-react.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2016/04/05/talk-react.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2016/04/05/talk-react.html</guid>
         
         
         <category>jekyll</category>
@@ -1689,8 +2057,8 @@ connect可以把自定义的state和dispatch分发事件绑定到Component上，
 &lt;/ul&gt;
 </description>
         <pubDate>Mon, 01 Feb 2016 23:09:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2016/02/01/mock-stub.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2016/02/01/mock-stub.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2016/02/01/mock-stub.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2016/02/01/mock-stub.html</guid>
         
         
         <category>jekyll</category>
@@ -1827,8 +2195,8 @@ connect可以把自定义的state和dispatch分发事件绑定到Component上，
 
 </description>
         <pubDate>Thu, 07 Jan 2016 22:48:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2016/01/07/hello-knockout.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2016/01/07/hello-knockout.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2016/01/07/hello-knockout.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2016/01/07/hello-knockout.html</guid>
         
         
         <category>jekyll</category>
@@ -2008,8 +2376,8 @@ connect可以把自定义的state和dispatch分发事件绑定到Component上，
 
 </description>
         <pubDate>Mon, 21 Dec 2015 21:44:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2015/12/21/mvvm(3).html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2015/12/21/mvvm(3).html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/12/21/mvvm(3).html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/12/21/mvvm(3).html</guid>
         
         
         <category>jekyll</category>
@@ -2115,8 +2483,8 @@ connect可以把自定义的state和dispatch分发事件绑定到Component上，
 
 </description>
         <pubDate>Sun, 20 Dec 2015 11:14:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2015/12/20/mvvm(2).html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2015/12/20/mvvm(2).html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/12/20/mvvm(2).html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/12/20/mvvm(2).html</guid>
         
         
         <category>jekyll</category>
@@ -2212,8 +2580,8 @@ Last name: Bertington&lt;/p&gt;
 &lt;p&gt;基于一段时间使用MVVM的经验，个人觉得在特定场景下它确实很优秀，所以我决心自己尝试着去研究一下MVVM的实现原理，我将会以knockoutjs为基础，打造一套和它的接口相同的MVVM框架（部分主要接口），不求做的多优秀，只想动手实现一下，我将会在后续的博客中介绍如果实现MVVM中的模版引擎和数据绑定（单项，双向）。&lt;/p&gt;
 </description>
         <pubDate>Mon, 14 Dec 2015 22:54:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2015/12/14/mvvm(1).html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2015/12/14/mvvm(1).html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/12/14/mvvm(1).html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/12/14/mvvm(1).html</guid>
         
         
         <category>jekyll</category>
@@ -2298,8 +2666,8 @@ Last name: Bertington&lt;/p&gt;
 
 </description>
         <pubDate>Sat, 21 Nov 2015 00:40:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2015/11/21/how-to-adjust.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2015/11/21/how-to-adjust.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/11/21/how-to-adjust.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/11/21/how-to-adjust.html</guid>
         
         
         <category>jekyll</category>
@@ -2472,8 +2840,8 @@ Last name: Bertington&lt;/p&gt;
 
 </description>
         <pubDate>Thu, 12 Nov 2015 22:40:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2015/11/12/build-spring.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2015/11/12/build-spring.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/11/12/build-spring.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/11/12/build-spring.html</guid>
         
         
         <category>jekyll</category>
@@ -3200,8 +3568,8 @@ Last name: Bertington&lt;/p&gt;
 
 </description>
         <pubDate>Sun, 23 Aug 2015 20:12:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2015/08/23/css-selector.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2015/08/23/css-selector.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/08/23/css-selector.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/08/23/css-selector.html</guid>
         
         
         <category>jekyll</category>
@@ -3431,8 +3799,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 
 </description>
         <pubDate>Mon, 10 Aug 2015 19:03:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2015/08/10/bfc.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2015/08/10/bfc.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/08/10/bfc.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/08/10/bfc.html</guid>
         
         
         <category>jekyll</category>
@@ -3581,8 +3949,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 &lt;p&gt;总结：&lt;code class=&quot;highlighter-rouge&quot;&gt;对于浮动或者特殊的定位方式，推荐显式的设置容器宽度，避免出现意想不到的结果&lt;/code&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 27 Jul 2015 14:05:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2015/07/27/shrink.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2015/07/27/shrink.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/07/27/shrink.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/07/27/shrink.html</guid>
         
         
         <category>jekyll</category>
@@ -3664,8 +4032,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 
 </description>
         <pubDate>Sun, 26 Jul 2015 22:14:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2015/07/26/collapsing.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2015/07/26/collapsing.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/07/26/collapsing.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/07/26/collapsing.html</guid>
         
         
         <category>jekyll</category>
@@ -3783,8 +4151,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 
 </description>
         <pubDate>Thu, 11 Jun 2015 22:14:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2015/06/11/lyric.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2015/06/11/lyric.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/06/11/lyric.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/06/11/lyric.html</guid>
         
         
         <category>jekyll</category>
@@ -3921,8 +4289,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;注：本文与简书同步&lt;/code&gt;&lt;a href=&quot;#http://www.jianshu.com/p/1e402922ee32/&quot;&gt;简书请戳&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 04 Jun 2015 22:47:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2015/06/04/inherit.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2015/06/04/inherit.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/06/04/inherit.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/06/04/inherit.html</guid>
         
         
         <category>jekyll</category>
@@ -4014,8 +4382,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;注：本文与简书同步&lt;/code&gt;&lt;a href=&quot;#http://www.jianshu.com/p/1e402922ee32/&quot;&gt;简书请戳&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 03 Jun 2015 22:47:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2015/06/03/proto.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2015/06/03/proto.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/06/03/proto.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/06/03/proto.html</guid>
         
         
         <category>jekyll</category>
@@ -4224,8 +4592,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 
 </description>
         <pubDate>Sat, 30 May 2015 09:34:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2015/05/30/mao-chao-session.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2015/05/30/mao-chao-session.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/05/30/mao-chao-session.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/05/30/mao-chao-session.html</guid>
         
         
         <category>jekyll</category>
@@ -4337,8 +4705,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;注：本文章转载为简书&lt;/code&gt;&lt;a href=&quot;#http://www.jianshu.com/p/1e402922ee32/&quot;&gt;原文请戳&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 27 May 2015 22:39:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2015/05/27/markdown.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2015/05/27/markdown.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/05/27/markdown.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/05/27/markdown.html</guid>
         
         
         <category>jekyll</category>
@@ -4385,8 +4753,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 
 </description>
         <pubDate>Fri, 15 May 2015 19:00:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2015/05/15/yeoman.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2015/05/15/yeoman.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/05/15/yeoman.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/05/15/yeoman.html</guid>
         
         
         <category>jekyll</category>
@@ -4423,8 +4791,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 
 </description>
         <pubDate>Thu, 14 May 2015 23:31:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2015/05/14/js-proto.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2015/05/14/js-proto.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/05/14/js-proto.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/05/14/js-proto.html</guid>
         
         
         <category>jekyll</category>
@@ -4507,8 +4875,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 
 </description>
         <pubDate>Tue, 12 May 2015 22:10:00 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2015/05/12/js-call-apply.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2015/05/12/js-call-apply.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/05/12/js-call-apply.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/05/12/js-call-apply.html</guid>
         
         
         <category>jekyll</category>
@@ -4535,8 +4903,8 @@ BFC也是HTML中的一个盒子（看不见而已），只有满足至少下列�
 
 </description>
         <pubDate>Fri, 01 May 2015 21:12:13 +0800</pubDate>
-        <link>http://localhost:4000//jekyll/update/2015/05/01/welcome-to-jekyll.html</link>
-        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2015/05/01/welcome-to-jekyll.html</guid>
+        <link>http://kkkkkxiaofei.github.io//jekyll/update/2015/05/01/welcome-to-jekyll.html</link>
+        <guid isPermaLink="true">http://kkkkkxiaofei.github.io//jekyll/update/2015/05/01/welcome-to-jekyll.html</guid>
         
         
         <category>jekyll</category>

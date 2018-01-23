@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang＝'zh-CN'>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>关于Promise的一些</title>
+    <link rel="icon" type="image/png" href="/../img/link-icon.png" sizes="640x640" />
+    <meta name="description" content="This blog is ceated by Pursue">
+
+	
+	<link rel="stylesheet" href="/css/main.css">
+	
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	
+
+    
+
+    <!-- <link rel="stylesheet" href="//css/main.css"> -->
+    <link rel="canonical" href="http://kkkkkxiaofei.github.io//jekyll/update/2018/01/22/promise.html">
+</head>
+
+
+  <body class="back">
+
+        <div class="wrapper">
+	<div class="post">
+
+	  <header class="post-header">
+	    <h1 class="post-title">关于Promise的一些</h1>
+
+	    <!-- <p class="post-meta pull-right">Jan 22, 2018</p> -->
+	  </header>
+	
+	  <article class="post-content">
+	  	<div class="meta-top">
+	  	  <a href="https://kkkkkxiaofei.github.io">
+	  	  	<div class="avatar">
+	  	  		<img thumbnail="90x90" quality="100" src="/img/author.png" alt="4ee77d0667a3">
+	  	  	</div>
+	  	  	<span style="color:#4094c7;">Pursue</span>
+	  	  	<span>Jan 22, 2018</span>
+	  	  </a>
+	  	</div>
+	  	<div class="clearfix">
+	    <h3 id="1定义">1.定义</h3>
+
+<blockquote>
+  <p>The Promise object represents the eventual completion (or failure) of an asynchronous operation, and its resulting value.</p>
+</blockquote>
+
+<p>为什么要重新从定义回顾，是因为我觉得就是因为定义太过于简单，所以细节容易被忽略。</p>
+
+<p>比如怎么才算最终的状态？怎么更好的处理异常？如何兼容多个浏览器？</p>
+
+<p>希望下面的介绍可以让你有所收获！</p>
+
+<h3 id="2基础用法">2.基础用法</h3>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">const</span> <span class="nx">timeDefer</span> <span class="o">=</span> <span class="nx">milliseconds</span> <span class="o">=&gt;</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span><span class="nx">resolve</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+       <span class="nx">resolve</span><span class="p">()</span> 
+    <span class="p">},</span> <span class="nx">milliseconds</span><span class="p">)</span>
+   <span class="p">}</span>
+<span class="p">)</span></code></pre></figure>
+
+<p>这是一个简单的用法，可以用来模拟异步请求。</p>
+
+<p>假设用在类似React的组件中，异步请求回来后需要render部分UI，我们经常会在回调里写类似<code class="highlighter-rouge">this.renderTable(response)</code>处理逻辑。</p>
+
+<p>那么让我们检测下吧。</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">const</span> <span class="nx">timeDefer</span> <span class="o">=</span> <span class="nx">milliseconds</span> <span class="o">=&gt;</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span><span class="nx">resolve</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
+    <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">resolve</span><span class="p">()</span> 
+    <span class="p">},</span> <span class="nx">milliseconds</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="nx">timeDefer</span><span class="p">(</span><span class="mi">1000</span><span class="p">).</span><span class="nx">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'success'</span><span class="p">))</span>
+
+<span class="c1">//undefined</span>
+<span class="c1">//success</span></code></pre></figure>
+
+<p>糟糕，在scope内拿不到this。</p>
+
+<p>你也许会说你由于箭头函数的问题，好，我们换为ES5。</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">hanlder</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">method</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">milliseconds</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">resolve</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
+      <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">resolve</span><span class="p">()</span> 
+      <span class="p">},</span> <span class="nx">milliseconds</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">timeDefer</span><span class="p">(</span><span class="nx">milliseconds</span><span class="p">)</span> <span class="p">{</span>    
+  <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span><span class="nx">hanlder</span><span class="p">.</span><span class="nx">method</span><span class="p">(</span><span class="nx">milliseconds</span><span class="p">))</span>
+<span class="p">}</span> 
+
+<span class="nx">timeDefer</span><span class="p">(</span><span class="mi">1000</span><span class="p">).</span><span class="nx">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'success'</span><span class="p">))</span>
+
+<span class="c1">//undefined</span>
+<span class="c1">//success</span></code></pre></figure>
+
+<p>依然没有获取到，所以，这必须和箭头函数无关。</p>
+
+<p><code class="highlighter-rouge">注意：我的运行环境为webpack编译后的runtime上下文内。</code></p>
+
+<p>再换一种思路试试吧。</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+
+<span class="kd">const</span> <span class="nx">timeDefer</span> <span class="o">=</span> <span class="nx">milliseconds</span> <span class="o">=&gt;</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span><span class="nx">resolve</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
+    <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">resolve</span><span class="p">()</span> 
+    <span class="p">},</span> <span class="nx">milliseconds</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="nx">timeDefer</span><span class="p">(</span><span class="mi">1000</span><span class="p">).</span><span class="nx">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'success'</span><span class="p">))</span>
+
+<span class="o">&lt;</span><span class="sr">/script</span><span class="err">&gt;
+</span>
+<span class="c1">//window</span>
+<span class="c1">//success</span></code></pre></figure>
+
+<p>如上，我直接写在了页面里，结果是你想的吗？</p>
+
+<p>很惊奇吧！没错，Promise回调内的this是和上下文有关系的，不一定具体是什么，但应该是<code class="highlighter-rouge">global</code></p>
+
+<h3 id="3简单请求fetch">3.简单请求：fetch</h3>
+
+<p>我们经常会用一些fetch的库，如<code class="highlighter-rouge">whatwg-fetch</code>，其实fetch就是基于Promise的一种实现，而许多浏览器也支持原生的fetch，如Chrome;同样的，像IE这种非主流当然肯定是不支持的，所以这些库往往会帮我们去做polyfill。</p>
+
+<p>fetch请求资源的用法如下：</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">const</span> <span class="nx">getJSON</span> <span class="o">=</span> <span class="nx">url</span> <span class="o">=&gt;</span> <span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+
+
+<span class="nx">getJSON</span><span class="p">(</span><span class="s1">'/data.json'</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">json</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'success1'</span><span class="p">,</span> <span class="nx">json</span><span class="p">))</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'failed0'</span><span class="p">))</span></code></pre></figure>
+
+<p>这里唯一需要注意的一点就是<code class="highlighter-rouge">response.json()</code>，它返回的是一个Promise对象，请切记这一点。</p>
+
+<p>对于Promise后面跟的链式thenable函数，一般有两种写法，上述等同于</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">getJSON</span><span class="p">(</span><span class="s1">'/data.json'</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">response</span><span class="p">,</span> <span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="c1">//do something</span>
+  <span class="p">})</span></code></pre></figure>
+
+<p>第一首较第二种来说更加直观清晰，所以大多数情况下都比较推荐第一种。</p>
+
+<p>但第一种的写法有一些规则需要注意：</p>
+
+<ul>
+  <li>1.如果then后面接then，不管有多少个，只要请求是成功的，都会依次进入</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">getJSON</span><span class="p">(</span><span class="s1">'/data.json'</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">json</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'success1'</span><span class="p">,</span> <span class="nx">json</span><span class="p">))</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">json</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'success1'</span><span class="p">,</span> <span class="nx">json</span><span class="p">))</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'failed0'</span><span class="p">))</span>
+
+<span class="c1">//success1</span>
+<span class="c1">//success1</span></code></pre></figure>
+
+<ul>
+  <li>2.如果catch放在then后面并且请求失败了，那么then还是会进去</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">getJSON</span><span class="p">(</span><span class="s1">'/data.json'</span><span class="p">)</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'failed0'</span><span class="p">))</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">json</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'success1'</span><span class="p">,</span> <span class="nx">json</span><span class="p">))</span>
+
+<span class="c1">//failed0</span>
+<span class="c1">//success, undefined</span></code></pre></figure>
+
+<p>这种情况最容易犯错，而且还不易排查，确保你的异常处理作为链式收尾。</p>
+
+<ul>
+  <li>3.服务器返回404</li>
+</ul>
+
+<p>对于这个case，希望你可以先自己猜猜，在看输出。</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">const</span> <span class="nx">getJSON</span> <span class="o">=</span> <span class="nx">url</span> <span class="o">=&gt;</span> <span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="p">{</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'success0'</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span>
+          <span class="k">return</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">()</span>
+      <span class="p">})</span>
+      <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">json</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'success1'</span><span class="p">,</span> <span class="nx">json</span><span class="p">)</span>
+      <span class="p">})</span>
+      <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'failed0'</span><span class="p">)</span>
+      <span class="p">})</span>
+
+
+<span class="nx">getJSON</span><span class="p">(</span><span class="s1">'/data1.json'</span><span class="p">)</span><span class="c1">//无效url,404</span>
+
+<span class="c1">//success: 0</span>
+<span class="c1">//failed0</span></code></pre></figure>
+
+<p>你没有看错，对于fetch（尤其是使用原生）来说，404是‘成功‘的请求，并不会直接进catch。</p>
+
+<p>类似的问题许多库的issue里都提到：<code class="highlighter-rouge">Why both of then and catch are invoked when reponse status is 404</code></p>
+
+<p>因此正确的处理应该是：</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">const</span> <span class="nx">getJSON</span> <span class="o">=</span> <span class="nx">url</span> <span class="o">=&gt;</span> <span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'success0'</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span>
+          <span class="k">return</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">()</span>
+        <span class="p">}</span>
+      <span class="p">})</span>
+      <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">json</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'success1'</span><span class="p">,</span> <span class="nx">json</span><span class="p">)</span>
+      <span class="p">})</span>
+      <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="s1">'failed0'</span><span class="p">)</span>
+      <span class="p">})</span></code></pre></figure>
+
+<h3 id="4高级用法链式">4.高级用法：链式</h3>
+
+<p>Promise最大的作用就是解决了地狱回掉，并且给异步方法提供了优美的语法糖。</p>
+
+<p>链式基本写法：</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">const</span> <span class="nx">success</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">({</span><span class="na">data</span><span class="p">:</span> <span class="p">{}})</span>
+
+<span class="kd">const</span> <span class="nx">failed</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">({</span><span class="na">error</span><span class="p">:</span> <span class="p">{}})</span>
+
+<span class="nx">success</span><span class="p">()</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">))</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">error</span><span class="p">))</span>
+
+<span class="nx">success</span><span class="p">()</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">response</span><span class="p">,</span> <span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">,</span> <span class="nx">error</span><span class="p">)</span>
+  <span class="p">})</span></code></pre></figure>
+
+<p><code class="highlighter-rouge">Promise.resolve</code>和<code class="highlighter-rouge">Promise.reject</code>分别返回一个已经成功/失败的promise对象，我在此用来模拟成功/失败的请求。</p>
+
+<p>基于上面的回顾，几个小demo可以用来检测下自己对链式的掌握：</p>
+
+<ul>
+  <li>Demo1:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">success</span><span class="p">(</span><span class="s1">'success0'</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">))</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">))</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">))</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">))</span>
+
+<span class="c1">//success</span>
+<span class="c1">//undefined</span>
+<span class="c1">//undefined</span>
+<span class="c1">//undefined</span></code></pre></figure>
+
+<p>这个应该很好理解，我在上面已经提到了then的传递性</p>
+
+<ul>
+  <li>Demo2:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">success</span><span class="p">(</span><span class="s1">'0'</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'failed'</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span>
+    <span class="nx">failed</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span>
+  <span class="p">})</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'recovery'</span><span class="p">,</span> <span class="nx">error</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">success</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
+  <span class="p">})</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">response</span><span class="p">,</span> <span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">,</span> <span class="nx">error</span><span class="p">))</span>
+
+<span class="c1">// failed 0</span>
+<span class="c1">// undefined, undefined</span></code></pre></figure>
+
+<p>这个结果是不让你懵逼了，如果是，那么先看下个例子。</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">success</span><span class="p">(</span><span class="s1">'0'</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'failed'</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">failed</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span>
+  <span class="p">})</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'recovery'</span><span class="p">,</span> <span class="nx">error</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">success</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
+  <span class="p">})</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">response</span><span class="p">,</span> <span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">,</span> <span class="nx">error</span><span class="p">))</span>
+
+<span class="c1">// failed 0</span>
+<span class="c1">// recovery 0</span>
+<span class="c1">// 0 undefined</span></code></pre></figure>
+
+<p>没错，差别就在于一个return，也许你一个小的手误就会导致一个大bug。</p>
+
+<p>所以切记：如果在Promise的回掉逻辑里依然是是Promise，且希望有链式的后续处理，记得一定要返回该实例。</p>
+
+<p>有了上面的基本知识，我们用最后一个Demo来结束本文：</p>
+
+<ul>
+  <li>Demo3:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">const</span> <span class="nx">getJSON</span> <span class="o">=</span> <span class="nx">url</span> <span class="o">=&gt;</span> <span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span><span class="c1">//.json() will return a promise</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">error</span><span class="p">))</span></code></pre></figure>
+
+<p>假设<code class="highlighter-rouge">getJSON('/data.json')</code>会返回一个形如：</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span>
+    <span class="nl">urls</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s1">'file1.md'</span><span class="p">,</span>
+        <span class="s1">'file2.md'</span><span class="p">,</span>
+        <span class="s1">'file3.md'</span><span class="p">,</span>
+        <span class="p">...</span>
+        <span class="s1">'file12.md'</span>
+    <span class="p">]</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>的json对象，包含接下来需要请求的资源。</p>
+
+<p>我们在回调里的实现方式如下：</p>
+
+<p>1.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">getJSON</span><span class="p">(</span><span class="s1">'/data.json'</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">data</span><span class="p">.</span><span class="nx">urls</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">url</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">getJSON</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span>
+    <span class="p">});</span>
+  <span class="p">})</span></code></pre></figure>
+
+<p>2.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">getJSON</span><span class="p">(</span><span class="s1">'/data.json'</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">thenableRequest</span> <span class="o">=</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">();</span>
+    <span class="nx">data</span><span class="p">.</span><span class="nx">urls</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">url</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">thenableRequest</span><span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">getJSON</span><span class="p">(</span><span class="nx">url</span><span class="p">))</span>
+    <span class="p">});</span>
+  <span class="p">})</span></code></pre></figure>
+
+<p>3.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">getJSON</span><span class="p">(</span><span class="s1">'/data.json'</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">thenableRequest</span> <span class="o">=</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">();</span>
+    <span class="nx">data</span><span class="p">.</span><span class="nx">urls</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">url</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">thenableRequest</span> <span class="o">=</span> <span class="nx">thenableRequest</span><span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">getJSON</span><span class="p">(</span><span class="nx">url</span><span class="p">))</span>
+    <span class="p">});</span>
+  <span class="p">})</span>
+
+<span class="err">等同于</span>
+
+<span class="nx">getJSON</span><span class="p">(</span><span class="s1">'/data.json'</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">data</span><span class="p">.</span><span class="nx">urls</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(</span>
+      <span class="p">(</span><span class="nx">thenable</span><span class="p">,</span> <span class="nx">url</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">thenable</span><span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">getJSON</span><span class="p">(</span><span class="nx">url</span><span class="p">)),</span>
+       <span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">()</span>
+      <span class="p">)</span>
+  <span class="p">})</span></code></pre></figure>
+
+<p><strong><em>如果你能一口气说出其中的区别，或者告诉我Network中资源请求的顺序，那么请忽略本文。</em></strong></p>
+
+<p>第一种：</p>
+
+<p>并行请求 ，但不能保证顺序，所以结果不可预期，如果这不是请求资源，而是数个有依赖顺序的API，那结果肯定不能满足你。</p>
+
+<p>第二种：</p>
+
+<p>其实和第一种没有太大区别，只是稍微用链式重构了下，但实质并没有变。</p>
+
+<p>第三种：</p>
+
+<p><code class="highlighter-rouge">getJSON</code>每次都会返回一个新的Promise对象，你可以将其看作是<code class="highlighter-rouge">reduce</code>的结果，这种链式最终的结果是串行请求所有资源，即先file1.md, file2.md, … file12.md，如果用Network去查看，可以发现它是依次请求的，保证的顺序。</p>
+
+<p>这三种方法其实就在解决一个问题，而也就是为什么有<code class="highlighter-rouge">Promise.all</code>的原因了。</p>
+
+<p><code class="highlighter-rouge">Promise.all</code>既做保证了顺序也做了异常处理：所有的请求都成功了才能拿到最终结果，否者则会reject。</p>
+
+<p>利用<code class="highlighter-rouge">Promise.all</code>改写如下：</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">getJSON</span><span class="p">(</span><span class="s1">'/data.json'</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">urls</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">url</span> <span class="o">=&gt;</span> <span class="nx">getJSON</span><span class="p">(</span><span class="nx">url</span><span class="p">))))</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">responseArray</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'responseArray'</span><span class="p">,</span> <span class="nx">responseArray</span><span class="p">))</span></code></pre></figure>
+
+	    </div>
+	  </article>
+
+	</div>
+</div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+        <div class="row">
+                       
+            <div class="foot-center">
+              
+                <span class="fake-read-time">阅读 9999+</span>
+                
+                <a href="https://github.com/kkkkkxiaofei">
+                  
+                  <span class="icon  icon--github">
+                    <svg viewBox="0 0 16 16">
+                      <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                    </svg>
+                  </span>
+                  <span class="follow-me">Follow Pursue's Github </span>
+                </a>
+                
+            </div>
+        </div>
+
+
+
+
+
+     
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
