@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang＝'zh-CN'>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>WebSocket</title>
+    <link rel="icon" type="image/png" href="/../img/link-icon.png" sizes="640x640" />
+    <meta name="description" content="This blog is ceated by Pursue">
+
+	
+	<link rel="stylesheet" href="/css/main.css">
+	
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	
+
+    
+
+    <!-- <link rel="stylesheet" href="//css/main.css"> -->
+    <link rel="canonical" href="http://localhost:4000//jekyll/update/2019/04/10/websocket.html">
+</head>
+
+
+  <body class="back">
+
+        <div class="wrapper">
+	<div class="post">
+
+	  <header class="post-header">
+	    <h1 class="post-title">WebSocket</h1>
+
+	    <!-- <p class="post-meta pull-right">Apr 10, 2019</p> -->
+	  </header>
+	
+	  <article class="post-content">
+	  	<div class="meta-top">
+	  	  <a href="https://kkkkkxiaofei.github.io">
+	  	  	<div class="avatar">
+	  	  		<img thumbnail="90x90" quality="100" src="/img/author.png" alt="4ee77d0667a3">
+	  	  	</div>
+	  	  	<span style="color:#4094c7;">Pursue</span>
+	  	  	<span>Apr 10, 2019</span>
+	  	  </a>
+	  	</div>
+	  	<div class="clearfix">
+	    <h3 id="1开篇">1.开篇</h3>
+
+<blockquote>
+  <p>以下为我之前給组内分享的有关WebSocket的话题，略有删减，未完待续。。。</p>
+</blockquote>
+
+<p><img src="/../img/websocket/websocket.001.jpeg" alt="001" /></p>
+
+<p>长期以来，在web领域中，若想让客户端与服务端交互，我们首（或者说唯一的）选的肯定是Http。而随着web应用的快速发展，数据的消费量和功能需求的强度也逐渐增加，很显然，传统的Http模式早已不能满足我们，更多的需求则希望服务端可以“主动”跟客户端通信来增加交互。不得已，long-polling逐渐的被实现在服务端，而这仍然是一种十分被动的策略。</p>
+
+<p><img src="/../img/websocket/websocket.002.jpeg" alt="002" /></p>
+
+<p>传统的Http很简单：客户端主动发起请求，服务端接收到请求后立刻返回结果，一次“单向且即时的交流”就此完成。</p>
+
+<p><img src="/../img/websocket/websocket.003.jpeg" alt="003" /></p>
+
+<p>那么问题来了：如果客户端不请求，又想从服务端获取信息，那该怎么办呢？</p>
+
+<p>试想下以下场景：</p>
+
+<p>1.你的好友发了条Facebook，你想回复些什么，正当你typing的时候，发现突然多个一个“赞”，如果你侥幸利用Network记录了此过程，你会诧异的发现，并没有什么请求发送，那么这个“赞”又是如何更新到你的页面的呢？</p>
+
+<p>2.你修复了一个bug，git操作行云流水，提交代码后触发了流水线，你倒杯茶静静的等待部署的结果，lint–&gt;build–&gt;test–&gt;deploy，这一连串的状态更新与你无关，它就像一个信号接收器一样一直接收着来后端的信息，这又是如何做到的呢？</p>
+
+<p>其实web交互还有一些其他方式，下面的一些介绍，也许会让你对上面的疑问有所解答。</p>
+
+<p><img src="/../img/websocket/websocket.004.jpeg" alt="004" /></p>
+
+<p>Polling Request其实也是Http请求，它不停的循环，使得在一些场景下，让用户误以为它是“一直”在那里工作：譬如如果对准确度要求不高，一些进度条或者loading状态的更新就可以采用这种办法，因为用户在意的不是准确度，而是“它是否在工作”，以此来增强体验。但大部分情况下，它都是傻瓜式的，轮训的时间段和处理逻辑的时间一旦冲突，结果往往很难预料。</p>
+
+<p><img src="/../img/websocket/websocket.005.jpeg" alt="005" /></p>
+
+<p>Long-Polling Request最大的差别是在于当客户端将请求发給服务端后，服务端并没有立刻返回，而是一直持有着这次交互，一直等到服务端真正的获取到信息之后，才会将结果返回給客户端。因此从表象看来，似乎客户端已经发送了请求，而页面没有立刻更新，那就代表结果为空，以为这次请求交互已经结束，而过一会，突然又更新了，“感觉”像是服务端主动推送了数据，而实际上只是一次“延迟”的交互。</p>
+
+<p><img src="/../img/websocket/websocket.006.jpeg" alt="006" /></p>
+
+<p>EventSource顾名思义，在客户端与服务端交互的过程中，是以事件进行传递的，更确切的说，它是单向的，但它和传统Http恰好相反。客户端和服务端一旦建立起链接，事件只能由服务端向客户端推送。不难看出，它非常适用于客户端需要被动实时频繁更新信息的交互场景。如果你利用Network来调试，也是能够清晰的看到event stream的。</p>
+
+<p><img src="/../img/websocket/websocket.007.jpeg" alt="007" /></p>
+
+<p>可有没有什么办法可以既可以让客户端从服务端获取信息，且反之亦然呢？</p>
+
+<p><img src="/../img/websocket/websocket.008.jpeg" alt="008" /></p>
+
+<p>不卖关子了，主角登场：WebSocket</p>
+
+<p>与Http不同，WebSocket可以在没有客户端请求的情况下让服务端主动給客户端发送数据，客户端和服务端可以实时地进行双向通信，因此它非常适合“即时在线”的沟通。</p>
+
+<p>而在通信安全方面，WebSocket有着自己独立的加密协议<code class="highlighter-rouge">wss://</code>，与Http类似，<code class="highlighter-rouge">ws://</code>并不被推荐，原因不言自明。</p>
+
+<p>WebSocket的使用也十分简单，客户端建立链接如下：</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'wss://myserver.com/something'</span>
+
+<span class="kd">const</span> <span class="nx">connection</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WebSocket</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span></code></pre></figure>
+
+<p>此时便可以订阅相关事件：</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">connection</span><span class="p">.</span><span class="nx">onopen</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{}</span>
+
+<span class="nx">connection</span><span class="p">.</span><span class="nx">onerror</span> <span class="o">=</span> <span class="nx">error</span> <span class="o">=&gt;</span> <span class="p">{}</span></code></pre></figure>
+
+<p><img src="/../img/websocket/websocket.009.jpeg" alt="009" /></p>
+
+<p>用之前呢，我们还是最好看一下<a href="http://www.caniuse.com/">can I use</a></p>
+
+<p><img src="/../img/websocket/websocket.010.jpeg" alt="010" /></p>
+
+<p>WebSocket的服务端实现的版本非常多，以Node.js为例，代码片段如下：</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">npm i ws</code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">const</span> <span class="nx">WebSocket</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'ws'</span><span class="p">)</span>
+
+<span class="kd">const</span> <span class="nx">wss</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WebSocket</span><span class="p">.</span><span class="nx">Server</span><span class="p">({</span> <span class="na">port</span><span class="p">:</span> <span class="mi">8080</span> <span class="p">})</span>
+
+<span class="nx">wss</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'connection'</span><span class="p">,</span> <span class="nx">ws</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">ws</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'message'</span><span class="p">,</span> <span class="nx">message</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Received message =&gt; </span><span class="p">${</span><span class="nx">message</span><span class="p">}</span><span class="s2">`</span><span class="p">)</span>
+  <span class="p">})</span>
+  <span class="nx">ws</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">'hello world!'</span><span class="p">)</span>
+<span class="p">})</span></code></pre></figure>
+
+<p><img src="/../img/websocket/websocket.012.jpeg" alt="012" /></p>
+
+<p>如果你有尝试以上介绍做点小demo的话，你会发现，利用Network是可以看到所有明文的信息的，这种“暴露性”可能让你感到不安。而如果你又很好奇的去看看某弹幕平台的WebSocket信息，你会发现完全是加密，这一点和传统的Socket通信也是类似的，这些信息其实都是经过了某些算法进行二进制化，但其实都是有固定的格式和校验码的。</p>
+
+<p><img src="/../img/websocket/websocket.013.jpeg" alt="013" /></p>
+
+<p>带着这点好奇心，留下最后一个问题：如何获取到某直播平台的弹幕（使用WebSocket）数据包呢？且如果WebSocket的信息又被二进制化（或者加密）了呢？</p>
+
+<p><img src="/../img/websocket/websocket.014.jpeg" alt="014" /></p>
+
+<p>To be continue…</p>
+
+	    </div>
+	  </article>
+
+	</div>
+</div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+        <div class="row">
+                       
+            <div class="foot-center">
+              
+                <span class="fake-read-time">阅读 9999+</span>
+                
+                <a href="https://github.com/kkkkkxiaofei">
+                  
+                  <span class="icon  icon--github">
+                    <svg viewBox="0 0 16 16">
+                      <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                    </svg>
+                  </span>
+                  <span class="follow-me">Follow Pursue's Github </span>
+                </a>
+                
+            </div>
+        </div>
+
+
+
+
+
+     
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
