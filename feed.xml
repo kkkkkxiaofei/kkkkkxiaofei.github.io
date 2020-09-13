@@ -5,9 +5,1153 @@
     <description>This blog is ceated by Pursue</description>
     <link>http://localhost:4000//</link>
     <atom:link href="http://localhost:4000//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 09 May 2019 14:21:17 +0800</pubDate>
-    <lastBuildDate>Thu, 09 May 2019 14:21:17 +0800</lastBuildDate>
+    <pubDate>Sun, 13 Sep 2020 20:22:00 +0800</pubDate>
+    <lastBuildDate>Sun, 13 Sep 2020 20:22:00 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>一个入门级别的前端打包工具</title>
+        <description>&lt;h3 id=&quot;写在前面&quot;&gt;写在前面&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;长期以来，前端的模块化管理都不很成熟（&lt;code class=&quot;highlighter-rouge&quot;&gt;webpack&lt;/code&gt;出现之前），为此，早期（ES5时代）为了实现依赖管理，甚至会利用&lt;code class=&quot;highlighter-rouge&quot;&gt;window&lt;/code&gt;等全局对象进行模块注册。而如今有了&lt;code class=&quot;highlighter-rouge&quot;&gt;webpack&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;rollup&lt;/code&gt;等优秀的打包工具，让前端开发起来事半功倍，因此笔者觉得很有必要去学习下这种划时代工具的实现思路。因此，本篇将讲述如何一步步实现一个初级的前端打包工具，仅供学习和分享，希望读完后可以让大家对打包工具不只是停留在会用（光看文档）的基础上，而是能够有更多的思考（比如如何优化和按需定制）。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;如果你准备好了，请先倒一杯咖啡，因为此文略长（且最好亲自运行）&lt;/code&gt;&lt;a href=&quot;https://github.com/kkkkkxiaofei/dummy-playground/tree/master/pack&quot;&gt;源码请戳这里&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;所谓打包工具，无非是将&lt;code class=&quot;highlighter-rouge&quot;&gt;js&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;css&lt;/code&gt;以及其他资源文件进行合并（本篇只讨论&lt;code class=&quot;highlighter-rouge&quot;&gt;js&lt;/code&gt;，其他类型的文件你读完后必然有自己的思路)。&lt;/p&gt;
+
+&lt;p&gt;以&lt;code class=&quot;highlighter-rouge&quot;&gt;webpack&lt;/code&gt;的start-kit为例子：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;module.exports = {
+  entry: path.resolve(__dirname, 'index.js'),
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'main.js'
+  }
+};
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;配置很简单，它只需要&lt;code class=&quot;highlighter-rouge&quot;&gt;entry&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;output&lt;/code&gt;（甚至可以有默认的）即可。&lt;/p&gt;
+
+&lt;p&gt;那么它是怎么做的呢？我们来分析一个&lt;a href=&quot;https://github.com/kkkkkxiaofei/dummy-playground/tree/master/pack/examples/vanilla&quot;&gt;vanilla&lt;/a&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;demo&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;main.js&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import app from './application.js';
+import config from './config/index.js';
+
+const { appName, version } = config;
+app.start(appName, version);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;main.js&lt;/code&gt;有以下特点：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;1.有依赖
+&lt;code class=&quot;highlighter-rouge&quot;&gt;./application.js&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;./config/index.js&lt;/code&gt;，&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;2.使用了ESM引入依赖
+ &lt;code class=&quot;highlighter-rouge&quot;&gt;import ...&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;3.依赖也有自己的导出
+ &lt;code class=&quot;highlighter-rouge&quot;&gt;./application.js&lt;/code&gt;源码里有&lt;code class=&quot;highlighter-rouge&quot;&gt;export default&lt;/code&gt;（这里避免冗长，没有展示）; 依赖的依赖也许还会有&lt;code class=&quot;highlighter-rouge&quot;&gt;export const xxx&lt;/code&gt;;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;4.main文件自身并没有导出&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;基于此，可以提出以下问题：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;1.怎么处理&lt;code class=&quot;highlighter-rouge&quot;&gt;ESM&lt;/code&gt;导入/导出的语法，貌似&lt;code class=&quot;highlighter-rouge&quot;&gt;Node.js&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;Browser&lt;/code&gt;都不认识&lt;code class=&quot;highlighter-rouge&quot;&gt;import&lt;/code&gt;关键字呀？&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;2.假设1已经解决，怎么将依赖处理成一个模块，且支持自身导出和外部引用？&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;3.如何分析依赖，以及依赖的依赖，以及。。。。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;1-模块导入导出&quot;&gt;1 模块导入导出&lt;/h3&gt;
+
+&lt;p&gt;我们先以&lt;code class=&quot;highlighter-rouge&quot;&gt;ESM&lt;/code&gt;作为讨论。&lt;/p&gt;
+
+&lt;h4 id=&quot;11-esm-in-browser&quot;&gt;1.1 ESM in browser&lt;/h4&gt;
+
+&lt;p&gt;你也许没有关注，目前&lt;code class=&quot;highlighter-rouge&quot;&gt;ESM&lt;/code&gt;在&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules&quot;&gt;许多&lt;/a&gt;浏览器里是可以直接使用的：&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;index.html&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;script type=&quot;module&quot;&amp;gt;
+  import showVersion from './index.js';
+  showVersion();
+&amp;lt;/script&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;index.js&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import { version } from './config.js';
+
+export default () =&amp;gt; {
+	console.log(`====== app version: ${version} ======`);
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;是不是很方便？&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;* 但其中问题也不少：&lt;/strong&gt;*&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1.文件路径&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这里我所有的文件都必须写后缀(否则报错），且路径必须是以服务器的&lt;code class=&quot;highlighter-rouge&quot;&gt;host&lt;/code&gt;为相对路径，这就极大的限制了模块的路径解析规则（alias，node_modules等）。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;2.http请求&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;如果你尝试上面的代码，会发现这种方式是直接去请求的文件，且请求顺序是有顺的。&lt;/p&gt;
+
+&lt;p&gt;这首先会需要大量&lt;code class=&quot;highlighter-rouge&quot;&gt;http&lt;/code&gt;请求，且隐式的需要让&lt;code class=&quot;highlighter-rouge&quot;&gt;callback&lt;/code&gt;也有序，不然可能会出现&lt;code class=&quot;highlighter-rouge&quot;&gt;f1&lt;/code&gt;在&lt;code class=&quot;highlighter-rouge&quot;&gt;f2&lt;/code&gt;之前请求的，但却晚回来，&lt;code class=&quot;highlighter-rouge&quot;&gt;f2&lt;/code&gt;却依赖了&lt;code class=&quot;highlighter-rouge&quot;&gt;f1&lt;/code&gt;里的方法，那么就会跪。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;3.不支持CJS&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;如果我写了&lt;code class=&quot;highlighter-rouge&quot;&gt;Node.js&lt;/code&gt;环境的代码，是没办法用这种方式加载的，更别提其他模块机制了。&lt;/p&gt;
+
+&lt;h4 id=&quot;12-esm-in-nodejs&quot;&gt;1.2 ESM in Node.js&lt;/h4&gt;
+
+&lt;p&gt;默认情况下是无法在&lt;code class=&quot;highlighter-rouge&quot;&gt;Node.js&lt;/code&gt;环境下使用&lt;code class=&quot;highlighter-rouge&quot;&gt;ESM&lt;/code&gt;的，但是自从&lt;code class=&quot;highlighter-rouge&quot;&gt;13.9&lt;/code&gt;版本以上，可以开启flag &lt;code class=&quot;highlighter-rouge&quot;&gt;--experimental-modules&lt;/code&gt;，并且在&lt;code class=&quot;highlighter-rouge&quot;&gt;package.json&lt;/code&gt;里:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+  &quot;type&quot;: &quot;module&quot;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;13-从esm到cjs&quot;&gt;1.3 从ESM到CJS&lt;/h4&gt;
+
+&lt;p&gt;不难看出，单就&lt;code class=&quot;highlighter-rouge&quot;&gt;ESM&lt;/code&gt;在浏览器和&lt;code class=&quot;highlighter-rouge&quot;&gt;Node.js&lt;/code&gt;的兼容就有诸多问题。为了消除差异，目前主流的做法并不是在浏览器里直接使用&lt;code class=&quot;highlighter-rouge&quot;&gt;ESM&lt;/code&gt;，取而代之的是将&lt;code class=&quot;highlighter-rouge&quot;&gt;ESM&lt;/code&gt;先转化为通用型的&lt;code class=&quot;highlighter-rouge&quot;&gt;CJS&lt;/code&gt;。比如上面的&lt;code class=&quot;highlighter-rouge&quot;&gt;main.js&lt;/code&gt;，利用&lt;code class=&quot;highlighter-rouge&quot;&gt;Babel&lt;/code&gt;转换后如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;use strict&quot;;
+
+//1
+var _application = _interopRequireDefault(require(&quot;./application.js&quot;));
+
+//2
+var _index = _interopRequireDefault(require(&quot;./config/index.js&quot;));
+
+//3
+function _interopRequireDefault(obj) { 
+  return obj &amp;amp;&amp;amp; obj.__esModule ? obj : { default: obj }; 
+}
+
+//4
+var appName = _index.default.appName,
+    version = _index.default.version;
+//5
+_application.default.start(appName, version);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;首先1,2已经把&lt;code class=&quot;highlighter-rouge&quot;&gt;import&lt;/code&gt;改为了&lt;code class=&quot;highlighter-rouge&quot;&gt;require&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;其次，3处对&lt;code class=&quot;highlighter-rouge&quot;&gt;require&lt;/code&gt;的实现做了一次签名包装：若&lt;code class=&quot;highlighter-rouge&quot;&gt;module&lt;/code&gt;为&lt;code class=&quot;highlighter-rouge&quot;&gt;ESM&lt;/code&gt;则具有内部属性&lt;code class=&quot;highlighter-rouge&quot;&gt;_esModule&lt;/code&gt;，此时默认导出的模块就是自身；否则，需要封装为&lt;code class=&quot;highlighter-rouge&quot;&gt;{ default: obj }&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;最后4,5处，由于&lt;code class=&quot;highlighter-rouge&quot;&gt;./application.js&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;./config/index.js&lt;/code&gt;均为默认导出，所以使用时需要取出&lt;code class=&quot;highlighter-rouge&quot;&gt;default&lt;/code&gt;属性，完全是按照3的标准来解析的。&lt;/p&gt;
+
+&lt;p&gt;看到这里，似乎问题已经解决了一大半了（代码已经归一化了），但还有一个问题没有解决：&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;* 这个main.js目前只有模块导入，如果也有导出的话，导出/导入该怎么实现？&lt;/strong&gt;*&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;这里必须澄清，require并不一定就在说Node.js的require, Node.js只是commonJS标准的一种实现。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;2-模块导出的通用解决方案&quot;&gt;2 模块导出的通用解决方案&lt;/h3&gt;
+
+&lt;p&gt;和上面一样，我们用&lt;code class=&quot;highlighter-rouge&quot;&gt;Babel&lt;/code&gt;测试以下&lt;code class=&quot;highlighter-rouge&quot;&gt;ESM&lt;/code&gt;的导出转换：&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ESM:&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export default A;
+
+export const name = '';
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;After Babel:&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;use strict&quot;;
+
+Object.defineProperty(exports, &quot;__esModule&quot;, {
+  value: true
+});
+exports.name = exports.default = void 0;
+var _default = A;
+exports.default = _default;
+var name = '';
+exports.name = name;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;很简单，默认导出&lt;code class=&quot;highlighter-rouge&quot;&gt;export default&lt;/code&gt;转化为&lt;code class=&quot;highlighter-rouge&quot;&gt;exports.default&lt;/code&gt;；变量导出&lt;code class=&quot;highlighter-rouge&quot;&gt;export const xxx&lt;/code&gt;转化为&lt;code class=&quot;highlighter-rouge&quot;&gt;exports.xxx&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;那万一需要打包的代码使用了&lt;code class=&quot;highlighter-rouge&quot;&gt;CJS&lt;/code&gt;呢？&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CJS:&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;module.exports = A;
+
+module.exports = {
+  name: ''
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;After Babel:&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;module.exports = A;
+module.exports = {
+  name: ''
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;什么？居然一样。没错，这就是目前的标准：因为浏览器端和&lt;code class=&quot;highlighter-rouge&quot;&gt;Node.js&lt;/code&gt;端对&lt;code class=&quot;highlighter-rouge&quot;&gt;ESM&lt;/code&gt;的支持都还不成熟，所以所谓的转译就是&lt;code class=&quot;highlighter-rouge&quot;&gt;ESM&lt;/code&gt;转&lt;code class=&quot;highlighter-rouge&quot;&gt;CJS&lt;/code&gt;的过程。&lt;/p&gt;
+
+&lt;p&gt;这样一来，我们就只用处理&lt;code class=&quot;highlighter-rouge&quot;&gt;commonJS1&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;commonJS2&lt;/code&gt;的情况就好了，即代码里模块操作只有&lt;code class=&quot;highlighter-rouge&quot;&gt;require&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;exports.default&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;exports.xxx&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;module.exports&lt;/code&gt;,所以任意文件的代码都可以按照如下来封装：&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;index.js&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;function(require, module, exports) {
+  // source code
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;有&lt;code class=&quot;highlighter-rouge&quot;&gt;require&lt;/code&gt;是因为有可能还需要引用其他模块，这个我下面会讲到。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;exports&lt;/code&gt;等价于&lt;code class=&quot;highlighter-rouge&quot;&gt;module.exports&lt;/code&gt;，因此本质上是利用&lt;code class=&quot;highlighter-rouge&quot;&gt;module&lt;/code&gt;对象去注入原始代码，最终取出导出的模块。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;到这里，我们还有一个&lt;code class=&quot;highlighter-rouge&quot;&gt;通用型的导入&lt;/code&gt;方案没有分析到，这个阶段还不好解释，稍后会说明。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;3-导入路径分析&quot;&gt;3 导入路径分析&lt;/h3&gt;
+
+&lt;p&gt;当我们导入一个模块时，一般有两类写法：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//1
+import _ from 'lodash'; 
+
+//2
+import util from './util';
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;其中1的寻找规则默认会去项目根目录下的&lt;code class=&quot;highlighter-rouge&quot;&gt;node_modules&lt;/code&gt;里寻找；&lt;/p&gt;
+
+&lt;p&gt;而2的寻找规则就稍微复杂一点：&lt;/p&gt;
+
+&lt;p&gt;当&lt;code class=&quot;highlighter-rouge&quot;&gt;./util&lt;/code&gt;没有&lt;code class=&quot;highlighter-rouge&quot;&gt;package.json&lt;/code&gt;文件时会去尝试寻找&lt;code class=&quot;highlighter-rouge&quot;&gt;./util&lt;/code&gt;;否则会查看&lt;code class=&quot;highlighter-rouge&quot;&gt;package.json&lt;/code&gt;里的&lt;code class=&quot;highlighter-rouge&quot;&gt;main&lt;/code&gt;属性作为入口。&lt;/p&gt;
+
+&lt;p&gt;以上规则的前提没有用任何的打包工具，比如用&lt;code class=&quot;highlighter-rouge&quot;&gt;webpack&lt;/code&gt;打包时路径的分析会比这个要复杂的多，还牵扯到&lt;code class=&quot;highlighter-rouge&quot;&gt;main&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;module&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;browser&lt;/code&gt;等的优先级。所以基于此，我们这里把规则定的简单点：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;1.默认外部依赖的路径为&lt;code class=&quot;highlighter-rouge&quot;&gt;${projectRoot}/node_modules&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;2.&lt;code class=&quot;highlighter-rouge&quot;&gt;./util&lt;/code&gt; 等价于 &lt;code class=&quot;highlighter-rouge&quot;&gt;./util.js&lt;/code&gt; 或 &lt;code class=&quot;highlighter-rouge&quot;&gt;./util/index.js&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;3.任何以字符开头的路径均代表外部依赖（&lt;code class=&quot;highlighter-rouge&quot;&gt;util&lt;/code&gt;等价于&lt;code class=&quot;highlighter-rouge&quot;&gt;${projectRoot}/node_modules/util/index.js&lt;/code&gt;)&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;于是首先我们需要把相对路径转化为绝对路径：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;function buildPath(relativePath, dirname, config) {
+  const { entry } = config;
+  const NODE_MOUDLES_PATH = `${path.dirname(entry)}/node_modules`;
+
+  if (relativePath === entry) {
+    return relativePath;
+  }
+
+  let absPath = relativePath;
+  if (/^\./.test(relativePath)) {
+    absPath = path.join(dirname, relativePath);
+    
+  } else {
+    absPath = path.join(NODE_MOUDLES_PATH, relativePath);
+  }
+
+  return revisePath(absPath);
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;buildPath&lt;/code&gt;函数会根据当前文件所在的相对路径和父节点来尝试建立文件的绝对路径，因为后期我们需要去读这个文件。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;function revisePath(absPath) {
+  const ext = path.extname(absPath);
+  if (ext) {
+    if (EXTENSIONS.indexOf(ext) === -1) {
+      throw new Error(`Only support bundler for (${EXTENSIONS}) file, current ext is ${ext}`)
+    }
+    if (fs.existsSync(absPath)) {
+      return absPath;
+    }  
+  }
+
+  if (ext !== '.js') {
+    if (fs.existsSync(`${absPath}.js`)) {
+      return `${absPath}.js`;
+    }
+
+    if (fs.existsSync(`${absPath}/index.js`)) {
+      return `${absPath}/index.js`;
+    }
+    throw new Error(`Can not revise the path ${absPath}`)
+  }
+  //here relative path is absolute path
+  return absPath;
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;revisePath&lt;/code&gt;函数仅仅是修复文件后缀，因为&lt;code class=&quot;highlighter-rouge&quot;&gt;./util&lt;/code&gt;可以代表&lt;code class=&quot;highlighter-rouge&quot;&gt;./util.js&lt;/code&gt;或&lt;code class=&quot;highlighter-rouge&quot;&gt;./util/index.js&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;有了上面的概念，我们就可以进入我们的主题了。&lt;/p&gt;
+
+&lt;h3 id=&quot;4-babel&quot;&gt;4 Babel&lt;/h3&gt;
+
+&lt;p&gt;上面分析了这么多关于模块导入导出的思路，当下摆在我们面前的第一步就是：&lt;strong&gt;* 如何在语法上识别一个文件里有依赖，以及依赖的路径是什么呢？&lt;/strong&gt;*&lt;/p&gt;
+
+&lt;p&gt;这里不得不提一下&lt;code class=&quot;highlighter-rouge&quot;&gt;Babel&lt;/code&gt;转译源代码的步骤。&lt;/p&gt;
+
+&lt;h4 id=&quot;41-parse&quot;&gt;4.1 parse&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;parse&lt;/code&gt;阶段会将源代码解析为&lt;a href=&quot;https://astexplorer.net&quot;&gt;抽象语法树&lt;/a&gt;(&lt;code class=&quot;highlighter-rouge&quot;&gt;AST&lt;/code&gt;)，&lt;code class=&quot;highlighter-rouge&quot;&gt;AST&lt;/code&gt;通过词法分析生成对应类型的节点，详细的描述了每一行代码的具体&lt;code class=&quot;highlighter-rouge&quot;&gt;特征&lt;/code&gt;，例如：&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;index.js&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//1
+import app from './application.js';
+
+//2
+import config from './config/index.js';
+
+//3
+const { appName, version } = config;
+
+//4
+app.start(appName, version);
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;After parse:&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://flypursue.com/notes/images/bundler/4-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;可以看到1,2为导入声明，3为变量声明，4为表达式。&lt;/p&gt;
+
+&lt;p&gt;以1为例，1为&lt;code class=&quot;highlighter-rouge&quot;&gt;ImportDeclaration&lt;/code&gt;, 表明是&lt;code class=&quot;highlighter-rouge&quot;&gt;ESM&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;import&lt;/code&gt;（&lt;code class=&quot;highlighter-rouge&quot;&gt;require&lt;/code&gt;语法不会是这种类型的&lt;code class=&quot;highlighter-rouge&quot;&gt;Node&lt;/code&gt;），且&lt;code class=&quot;highlighter-rouge&quot;&gt;source&lt;/code&gt;里的&lt;code class=&quot;highlighter-rouge&quot;&gt;value&lt;/code&gt;为依赖模块的相对路径。但是这个树可能会很深，导致我们获取（也许也需要修改）具体信息的操作会很复杂（&lt;code class=&quot;highlighter-rouge&quot;&gt;a?.b?.c?.e?....&lt;/code&gt;），为此我们可以进入&lt;code class=&quot;highlighter-rouge&quot;&gt;Babel&lt;/code&gt;转译的第二个阶段。&lt;/p&gt;
+
+&lt;h4 id=&quot;42-traverse&quot;&gt;4.2 traverse&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;traverse&lt;/code&gt;可以方便的操作&lt;code class=&quot;highlighter-rouge&quot;&gt;AST&lt;/code&gt;，比如我们可以这样遍历&lt;code class=&quot;highlighter-rouge&quot;&gt;ImportDeclaration&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;traverse(ast, {
+    ImportDeclaration({
+      node
+    }) {
+      const relativePath = node.source.value;
+      //record the dependency
+    }
+});
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;而对于&lt;code class=&quot;highlighter-rouge&quot;&gt;CJS&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;require&lt;/code&gt;，在&lt;code class=&quot;highlighter-rouge&quot;&gt;AST&lt;/code&gt;中存在于&lt;code class=&quot;highlighter-rouge&quot;&gt;CallExpression&lt;/code&gt;的Node上(笔者下面的寻找方式肯定不是最佳的)：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+traverse(ast, {
+  CallExpression({
+    node
+  }) {
+    const {
+      callee: {
+        name
+      },
+      arguments
+    } = node;
+
+    if (name === 'require') {
+      const relativePath = arguments[0].value;
+      //record the dependency
+    }
+  }
+});
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;在&lt;code class=&quot;highlighter-rouge&quot;&gt;traverse&lt;/code&gt;的阶段我们还可以自定义一些语法，比如对于异步导入的模块来说，一般我们使用异步&lt;code class=&quot;highlighter-rouge&quot;&gt;import...then&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import('./util').then(...)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;我们可以定义自己喜欢的语法糖：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dynamicImport('./api').then(
+  module =&amp;gt; console.log('======successfully load dynamic moudle=====');
+);
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;在然后像上面一样遍历该语法存在的节点：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+traverse(ast, {
+  CallExpression({
+    node
+  }) {
+    const {
+      callee: {
+        name
+      },
+      arguments
+    } = node;
+
+    if (name === 'dynamicImport') {
+      const revisedPath = buildPath(relativePath, path.dirname(filename), config);
+      //record the dependency
+    }
+  }
+});
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;类似的，我们甚至可以模拟&lt;code class=&quot;highlighter-rouge&quot;&gt;ES7&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;Decorator&lt;/code&gt;(@xxx)，&lt;code class=&quot;highlighter-rouge&quot;&gt;traverse&lt;/code&gt;的具体&lt;code class=&quot;highlighter-rouge&quot;&gt;API&lt;/code&gt;在这里就不赘述了。&lt;/p&gt;
+
+&lt;h4 id=&quot;43-transform&quot;&gt;4.3 transform&lt;/h4&gt;
+
+&lt;p&gt;生成了&lt;code class=&quot;highlighter-rouge&quot;&gt;AST&lt;/code&gt;，遍历/修改了&lt;code class=&quot;highlighter-rouge&quot;&gt;AST&lt;/code&gt;，最终&lt;code class=&quot;highlighter-rouge&quot;&gt;Babel&lt;/code&gt;的目标是还是&lt;code class=&quot;highlighter-rouge&quot;&gt;js&lt;/code&gt;代码。&lt;code class=&quot;highlighter-rouge&quot;&gt;transform&lt;/code&gt;可以将我们修改后的&lt;code class=&quot;highlighter-rouge&quot;&gt;AST&lt;/code&gt;再转回代码。&lt;/p&gt;
+
+&lt;p&gt;在这一过程中，一般只需要配置一下&lt;code class=&quot;highlighter-rouge&quot;&gt;Babel&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;presets&lt;/code&gt;即可，比如我们常用的&lt;code class=&quot;highlighter-rouge&quot;&gt;preset-env&lt;/code&gt;就是ES6-&amp;gt;ES5，如果什么都不设置，那&lt;code class=&quot;highlighter-rouge&quot;&gt;Babel&lt;/code&gt;就什么也不干。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;presets&lt;/code&gt;的角色比较上层，或者说它是一种宏观的规则，对于一些非常具体的代码转换逻辑，就需要&lt;code class=&quot;highlighter-rouge&quot;&gt;plugin&lt;/code&gt;了。比如我们上面使用了&lt;code class=&quot;highlighter-rouge&quot;&gt;dynamicImport&lt;/code&gt;语法，在&lt;code class=&quot;highlighter-rouge&quot;&gt;traverse&lt;/code&gt;阶段我们也遍历到了该信息，但是这毕竟不是&lt;code class=&quot;highlighter-rouge&quot;&gt;js&lt;/code&gt;语法，我们是需要写一个小插件来进行语法转换(&lt;code class=&quot;highlighter-rouge&quot;&gt;Babel&lt;/code&gt;插件的写法这里就不赘述了)的：&lt;/p&gt;
+
+&lt;p&gt;动态导入语法的插件&lt;code class=&quot;highlighter-rouge&quot;&gt;plugin/dynamicImport.js&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;module.exports = {
+  visitor: {
+    Identifier(path) {
+      if (path.node.name === 'dynamicImport') {
+        path.node.name = 'require';
+      }
+    }
+  }
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;该插件会把&lt;code class=&quot;highlighter-rouge&quot;&gt;dynamicImport&lt;/code&gt;替换为&lt;code class=&quot;highlighter-rouge&quot;&gt;require&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;然后利用插件以及配置好的&lt;code class=&quot;highlighter-rouge&quot;&gt;preset&lt;/code&gt;，最终输出转译后的代码。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;const { code } = babel.transformFromAstSync(
+  ast, null, {
+    plugins: [
+      dynamicImportPlugin
+    ],
+    presets,
+  }
+);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;至此，&lt;code class=&quot;highlighter-rouge&quot;&gt;Babel&lt;/code&gt;转译&lt;code class=&quot;highlighter-rouge&quot;&gt;js&lt;/code&gt;的流程就介绍完了。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;package&lt;/code&gt;参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;parse&lt;/code&gt;阶段：&lt;code class=&quot;highlighter-rouge&quot;&gt;const parser = require('@babel/parser');&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;traverse&lt;/code&gt;阶段：&lt;code class=&quot;highlighter-rouge&quot;&gt;const traverse = require('@babel/traverse').default;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;transform&lt;/code&gt;阶段：&lt;code class=&quot;highlighter-rouge&quot;&gt;const babel = require('@babel/core');&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;5-实现&quot;&gt;5 实现&lt;/h3&gt;
+
+&lt;h4 id=&quot;51-生成资源文件asset&quot;&gt;5.1 生成资源文件(Asset)&lt;/h4&gt;
+
+&lt;p&gt;我们建立一个很简单&lt;a href=&quot;https://github.com/kkkkkxiaofei/dummy-playground/tree/master/pack/examples/vanilla&quot;&gt;vanilla&lt;/a&gt;项目，结构如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;vanilla
+│   main.js
+│   constant.js    
+│   application.js    
+└───utils
+│   └───log.js
+└───config
+    └───index.js
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;main.js&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import app from './application.js';
+import config from './config/index.js';
+
+const { appName, version } = config;
+app.start(appName, version);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;我们先开始分析依赖。&lt;/p&gt;
+
+&lt;p&gt;对于&lt;code class=&quot;highlighter-rouge&quot;&gt;main.js&lt;/code&gt;，它是这个项目的入口，这个必须由调用者提供，我们期望从&lt;code class=&quot;highlighter-rouge&quot;&gt;main.js&lt;/code&gt;分析出如下信息：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+  id: String,
+  code: String,
+  filename: String,
+  dependencies: String[]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;我们可以把这个结构称作一个资源文件(&lt;code class=&quot;highlighter-rouge&quot;&gt;Asset&lt;/code&gt;)，它由模块标识符（&lt;code class=&quot;highlighter-rouge&quot;&gt;id&lt;/code&gt;），代码（&lt;code class=&quot;highlighter-rouge&quot;&gt;code&lt;/code&gt;），文件名（&lt;code class=&quot;highlighter-rouge&quot;&gt;filename&lt;/code&gt;）和依赖（&lt;code class=&quot;highlighter-rouge&quot;&gt;dependencies&lt;/code&gt;）组成，它的依赖示例如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dependencies = ['./application.js', './config/index.js']
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;同理，&lt;code class=&quot;highlighter-rouge&quot;&gt;dependencies&lt;/code&gt;里的元素本身也应该代表一个&lt;code class=&quot;highlighter-rouge&quot;&gt;Asset&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;生成一个&lt;code class=&quot;highlighter-rouge&quot;&gt;Asset&lt;/code&gt;的逻辑如下：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1.生成资源id&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;简单点，我们这里使用自增id（第一个资源id为0）。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;2.读取源代码&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;直接同步读取文件（暂时不考虑内存和效率）。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;3.生成AST&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;#41-parse&quot;&gt;参考上面parse阶段&lt;/a&gt;。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;4.遍历AST，收集依赖&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;收集依赖只是将依赖添加到队列中(&lt;a href=&quot;#42-traverse&quot;&gt;遍历AST不再赘述&lt;/a&gt;)：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;const dependencies = [];
+
+traverse(ast, {
+  ImportDeclaration({
+    node
+  }) {
+    const relativePath = node.source.value;
+    dependencies.push(relativePath);
+  }
+});
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;注意，依赖资源的路径是相对路径，后期使用时还需要修正, 参考上面的修正函数。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;5.转换为源代码&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;#43-transform&quot;&gt;参考上面transform阶段&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;最终代码大致如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;function createAsset(filename) {
+    id++;
+    const file = fs.readFileSync(filename, 'utf8');
+
+    const dependencies = [];
+
+    const ast = parser.parse(file, {
+      sourceType: 'module'
+    });
+
+    traverse(ast, {
+      ImportDeclaration({
+        node
+      }) {
+        const relativePath = node.source.value;
+        dependencies.push(relativePath);
+      },
+      CallExpression({
+        node
+      }) {
+        const {
+          callee: {
+            name
+          },
+          arguments
+        } = node;
+
+        if (name === 'require') {
+          const relativePath = arguments[0].value;
+
+          if (/^\./.test(relativePath)) {
+            dependencies.push(relativePath);
+          }
+
+        }
+      }
+    });
+    const {
+      code
+    } = babel.transformFromAstSync(
+      ast,
+      null, {
+        presets,
+      }
+    );
+
+    return {
+      id,
+      filename,
+      dependencies,
+      code
+    }
+  };
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;52-生成资源树asset&quot;&gt;5.2 生成资源树(Asset[])&lt;/h4&gt;
+
+&lt;p&gt;再来回顾一下我们的项目结构，这是一个典型的以入口文件（&lt;code class=&quot;highlighter-rouge&quot;&gt;main.js&lt;/code&gt;）为根资源节点的树，我们采用&lt;code class=&quot;highlighter-rouge&quot;&gt;DFS&lt;/code&gt;进行遍历：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;function createAssets(filename) {
+    const stack = [], assets = {};
+    const push = stack.push; 
+    stack.push = function(asset) {
+      push.call(stack, asset);
+      assets[asset.filename] = asset;
+    }
+    stack.push(createAsset(filename));
+    
+    //DFS
+    while(stack.length &amp;gt; 0) {
+      const asset = stack.pop();
+      asset.mapping = {};//1
+      asset.dependencies.forEach(relativePath =&amp;gt; {
+        const revisedPath = buildPath(relativePath, path.dirname(asset.filename), config);
+        console.log(`Start extracting: ${revisedPath}`);
+        const depAsset = createAsset(revisedPath);
+        asset.mapping[relativePath] = depAsset.id;
+        stack.push(depAsset);
+      });
+    }
+
+    return assets;
+  };
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;上面的实现很简单，但有一点需要特别解释下，就是在1处我们给asset附加了一个&lt;code class=&quot;highlighter-rouge&quot;&gt;mapping&lt;/code&gt;属性。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mapping&lt;/code&gt;记录的是当前资源下一层（第一层孩子节点）的依赖关系，它的&lt;code class=&quot;highlighter-rouge&quot;&gt;key&lt;/code&gt;为依赖资源的相对路径，&lt;code class=&quot;highlighter-rouge&quot;&gt;value&lt;/code&gt;为模块&lt;code class=&quot;highlighter-rouge&quot;&gt;id&lt;/code&gt;。这样就可以利用路径去反查&lt;code class=&quot;highlighter-rouge&quot;&gt;id&lt;/code&gt;。比如&lt;code class=&quot;highlighter-rouge&quot;&gt;main.js&lt;/code&gt;的依赖里必然有&lt;code class=&quot;highlighter-rouge&quot;&gt;./application.js&lt;/code&gt;，当我们建立完&lt;code class=&quot;highlighter-rouge&quot;&gt;main.js&lt;/code&gt;这个资源后，&lt;code class=&quot;highlighter-rouge&quot;&gt;mapping&lt;/code&gt;里大致有&lt;code class=&quot;highlighter-rouge&quot;&gt;{&quot;./application.js&quot;: 1}&lt;/code&gt;这样的信息。这非常有用，当后面我们需要把&lt;code class=&quot;highlighter-rouge&quot;&gt;main.js&lt;/code&gt;这个资源进行打包时可以利用&lt;code class=&quot;highlighter-rouge&quot;&gt;mapping&lt;/code&gt;取出它所有依赖的模块。&lt;/p&gt;
+
+&lt;h4 id=&quot;53-整合所有资源&quot;&gt;5.3 整合所有资源&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1.实现通用导出&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;有了&lt;code class=&quot;highlighter-rouge&quot;&gt;asset&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;assets&lt;/code&gt;我们已经完成了一大半工作了（深吸一口气），为了让&lt;code class=&quot;highlighter-rouge&quot;&gt;assets&lt;/code&gt;聚合在一起，我们需要把资源&lt;code class=&quot;highlighter-rouge&quot;&gt;‘拼’&lt;/code&gt;在一起，毕竟最后输出的是一个文件。&lt;/p&gt;
+
+&lt;p&gt;拼接资源:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;const modules = Object.values(assets)
+  .reduce((result, asset) =&amp;gt; {
+      const {
+        id,
+        code,
+        mapping,
+        filename: revisedPath
+      } = asset;
+      
+      return result += `
+      ${id} : [
+        function(require, module, exports) {
+          ${code}
+        },
+        ${JSON.stringify(mapping)}
+      ],
+    `
+    }, '');
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;对于&lt;code class=&quot;highlighter-rouge&quot;&gt;main.js&lt;/code&gt;，我们会整合为大致如下的结构：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  0: [
+    function (require, module, exports) {
+      // main.js here
+      &quot;use strict&quot;;
+
+        var _application = _interopRequireDefault(require(&quot;./application.js&quot;));
+
+        var _index = _interopRequireDefault(require(&quot;./config/index.js&quot;));
+
+        function _interopRequireDefault(obj) {
+          return obj &amp;amp;&amp;amp; obj.__esModule ? obj : { default: obj };
+        }
+
+        var appName = _index[&quot;default&quot;].appName,
+          version = _index[&quot;default&quot;].version;
+
+        _application[&quot;default&quot;].start(appName, version);
+    },
+    { &quot;./application.js&quot;: 1, &quot;./config/index.js&quot;: 2 },
+  ],
+
+  1: [
+    function (require, module, exports) {
+      // code resource here
+    },
+    { &quot;./utils/log.js&quot;: 4 },
+  ],
+
+  2: [
+    function (require, module, exports) {
+      // code resource here
+    },
+    { &quot;../constant.js&quot;: 3 },
+  ],
+
+  3: [
+    function (require, module, exports) {
+      // code resource here
+    },
+    {},
+  ],
+
+  4: [
+    function (require, module, exports) {
+      // code resource here
+    },
+    {},
+  ],
+})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;还记得上面提到的&lt;a href=&quot;#2-模块导出的通用解决方案&quot;&gt;模块导出的通用解决方案&lt;/a&gt;吗？。&lt;/p&gt;
+
+&lt;p&gt;我们为所有的源代码封装了一个&lt;code class=&quot;highlighter-rouge&quot;&gt;factory&lt;/code&gt;：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;function (require, module, exports) {
+  // code resource here
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;这里笔者特意没有换别名，还是用了大家熟悉的变量名（&lt;code class=&quot;highlighter-rouge&quot;&gt;require&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;module&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;exports&lt;/code&gt;），如果你愿意，完全可以换成类似&lt;code class=&quot;highlighter-rouge&quot;&gt;webpack&lt;/code&gt;的签名&lt;code class=&quot;highlighter-rouge&quot;&gt;__pack_require__&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;__pack_module__&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;__pack__exports__&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;以&lt;code class=&quot;highlighter-rouge&quot;&gt;main.js&lt;/code&gt;为例（&lt;code class=&quot;highlighter-rouge&quot;&gt;require&lt;/code&gt;的实现我们稍后介绍），我们注入了&lt;code class=&quot;highlighter-rouge&quot;&gt;module&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;exports&lt;/code&gt;对象，只要&lt;code class=&quot;highlighter-rouge&quot;&gt;main.js&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;factory&lt;/code&gt;已执行，我们就可以拿到&lt;code class=&quot;highlighter-rouge&quot;&gt;main.js&lt;/code&gt;的代码。当然了，尽管有一些文件并没有任何的导出操作，但&lt;code class=&quot;highlighter-rouge&quot;&gt;factory&lt;/code&gt;也需要执行（毕竟要执行源代码），自然&lt;code class=&quot;highlighter-rouge&quot;&gt;module&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;exports&lt;/code&gt;会显示没有使用。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;2.实现通用导入&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;终于到了这一步了，笔者并不是特意要埋这个伏笔，只是如果你读到这里在来看导入的解决方案可能更加清晰。&lt;/p&gt;
+
+&lt;p&gt;我们暂时把上一步拼接好的资源叫做&lt;code class=&quot;highlighter-rouge&quot;&gt;modules&lt;/code&gt;，每一个&lt;code class=&quot;highlighter-rouge&quot;&gt;module&lt;/code&gt;有自己的&lt;code class=&quot;highlighter-rouge&quot;&gt;factory&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;mapping&lt;/code&gt;。&lt;code class=&quot;highlighter-rouge&quot;&gt;modules&lt;/code&gt;算得上是初步的资源整合结果，我们还差一个&lt;code class=&quot;highlighter-rouge&quot;&gt;require&lt;/code&gt;没有实现。继续回顾上面&lt;code class=&quot;highlighter-rouge&quot;&gt;main.js&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;factory&lt;/code&gt;，当执行&lt;code class=&quot;highlighter-rouge&quot;&gt;factory&lt;/code&gt;时，会遇到：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var _application = _interopRequireDefault(require(&quot;./application.js&quot;));
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;其实到了这一步，&lt;code class=&quot;highlighter-rouge&quot;&gt;./application.js&lt;/code&gt;这个资源早已经被建好了（特殊情况除外，如代码分离），只要我们有一个全局的&lt;code class=&quot;highlighter-rouge&quot;&gt;scope&lt;/code&gt;（这就是&lt;code class=&quot;highlighter-rouge&quot;&gt;moudles&lt;/code&gt;呀）查询即可。&lt;/p&gt;
+
+&lt;p&gt;比如&lt;code class=&quot;highlighter-rouge&quot;&gt;./application.js&lt;/code&gt;对应的模块&lt;code class=&quot;highlighter-rouge&quot;&gt;id&lt;/code&gt;为&lt;code class=&quot;highlighter-rouge&quot;&gt;1&lt;/code&gt;，而&lt;code class=&quot;highlighter-rouge&quot;&gt;1&lt;/code&gt;号模块也有自己的&lt;code class=&quot;highlighter-rouge&quot;&gt;factory&lt;/code&gt;，一旦执行，不就变成了通用导出的逻辑了，依次循环，很简单。&lt;/p&gt;
+
+&lt;p&gt;不过有一点，我们需要寻找一个起点，那肯定就是入口文件么，即&lt;code class=&quot;highlighter-rouge&quot;&gt;0&lt;/code&gt;号模块，因此，有了以下实现：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(function(modules) {
+    function load(id) {
+      //2
+      const [factory, mapping] = modules[id];
+      //3
+      function require(relativePath) {
+        return load(mapping[relativePath]);
+      }
+      //4
+      const module = {
+        exports: {}
+      }
+      //5
+      const result = factory(require, module, module.exports);
+      if (module.exports &amp;amp;&amp;amp; Object.getOwnPropertyNames(module.exports).length === 0) {
+        return result;
+      }
+      //6
+      return module.exports;
+    }
+    //1
+    return function() {
+      return load(0);
+    }
+  })({${modules}})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;第1步: 从根模块开始。&lt;/p&gt;
+
+&lt;p&gt;第2步: 取出&lt;code class=&quot;highlighter-rouge&quot;&gt;module&lt;/code&gt;里的&lt;code class=&quot;highlighter-rouge&quot;&gt;factory&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;mapping&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;第3步: 自定义&lt;code class=&quot;highlighter-rouge&quot;&gt;require&lt;/code&gt;方法，递归执行&lt;code class=&quot;highlighter-rouge&quot;&gt;factory&lt;/code&gt;，这里闭包了&lt;code class=&quot;highlighter-rouge&quot;&gt;2&lt;/code&gt;里的&lt;code class=&quot;highlighter-rouge&quot;&gt;mapping&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;第4步: 自定义导出对象，期待&lt;code class=&quot;highlighter-rouge&quot;&gt;mutable&lt;/code&gt;操作。&lt;/p&gt;
+
+&lt;p&gt;第5步: 真正执行当前模块的&lt;code class=&quot;highlighter-rouge&quot;&gt;factory&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;第6步: 返回&lt;code class=&quot;highlighter-rouge&quot;&gt;4&lt;/code&gt;步的对象。&lt;/p&gt;
+
+&lt;p&gt;考虑到打包后的代码量，我们用一个&lt;a href=&quot;https://github.com/kkkkkxiaofei/dummy-playground/tree/master/pack/examples/vanilla-commonjs&quot;&gt;很小的工程&lt;/a&gt;作为测试：&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;main.js&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;const isArray = require('./util');
+
+const arr = [1,2,3];
+
+console.log(`[1,2,3] is array: ${isArray(arr)}`);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;./util&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;const isArray = arr =&amp;gt; arr instanceof Array;
+
+module.exports = isArray;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;打包后(略有删减)：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(function (modules) {
+  function load(id) {
+    const [factory, mapping] = modules[id];
+    function require(relativePath) {
+      return load(mapping[relativePath]);
+    }
+    const module = {
+      exports: {},
+    };
+    const result = factory(require, module, module.exports);
+    if (
+      module.exports &amp;amp;&amp;amp;
+      Object.getOwnPropertyNames(module.exports).length === 0
+    ) {
+      return result;
+    }
+    return module.exports;
+  }
+  return function () {
+    return load(0);
+  };
+})({
+  0: [
+    function (require, module, exports) {
+      const isArray = require(&quot;./util&quot;);
+
+      const arr = [1, 2, 3];
+      console.log(`arr is array: ${isArray(arr)}`);
+    },
+    { &quot;./util&quot;: 1 },
+  ],
+
+  1: [
+    function (require, module, exports) {
+      const isArray = (arr) =&amp;gt; arr instanceof Array;
+
+      module.exports = isArray;
+    },
+    {},
+  ],
+})();
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;在&lt;code class=&quot;highlighter-rouge&quot;&gt;Node.js&lt;/code&gt;或浏览器中执行结果:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[1,2,3] is array: true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;至此，我们已经可以打包一个小型的纯&lt;code class=&quot;highlighter-rouge&quot;&gt;js&lt;/code&gt;项目了，尽管它还有非常多的问题（@_@)&lt;/p&gt;
+
+&lt;h3 id=&quot;6-优化&quot;&gt;6 优化&lt;/h3&gt;
+
+&lt;p&gt;一个好的打包工具是一定需要考虑很多细节以及性能的，虽然笔者无法做到像&lt;code class=&quot;highlighter-rouge&quot;&gt;webpack&lt;/code&gt;这样优秀，但是基于上面的实现，还是能提出一些优化的建议的。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1.缓存&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;我们在建立资源时(&lt;code class=&quot;highlighter-rouge&quot;&gt;createAsset&lt;/code&gt;方法)，由于不同的文件也许会导入同样的资源&lt;code class=&quot;highlighter-rouge&quot;&gt;A&lt;/code&gt;，那么我们没有必要多次创建&lt;code class=&quot;highlighter-rouge&quot;&gt;A&lt;/code&gt;，毕竟建立&lt;code class=&quot;highlighter-rouge&quot;&gt;A&lt;/code&gt;的历程还是很长的。因此如果有一个&lt;code class=&quot;highlighter-rouge&quot;&gt;cache&lt;/code&gt;对象的话，简直就是事半功倍。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;console.log(`Start extracting: ${revisedPath}`);
+
+if (cache[revisedPath]) {
+  asset.mapping[relativePath] = cache[revisedPath].id;
+} else {
+  const depAsset = createAsset(revisedPath);
+  cache[revisedPath] = depAsset;
+  asset.mapping[relativePath] = depAsset.id;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;2.umd&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;我们目前打包输出的&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle&lt;/code&gt;结构如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(function(modules) {
+  function load(id) {
+    ...
+    return module.exports;//1
+  }  
+})(modules)
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;很显然1处的&lt;code class=&quot;highlighter-rouge&quot;&gt;return&lt;/code&gt;显得几乎毫无意义，因为没有直接的办法能够接得住这个&lt;code class=&quot;highlighter-rouge&quot;&gt;return&lt;/code&gt;的结果，它就像是你在浏览器的&lt;code class=&quot;highlighter-rouge&quot;&gt;console&lt;/code&gt;里执行了一个函数&lt;code class=&quot;highlighter-rouge&quot;&gt;var result = do()&lt;/code&gt;,这种方式叫做&lt;code class=&quot;highlighter-rouge&quot;&gt;var&lt;/code&gt;打包。&lt;/p&gt;
+
+&lt;p&gt;其实大部分情况下，比如&lt;code class=&quot;highlighter-rouge&quot;&gt;React&lt;/code&gt;的项目，不关心这个也是没有问题的，因为&lt;code class=&quot;highlighter-rouge&quot;&gt;chunk&lt;/code&gt;之间的调用关系已经被&lt;code class=&quot;highlighter-rouge&quot;&gt;webpack&lt;/code&gt;组织好了，并不需要你自己去管理最终打包的返回值。&lt;/p&gt;
+
+&lt;p&gt;但有时候我们为了兼容其他环境或者确实是想拿到这个打包后的结果（代码分离，微前端的拆分等），那我们就需要考虑更完善的兼容方案了，这是&lt;code class=&quot;highlighter-rouge&quot;&gt;umd&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;我们只需要简单的封装一层即可：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+(function (root, factory) {
+  //commonjs2
+  if (typeof module === &quot;Object&quot; &amp;amp;&amp;amp; typeof exports === &quot;Object&quot;)
+    module.exports = factory();
+  //commonjs1
+  else if (typeof exports === &quot;Object&quot;) exports[&quot;dummy&quot;] = factory();
+  else root[&quot;umd-test&quot;] = factory();
+})(window, (function(modules) {
+              function load(id) {
+                ...
+                return module.exports;//1
+              }  
+            })(modules))
+)
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;ps: 笔者这里忽略了AMD。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;配置文件&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;有几个重要的信息还是有必要抽离出来，这里笔者参考了&lt;code class=&quot;highlighter-rouge&quot;&gt;webpack&lt;/code&gt;，˙抽离了&lt;code class=&quot;highlighter-rouge&quot;&gt;pack.config.js&lt;/code&gt;文件，最基本的配置如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;module.exports = {
+  entry: './main.js',
+  output: {
+    filename: 'chunck.js',
+    library: 'umd-test',
+    libraryTarget: 'umd'  
+  },
+  presets: [
+    '@babel/preset-env'
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;代码分离&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;笔者多次提到了&lt;code class=&quot;highlighter-rouge&quot;&gt;dynamicImport&lt;/code&gt;这个语法，其实我这里用了一种比较偷懒的方式实现了代码分离。&lt;/p&gt;
+
+&lt;p&gt;首先代码分离必须配置&lt;code class=&quot;highlighter-rouge&quot;&gt;library&lt;/code&gt;的名字（不用解释了吧），在遍历&lt;code class=&quot;highlighter-rouge&quot;&gt;AST&lt;/code&gt;时，我就记录了哪些资源是需要异步加载的。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;const dynamicDeps = {};
+
+if (name === 'dynamicImport') {
+  const revisedPath = buildPath(relativePath, path.dirname(filename), config);
+  dynamicDeps[revisedPath] = '';
+}
+
+traverse(ast, {
+  ...
+  if (name === 'dynamicImport') {
+    const revisedPath = buildPath(relativePath, path.dirname(filename), config);
+    dynamicDeps[revisedPath] = '';
+  }
+  ...
+});
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dynamicDeps&lt;/code&gt;里的&lt;code class=&quot;highlighter-rouge&quot;&gt;key&lt;/code&gt;就表明这个路径的资源是异步模块，由于我还需要在最终阶段修改它，所以暂时没设置它的&lt;code class=&quot;highlighter-rouge&quot;&gt;value&lt;/code&gt;。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;const {
+  code
+} = babel.transformFromAstSync(
+  ast,
+  null, {
+    plugins: [
+      dynamicImportPlugin
+    ],
+    presets,
+  }
+);
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;这样我在打包阶段就可以和正常的模块一起输出：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;function bundle(assets) {
+  ...
+  if (dynamicDeps.hasOwnProperty(revisedPath)) {
+    //code split here:
+    //1.assume that the dynamic module does't have mapping
+    //2.and not allowed to import the same moudle in other place
+    asyncModules.push({
+      prefix: `${id}.`,
+      content: buildDynamicFactory(id, assets[revisedPath].code)
+    });
+    return result;
+  }
+
+  return [
+    ...normalModules,
+    ...asyncModules,
+  ]
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;这里我还用到了 &lt;code class=&quot;highlighter-rouge&quot;&gt;buildDynamicFactory&lt;/code&gt;, 它实现了一个类&lt;code class=&quot;highlighter-rouge&quot;&gt;jsonp&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;promise&lt;/code&gt;：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;buildDynamicFactory: function (id, code) {
+    return `(self || this)['jsonpArray']['${id}'] = function(require, module, exports) {
+      ${code}  
+    }`
+  }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;只要异步模块被调到，它的&lt;code class=&quot;highlighter-rouge&quot;&gt;factory&lt;/code&gt;就会被注册到全局&lt;code class=&quot;highlighter-rouge&quot;&gt;jsonpArray&lt;/code&gt;对象上，&lt;code class=&quot;highlighter-rouge&quot;&gt;key&lt;/code&gt;为模块的&lt;code class=&quot;highlighter-rouge&quot;&gt;id&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;value&lt;/code&gt;为模块的&lt;code class=&quot;highlighter-rouge&quot;&gt;factory&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;但在这之前还需要知道如何寻找对应的异步模块，回忆上面的&lt;code class=&quot;highlighter-rouge&quot;&gt;load&lt;/code&gt;函数，我需要有如下改造：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+function load(id) {
+  if (!modules[id]) {
+    return (function (id) {
+      window[&quot;jsonpArray&quot;] = window[&quot;jsonpArray&quot;] || {};
+      const script = document.createElement(&quot;script&quot;);
+      script.src = `/dist/${id}.chunck.js`;
+      document.body.appendChild(script);
+      return new Promise(function (res, rej) {
+        script.onload = function () {
+          const factory = window[&quot;jsonpArray&quot;][id];
+          const module = {
+            exports: {},
+          };
+          factory(null, module, module.exports);
+          res(module.exports);
+        };
+      });
+    })(id);
+  }
+  
+  ...
+
+  return module.exports;
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;当在&lt;code class=&quot;highlighter-rouge&quot;&gt;modules&lt;/code&gt;里找不到对应模块时，该模块就是异步模块，我会封装一个&lt;code class=&quot;highlighter-rouge&quot;&gt;promise&lt;/code&gt;，当请求到异步模块后，它自己会完成注册，我只需要异步返回下&lt;code class=&quot;highlighter-rouge&quot;&gt;factory&lt;/code&gt;执行后的结果即可。&lt;/p&gt;
+
+&lt;p&gt;比如，源代码如果为：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dynamicImport('./api')
+    .then(res =&amp;gt; console.log(`dynamic module response: ${JSON.stringify(res.default())}`));
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;会被转译为：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;require('./api')
+    .then(res =&amp;gt; console.log(`dynamic module response: ${JSON.stringify(res.default())}`));
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;注意：此时这个&lt;code class=&quot;highlighter-rouge&quot;&gt;require&lt;/code&gt;将会返回的是一个&lt;code class=&quot;highlighter-rouge&quot;&gt;promise&lt;/code&gt;（参考上面的&lt;code class=&quot;highlighter-rouge&quot;&gt;load&lt;/code&gt;函数的修改）。&lt;/p&gt;
+
+&lt;p&gt;你可能见惯了&lt;code class=&quot;highlighter-rouge&quot;&gt;import('xxx').then&lt;/code&gt;的写法，觉得笔者这样改造很怪异，但我想说，语法还不就是人定的么，自己怎么舒服怎么来嘛。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;其他&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;实现更复杂的路径解析&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这里笔者只是实现了寻找&lt;code class=&quot;highlighter-rouge&quot;&gt;index.js&lt;/code&gt;和补全文件后缀的简单解析逻辑，更好的方案应该支持自定义&lt;code class=&quot;highlighter-rouge&quot;&gt;node_modules&lt;/code&gt;，自定义&lt;code class=&quot;highlighter-rouge&quot;&gt;alias&lt;/code&gt;等等。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;支持json导入&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;对于纯文本类型的文件（&lt;code class=&quot;highlighter-rouge&quot;&gt;.yml&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;.txt&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;.md&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;.json&lt;/code&gt;…)可以考虑后期支持。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;支持css/scss&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这里默认我只处理了&lt;code class=&quot;highlighter-rouge&quot;&gt;js&lt;/code&gt;文件，像&lt;code class=&quot;highlighter-rouge&quot;&gt;css&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;scss&lt;/code&gt;，甚至&lt;code class=&quot;highlighter-rouge&quot;&gt;ts&lt;/code&gt;等等可以考虑支持。&lt;/p&gt;
+
+&lt;h3 id=&quot;7-发布&quot;&gt;7 发布&lt;/h3&gt;
+
+&lt;p&gt;为了让这个小轮子工程化一些，笔者也发布了简单的&lt;code class=&quot;highlighter-rouge&quot;&gt;cli&lt;/code&gt;：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+npm i -g @dummmy/pack-cli
+
+cd your-project
+
+touch pack-config.js
+
+pack
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;8-源码&quot;&gt;8 源码&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/kkkkkxiaofei/dummy-playground/tree/master/pack&quot;&gt;源码请戳这里&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sun, 13 Sep 2020 20:13:00 +0800</pubDate>
+        <link>http://localhost:4000//jekyll/update/2020/09/13/bundler.html</link>
+        <guid isPermaLink="true">http://localhost:4000//jekyll/update/2020/09/13/bundler.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
     
       <item>
         <title>WebSocket</title>
